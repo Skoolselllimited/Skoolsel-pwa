@@ -1,6 +1,8 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
+import { Combobox } from "@headlessui/react";
+import { FaChevronDown } from "react-icons/fa";
 
 const dummySchools = [
   { id: "all", name: "All Schools" },
@@ -22,6 +24,7 @@ export default function Hero() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<string[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
+  const [schoolQuery, setSchoolQuery] = useState("");
 
   // Filter as user types
   useEffect(() => {
@@ -34,6 +37,16 @@ export default function Hero() {
       setResults(filtered);
     }
   }, [query]);
+
+  const filteredSchools =
+    schoolQuery === ""
+      ? dummySchools
+      : dummySchools.filter((school) =>
+          school.name.toLowerCase().includes(schoolQuery.toLowerCase())
+        );
+
+  const selectedSchoolObj =
+    dummySchools.find((s) => s.id === selectedSchool) || dummySchools[0];
 
   return (
     <section
@@ -59,17 +72,45 @@ export default function Hero() {
         <div className="relative mt-8 max-w-2xl mx-auto" ref={containerRef}>
           {/* Search bar */}
           <div className="flex items-center bg-white rounded-xl px-2 py-1 shadow-lg z-10 relative w-full max-w-full">
-            <select
-              className="min-w-[100px] w-[30%] text-gray-700 text-xs sm:text-sm rounded-md px-2 py-2 bg-[#f6f6f6] focus:outline-none"
-              value={selectedSchool}
-              onChange={(e) => setSelectedSchool(e.target.value)}
+            <Combobox
+              value={selectedSchoolObj}
+              onChange={(school) => {
+                if (school) setSelectedSchool(school.id);
+              }}
             >
-              {dummySchools.map((school) => (
-                <option key={school.id} value={school.id}>
-                  {school.name}
-                </option>
-              ))}
-            </select>
+              <div className="relative w-[30%] min-w-[100px]">
+                <div className="relative w-full cursor-default overflow-hidden rounded-md bg-[#f6f6f6] text-left text-xs sm:text-sm">
+                  <Combobox.Input
+                    className="w-full py-2 pl-3 pr-8 text-[11px] sm:text-sm text-gray-700 bg-[#f6f6f6] focus:outline-none"
+                    displayValue={(school: (typeof dummySchools)[0]) =>
+                      school.name
+                    }
+                    onChange={(event) => setSchoolQuery(event.target.value)}
+                  />
+                  <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
+                    <FaChevronDown className="h-3 w-3 text-gray-400" />
+                  </Combobox.Button>
+                </div>
+
+                {filteredSchools.length > 0 && (
+                  <Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-sm text-gray-700 shadow-lg z-20">
+                    {filteredSchools.map((school) => (
+                      <Combobox.Option
+                        key={school.id}
+                        value={school}
+                        className={({ active }) =>
+                          `cursor-default select-none py-2 px-4 ${
+                            active ? "bg-gray-100" : ""
+                          }`
+                        }
+                      >
+                        {school.name}
+                      </Combobox.Option>
+                    ))}
+                  </Combobox.Options>
+                )}
+              </div>
+            </Combobox>
 
             <input
               type="text"

@@ -3,6 +3,8 @@
 import React from "react";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import Product from "@/types/productCardType";
+import { HiOutlineBolt } from "react-icons/hi2";
+import { GoClock } from "react-icons/go";
 
 type Props = {
   product: Product;
@@ -21,14 +23,14 @@ const ProductCard: React.FC<Props> = ({ product }) => {
         />
 
         {product.isSponsored && (
-          <span className="absolute bottom-3 left-3 bg-black text-yellow-400 text-[10px] font-semibold px-2 py-0.5 rounded-md">
-            ⚡ Sponsored
+          <span className="absolute bottom-3 left-3 bg-[#2f2d2c] text-[#ffcc33] text-[12px] font-semibold px-2 py-0.5 rounded-md flex items-center gap-1">
+            <HiOutlineBolt className="text-[#ffcc33]" /> Sponsored
           </span>
         )}
 
         {product.isTopSeller && (
-          <span className="absolute top-3 left-3 bg-gray-200 text-gray-700 text-xs font-semibold px-2 py-0.5 rounded-md">
-            Top Seller
+          <span className="absolute top-2 left-2 bg-white text-gray-800 text-[10px] font-semibold px-2 py-0.5 rounded-md shadow">
+            Used
           </span>
         )}
       </div>
@@ -41,12 +43,18 @@ const ProductCard: React.FC<Props> = ({ product }) => {
         <p className="text-[#54abdb] font-bold text-base mb-0.5">
           {product.price}
         </p>
-        <p className="text-xs text-gray-500 flex items-center mb-1">
-          <FaMapMarkerAlt className="text-gray-400 text-sm mr-1" />
-          {product.campus}
-        </p>
+        <div className="flex items-center text-[#384853] text-xs mt-1 gap-20">
+          <div className="flex items-center gap-1">
+            <FaMapMarkerAlt className="text-[#384853] text-sm" />
+            <span>{product.campus}</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <GoClock className="text-[#384853] text-sm" />
+            <span>1 week ago</span>
+          </div>
+        </div>
 
-        <div className="text-xs bg-[#fafafa] rounded-md px-2 py-1 mt-2">
+        <div className="text-xs bg-[#fafafa] rounded-md px-2 py-1 mt-4">
           <p className="text-gray-500 text-[10px] mb-0.5">Vendor</p>{" "}
           {/* Adjusted font size, margin */}
           <div className="flex items-center gap-1">

@@ -25,18 +25,18 @@ export default function FooterSection() {
             purus, at facilisis.
           </p>
         </div>
-        <div className="bg-[#2e3447] rounded-lg p-4 mb-6">
-          <div className="flex items-center bg-[#191f33] rounded-lg overflow-hidden mb-2">
+        <div className="bg-[#2e3447] rounded-lg px-2 py-1 mb-6">
+          <div className="flex items-center  rounded-lg overflow-hidden mb-2">
             <div className="px-3 text-[#54abdb]">
               <FaEnvelope />
             </div>
             <input
               type="email"
               placeholder="Email address"
-              className="flex-1 py-3 pr-2 text-sm text-black focus:outline-none"
+              className="flex-1 py-3 pr-2 text-sm text-[#828591] focus:outline-none"
             />
           </div>
-          <button className="w-full bg-[#54abdb] hover:bg-blue-600 px-6 py-3 text-white font-medium rounded-lg">
+          <button className="w-full bg-[#54abdb] hover:bg-blue-600 px-6 py-3 text-white font-medium rounded-md">
             Subscribe
           </button>
         </div>

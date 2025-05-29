@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useRef } from "react";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 
 type Category = {
   name: string;
@@ -40,9 +41,9 @@ const PopularCategories: React.FC<Props> = ({ categories }) => {
           {/* Scroll Left Button */}
           <button
             onClick={() => scroll("left")}
-            className="absolute -left-1 top-1/2 transform -translate-y-1/2 z-10 bg-[#54abdb] text-white rounded-full p-2 shadow-md hover:bg-blue-600 transition"
+            className="absolute -left-1 top-1/2 transform -translate-y-1/2 z-10 bg-[#54abdb] text-white rounded-4xl p-2 shadow-md hover:bg-blue-600 transition"
           >
-            ←
+            <FaArrowLeft />
           </button>
           {/* Scroll Container */}
           <div
@@ -70,7 +71,7 @@ const PopularCategories: React.FC<Props> = ({ categories }) => {
             onClick={() => scroll("right")}
             className="absolute -right-6 top-1/2 transform -translate-y-1/2 z-10 bg-[#54abdb] text-white rounded-full p-2 shadow-md hover:bg-blue-600 transition"
           >
-            →
+            <FaArrowRight />
           </button>
         </div>
       </section>
