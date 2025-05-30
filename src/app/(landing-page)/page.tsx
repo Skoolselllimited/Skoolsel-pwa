@@ -1,12 +1,12 @@
-import Image from "next/image";
-import Hero from "@/sections/Hero";
-import HotOnCampuses from "@/sections/HotOnCampuses";
-import PopularCategories from "@/sections/PopularCategories";
-import NewestAds from "@/sections/NewestAds";
-import FooterSection from "@/sections/FooterSection";
-import Navbar from "@/sections/Navbar";
-import { data } from "@/data/topCategories";
-import { products } from "@/data/hotCampus";
+import Image from "next/image"
+import Hero from "@/app/(landing-page)/sections/Hero"
+import HotOnCampuses from "@/app/(landing-page)/sections/HotOnCampuses"
+import PopularCategories from "@/app/(landing-page)/sections/PopularCategories"
+import NewestAds from "@/app/(landing-page)/sections/NewestAds"
+import FooterSection from "@/app/(landing-page)/sections/FooterSection"
+import Navbar from "@/app/(landing-page)/sections/Navbar"
+import { data } from "@/data/topCategories"
+import { products } from "@/data/hotCampus"
 
 export default function Home() {
   return (
@@ -19,5 +19,5 @@ export default function Home() {
       <NewestAds />
       <FooterSection />
     </div>
-  );
+  )
 }

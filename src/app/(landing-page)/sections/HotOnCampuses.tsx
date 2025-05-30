@@ -1,12 +1,12 @@
-"use client";
+"use client"
 
-import React from "react";
-import ProductCard from "@/components/ProductCard";
-import Product from "@/types/productCardType";
+import React from "react"
+import ProductCard from "@/app/(landing-page)/components/ProductCard"
+import Product from "@/types/productCardType"
 
 type Props = {
-  products: Product[];
-};
+  products: Product[]
+}
 
 const HotOnCampuses: React.FC<Props> = ({ products }) => {
   return (
@@ -27,7 +27,7 @@ const HotOnCampuses: React.FC<Props> = ({ products }) => {
         </button>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default HotOnCampuses;
+export default HotOnCampuses
