@@ -20,9 +20,15 @@ export default function Navbar() {
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center space-x-6">
-          <Link href="/login" className="text-sm hover:underline">
-            Login / Register
-          </Link>
+          <div>
+            <Link href="/login" className="text-sm hover:underline">
+              Login
+            </Link>
+            /
+            <Link href="/register" className="text-sm hover:underline">
+              Register
+            </Link>
+          </div>
 
           <div className="h-4 border-r border-gray-400" />
 
