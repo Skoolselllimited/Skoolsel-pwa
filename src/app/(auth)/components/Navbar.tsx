@@ -1,8 +1,8 @@
-"use client";
-import Link from "next/link";
-import Image from "next/image";
-import { FaPlusCircle, FaSearch, FaBars } from "react-icons/fa";
-import { LuCirclePlus } from "react-icons/lu";
+"use client"
+import Link from "next/link"
+import Image from "next/image"
+import { FaPlusCircle, FaSearch, FaBars } from "react-icons/fa"
+import { LuCirclePlus } from "react-icons/lu"
 export default function Navbar() {
   return (
     <nav className="hidden md:block bg-[#003654] text-white py-3 px-4 shadow-md">
@@ -53,7 +53,7 @@ export default function Navbar() {
 
           {/* Post Ad Button */}
           <Link
-            href="/post-ad"
+            href="/ads/post"
             className="flex items-center gap-2 bg-[#e8b737] hover:bg-yellow-500 text-white px-4 py-2 rounded "
           >
             <LuCirclePlus className="" />
@@ -67,5 +67,5 @@ export default function Navbar() {
         </button>
       </div>
     </nav>
-  );
+  )
 }
