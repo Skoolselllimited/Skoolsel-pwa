@@ -1,106 +1,148 @@
-"use client";
+"use client"
 
-import React, { useRef } from "react";
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
+import * as React from "react"
+import Image from "next/image"
+import { Button } from "@/components/ui/button"
+import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react"
+import { cn } from "@/lib/utils"
+import { data } from "@/data/topCategories"
+import { ArrowLeftIcon, ArrowRightIcon } from "@/components/svgs"
+import Link from "next/link"
 
-type Category = {
-  name: string;
-  image: string;
-};
+export default function ShopWithCategories() {
+  const scrollContainerRef = React.useRef<HTMLDivElement>(null)
+  const [canScrollLeft, setCanScrollLeft] = React.useState(false)
+  const [canScrollRight, setCanScrollRight] = React.useState(true)
 
-type Props = {
-  categories: Category[];
-};
+  const checkScrollability = React.useCallback(() => {
+    const container = scrollContainerRef.current
+    if (container) {
+      // Only check scrollability for larger screens (flex layout)
+      if (window.innerWidth >= 768) {
+        // md breakpoint
+        setCanScrollLeft(container.scrollLeft > 0)
+        setCanScrollRight(
+          container.scrollLeft <
+            container.scrollWidth - container.clientWidth - 1
+        )
+      } else {
+        // In grid mode, buttons are hidden
+        setCanScrollLeft(false)
+        setCanScrollRight(false)
+      }
+    }
+  }, [])
 
-const PopularCategories: React.FC<Props> = ({ categories }) => {
-  const scrollRef = useRef<HTMLDivElement>(null);
+  React.useEffect(() => {
+    const container = scrollContainerRef.current
+    if (container) {
+      checkScrollability() // Initial check
+      container.addEventListener("scroll", checkScrollability, {
+        passive: true,
+      })
+      window.addEventListener("resize", checkScrollability) // Re-check on resize
+
+      // Check if scrollbar is even visible initially
+      if (container.scrollWidth <= container.clientWidth) {
+        setCanScrollRight(false)
+      }
+    }
+    return () => {
+      if (container) {
+        container.removeEventListener("scroll", checkScrollability)
+        window.removeEventListener("resize", checkScrollability)
+      }
+    }
+  }, [checkScrollability])
 
   const scroll = (direction: "left" | "right") => {
-    if (scrollRef.current) {
-      const { scrollLeft, clientWidth } = scrollRef.current;
-      scrollRef.current.scrollTo({
-        left:
-          direction === "left"
-            ? scrollLeft - clientWidth
-            : scrollLeft + clientWidth,
+    const container = scrollContainerRef.current
+    if (container) {
+      const scrollAmount = container.clientWidth * 0.75 // Scroll by 75% of visible width
+      container.scrollBy({
+        left: direction === "left" ? -scrollAmount : scrollAmount,
         behavior: "smooth",
-      });
+      })
     }
-  };
+  }
 
   return (
-    <section>
-      <section className="py-12 px-4 bg-white hidden md:block">
-        <h2 className="text-2xl text-black font-semibold text-center mb-8">
-          Shop with Categories
-        </h2>
-
-        <div className="relative mx-auto max-w-5xl">
-          {" "}
-          {/* Center and constrain width */}
-          {/* Scroll Left Button */}
-          <button
-            onClick={() => scroll("left")}
-            className="absolute -left-1 top-1/2 transform -translate-y-1/2 z-10 bg-[#54abdb] text-white rounded-4xl p-2 shadow-md hover:bg-blue-600 transition"
-          >
-            <FaArrowLeft />
-          </button>
-          {/* Scroll Container */}
-          <div
-            ref={scrollRef}
-            className="flex gap-4 overflow-x-auto scroll-smooth px-6 hide-scrollbar"
-          >
-            {categories.map((cat, idx) => (
-              <div
-                key={idx}
-                className="flex-shrink-0 w-48 cursor-pointer bg-white rounded-lg border border-gray-200 p-5 text-center"
-              >
-                <img
-                  src={cat.image}
-                  alt={cat.name}
-                  className="h-32 mx-auto object-contain mb-4"
-                />
-                <p className="text-gray-800 font-semibold text-base">
-                  {cat.name}
-                </p>
-              </div>
-            ))}
-          </div>
-          {/* Scroll Right Button */}
-          <button
-            onClick={() => scroll("right")}
-            className="absolute -right-6 top-1/2 transform -translate-y-1/2 z-10 bg-[#54abdb] text-white rounded-full p-2 shadow-md hover:bg-blue-600 transition"
-          >
-            <FaArrowRight />
-          </button>
-        </div>
-      </section>
-
-      <section className="py-10 px-4 block md:hidden">
-        <h2 className="text-2xl md:text-3xl font-bold text-center mb-8 text-[#0c2d48]">
-          Shop with Categories
-        </h2>
-
-        <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 gap-6 max-w-6xl mx-auto">
-          {categories.map((category, idx) => (
-            <div
-              key={idx}
-              className="flex flex-col cursor-pointer items-center text-center bg-white p-2 sm:p-4 rounded-xl shadow-sm hover:shadow-md transition"
+    <section className="min-h-[516px] py-[100px] w-full max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-10 space-y-6 md:space-y-8">
+      <h2 className="text-2xl sm:text-[36px]/[45.52px] tracking-normal font-bold font-circular-std text-center text-[#052332]">
+        Shop with Categories
+      </h2>
+      <div className="relative">
+        <div
+          ref={scrollContainerRef}
+          className={cn(
+            // Grid layout for smaller screens (up to md)
+            "w-full grid grid-cols-2 gap-[10px] md:grid-cols-3 lg:gap-4",
+            // Flex layout for larger screens (md and up)
+            "lg:flex md:space-x-3 lg-md:space-x-[18px] lg:overflow-x-auto md:pb-4 lg:scrollbar-hide no-scrollbar"
+          )}
+        >
+          {data.map((category) => (
+            <Link
+              key={category.name}
+              href={`/products?category=${category.name}`}
+              className={cn(
+                "group bg-white rounded border border-[#F1F2F4] hover:shadow-sm transition-all duration-200 flex flex-col gap-[10px] lg:gap-[18px] cursor-pointer items-center",
+                // Grid layout styling
+                "py-[15.66px] px-[7.83px] lg:py-6 lg:px-3",
+                // Flex layout styling for larger screens
+                "md:flex-shrink-0 w-full sm:w-[133px] md:w-[128px] h-[149px] lg:h-[230px] lg:w-[205px]"
+              )}
             >
-              <img
-                src={category.image}
-                alt={category.name}
-                className="w-14 h-14 sm:w-20 sm:h-20 object-contain mb-2 sm:mb-3"
-              />
-              <p className="text-xs sm:text-sm font-medium text-gray-800">
+              <div className="aspect-square flex items-center justify-center lg:mb-2">
+                <Image
+                  src={category.imageSrc || "/images/image-placeholder.jpg"}
+                  alt={category.imageAlt}
+                  width={148}
+                  height={148}
+                  className="w-[96.02px] h-[96.02px] lg:h-[148px] lg:w-[148px] object-cover object-center"
+                />
+              </div>
+              <p className="font-bold font-circular-std text-[12px]/[11.74px] lg:text-[15px]/[18px] tracking-normal text-center text-[#384853] group-hover:secondary transition-colors">
                 {category.name}
               </p>
-            </div>
+            </Link>
           ))}
         </div>
-      </section>
-    </section>
-  );
-};
 
-export default PopularCategories;
+        {/* Left Scroll Button - Hidden on small screens, visible on md+ */}
+        <Button
+          variant="outline"
+          size="icon"
+          className={cn(
+            "w-9 h-9 lg:w-[48px] lg:h-[48px] absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 z-10 rounded-full bg-secondary hover:bg-secondary text-white border-secondary hover:border-secondary hover:text-white/80 p-3",
+            "transition-opacity duration-300",
+            "disabled:opacity-50 disabled:cursor-not-allowed",
+            "hidden lg-md:flex justify-center items-center" // Hide on small screens, show on md+
+          )}
+          onClick={() => scroll("left")}
+          aria-label="Scroll left"
+          disabled={!canScrollLeft}
+        >
+          <ArrowLeftIcon />
+        </Button>
+
+        {/* Right Scroll Button - Hidden on small screens, visible on md+ */}
+        <Button
+          variant="outline"
+          size="icon"
+          className={cn(
+            "w-9 h-9 lg:w-[48px] lg:h-[48px] absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 z-10 rounded-full bg-secondary hover:bg-secondary text-white border-secondary cursor-pointer hover:border-secondary hover:text-white/80 p-3",
+            "transition-opacity duration-300",
+            "disabled:opacity-50 disabled:cursor-not-allowed",
+            "hidden lg-md:flex justify-center items-center"
+          )}
+          onClick={() => scroll("right")}
+          aria-label="Scroll right"
+          disabled={!canScrollRight}
+        >
+          <ArrowRightIcon />
+        </Button>
+      </div>
+    </section>
+  )
+}
