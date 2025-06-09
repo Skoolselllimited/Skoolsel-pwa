@@ -1,7 +1,17 @@
 import type { Metadata } from "next"
+import { Nunito_Sans } from "next/font/google"
 import localFont from "next/font/local"
+import Script from "next/script"
 import type { ReactNode } from "react"
 import "./globals.css"
+import { siteDescription, siteUrl } from "@/config"
+import { Toaster } from "@/components/ui/sonner"
+
+const nunito = Nunito_Sans({
+  variable: "--font-nunito",
+  subsets: ["latin"],
+  display: "swap",
+})
 
 const circularStd = localFont({
   src: [
@@ -52,15 +62,45 @@ const circularStd = localFont({
 })
 
 export const metadata: Metadata = {
-  title: "Skoolsel",
-  description: "Number One Students Marketplace",
+  description: siteDescription,
+  alternates: {
+    canonical: siteUrl,
+  },
+  metadataBase: new URL(siteUrl),
+  title: "SkoolSel",
+}
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "SkoolSel",
+  url: "https://skoolsel.com",
+  description: siteDescription,
+  potentialAction: {
+    "@type": "SearchAction",
+    target: "https://skoolsel.com/search?q={search_term_string}",
+    "query-input": "required name=search_term_string",
+  },
 }
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className={` ${circularStd.variable}`}>
-      <head />
-      <body className={`${circularStd.className} antialiased`}>{children}</body>
+    <html lang="en" className={`${nunito.variable} ${circularStd.variable}`}>
+      <head>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1, user-scalable=0"
+        />
+      </head>
+      <body className={`${circularStd.className} antialiased`}>
+        {children}
+        <Toaster />
+        <Script
+          id="jsonld"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </body>
     </html>
   )
 }

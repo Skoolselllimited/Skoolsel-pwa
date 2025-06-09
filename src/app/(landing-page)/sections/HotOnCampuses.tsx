@@ -1,30 +1,37 @@
 "use client"
 
-import React from "react"
-import ProductCard from "@/app/(landing-page)/components/ProductCard"
 import Product from "@/types/productCardType"
+import Link from "next/link"
+import React from "react"
+import ProductCard from "../_components/ProductCard"
+import { products } from "@/data/hotCampus"
 
 type Props = {
   products: Product[]
 }
 
-const HotOnCampuses: React.FC<Props> = ({ products }) => {
+const HotOnCampuses: React.FC<Props> = () => {
   return (
-    <section className="py-12 px-4 max-w-7xl mx-auto bg-white">
-      <h2 className="text-2xl font-semibold text-center mb-8 text-black">
-        Hot on Campuses
-      </h2>
+    <section className="pt-10 pb-[92px] px-4 max-w-[1320px] mx-auto flex flex-col gap-[40px]">
+      <div className="w-full flex flex-col gap-[31px]">
+        <h2 className="text-2xl sm:text-[36px]/[45.52px] tracking-normal font-bold font-circular-std text-center text-[#052332]">
+          Hot on Campuses
+        </h2>
 
-      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {products.map((product, idx) => (
-          <ProductCard key={idx} product={product} />
-        ))}
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-[25px]">
+          {products?.map((product, idx) => (
+            <ProductCard key={idx} product={product} />
+          ))}
+        </div>
       </div>
 
-      <div className="flex justify-center mt-10">
-        <button className="bg-white border-black border-2 text-black px-4 py-2 rounded-md text-sm font-semibold hover:bg-black hover:text-white transition">
+      <div className="flex justify-center">
+        <Link
+          href="/ads"
+          className="w-fit h-[46px] py-[10px] px-[13px] bg-white hover:bg-white/80 border-[#05051B] border text-[#05051B] hover:text-[#05051B] rounded-md text-[16px]/[18px] tracking-normal font-semibold transition flex justify-center items-center cursor-pointer"
+        >
           Explore all
-        </button>
+        </Link>
       </div>
     </section>
   )
