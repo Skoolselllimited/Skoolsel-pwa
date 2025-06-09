@@ -27,13 +27,17 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden xl:flex items-center gap-6 h-[50px]">
-          <Link
-            href="/login"
-            className="text-white font-medium text-base hover:underline"
-          >
-            Login / Register
-          </Link>
+
+        <div className="hidden md:flex items-center space-x-6">
+          <div>
+            <Link href="/login" className="text-sm hover:underline">
+              Login
+            </Link>
+            /
+            <Link href="/register" className="text-sm hover:underline">
+              Register
+            </Link>
+          </div>
 
           <div className="h-4 border-r border-white" />
 
