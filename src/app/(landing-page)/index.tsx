@@ -12,7 +12,7 @@ export default function LandingRootLayoutWrapper({
     <div className="relative w-full min-h-screen overflow-hidden">
       <div className="relative z-10 flex flex-col min-h-screen">
         <Navbar />
-        <main className="flex-grow bg-[#F4F6F8]">{children}</main>
+        <main className="flex-grow bg-white">{children}</main>
         <FooterSection />
       </div>
     </div>

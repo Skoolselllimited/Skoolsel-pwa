@@ -12,19 +12,18 @@ type Props = {
 
 const HotOnCampuses: React.FC<Props> = () => {
   return (
-    <section className="pt-10 pb-[92px] px-4 max-w-[1320px] mx-auto flex flex-col gap-[40px]">
+    <section className="pt-10 pb-[92px] px-1 max-w-[1320px] mx-auto flex flex-col gap-[40px]">
       <div className="w-full flex flex-col gap-[31px]">
         <h2 className="text-2xl sm:text-[36px]/[45.52px] tracking-normal font-bold font-circular-std text-center text-[#052332]">
           Hot on Campuses
         </h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-[25px]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg-md:grid-cols-3 2xl:grid-cols-4 gap-6 xl:gap-[25px]">
           {products?.map((product, idx) => (
             <ProductCard key={idx} product={product} />
           ))}
         </div>
       </div>
-
       <div className="flex justify-center">
         <Link
           href="/ads"

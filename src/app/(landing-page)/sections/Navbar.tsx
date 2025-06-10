@@ -15,31 +15,37 @@ export default function Navbar() {
     <nav className="bg-primary text-white h-[60px] xl:h-[103px] py-4 xl:py-6 px-4 2xl:px-6 flex items-center justify-center">
       <div className="w-full max-w-[1320px] mx-auto flex items-center justify-between relative">
         {/* Logo */}
-        <Link href="/" className="flex-shrink-0">
+        <Link href="/" className="flex-shrink-0 w-[182px] h-[42px]">
           <Image
             src="/logowhite.svg"
             alt="Skoolsel Logo"
-            width={100}
-            height={40}
+            width={182}
+            height={42}
             priority
-            className="object-contain"
+            className="w-auto h-auto object-contain"
           />
         </Link>
 
         {/* Desktop Navigation */}
 
-        <div className="hidden md:flex items-center space-x-6">
-          <div>
-            <Link href="/login" className="text-sm hover:underline">
+        <div className="hidden lg-md:flex items-center gap-6">
+          <div className="flex gap-1">
+            <Link
+              href="/login"
+              className="text-[16px]/[24px] font-circular-std font-medium tracking-normal hover:underline underline-offset-4 text-white cursor-pointer"
+            >
               Login
             </Link>
-            /
-            <Link href="/register" className="text-sm hover:underline">
+            <span className="text-[#AEB3C2]">/</span>
+            <Link
+              href="/register"
+              className="text-[16px]/[24px] font-circular-std font-medium tracking-normal hover:underline underline-offset-4 text-white cursor-pointer"
+            >
               Register
             </Link>
           </div>
 
-          <div className="h-4 border-r border-white" />
+          <span className="text-white">|</span>
 
           <Link
             href="/ads/post"
@@ -51,7 +57,7 @@ export default function Navbar() {
         </div>
 
         {/* Mobile Menu Trigger (visible below xl) */}
-        <div className="xl:hidden absolute right-0 top-0">
+        <div className="lg-md:hidden absolute right-0 top-0">
           <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen}>
             <SheetTrigger asChild>
               <button className="focus:outline-none">

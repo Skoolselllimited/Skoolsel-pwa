@@ -1,6 +1,7 @@
 import { EnvelopeIcon } from "@/components/svgs"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { ArrowUp } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import {
@@ -14,7 +15,7 @@ import { RiTwitterXLine } from "react-icons/ri"
 
 export default function FooterSection() {
   return (
-    <footer className="w-full  min-h-[726px] flex flex-col gap-[100px] mx-auto bg-[#0A243F]">
+    <footer className="w-full  min-h-[726px] flex flex-col gap-[100px] mx-auto bg-[#191F33]">
       {/* //NEWSLETTER */}
       <div className="w-full mx-auto flex flex-col xl:flex-row justify-between py-[50px] shadow-[0px_-1px_0px_0px_#2E3447_inset] px-2 md:px-4 lg:px-6 xl:px-8 3xl:px-0">
         <div className="w-full max-w-[1320px] mx-auto h-full flex flex-col xl:flex-row justify-between gap-4">
@@ -45,16 +46,17 @@ export default function FooterSection() {
         </div>
       </div>
       {/* //FOOTER */}
-      <div className="w-full mx-auto flex flex-col xl:flex-row justify-between py-[50px] shadow-[0px_-1px_0px_0px_#2E3447_inset] px-2 md:px-4 lg:px-6 xl:px-8 3xl:px-0">
+      <div className="w-full mx-auto flex flex-col xl:flex-row justify-between py-[50px]  px-2 md:px-4 lg:px-6 xl:px-8 3xl:px-0">
         <div className="w-full max-w-[1320px] mx-auto h-full flex  flex-col  2xl:flex-row justify-between gap-8 xl:gap-12">
           <div className="w-[424px] h-[108px] flex flex-col gap-[32px]">
-            <Link href="/">
+            <Link href="/" className="flex-shrink-0 w-[182px] h-[42px]">
               <Image
                 src="/logowhite.svg"
                 alt="Skoolsel Logo"
-                width={182.79}
-                height={46.31}
+                width={182}
+                height={42}
                 priority
+                className="w-auto h-auto object-contain"
               />
             </Link>
             <div className="flex space-x-4 text-[#767E94] text-lg">
@@ -93,25 +95,25 @@ export default function FooterSection() {
                 <div className="flex flex-col gap-2">
                   <Link
                     href="/contact"
-                    className="font-circular-std font-[450] text-[16px]/[24px] tracking-normal text-[#767E94] hover:underline"
+                    className="font-circular-std font-[450] text-[16px]/[24px] tracking-normal text-[#767E94] hover:underline underline-offset-4 decoration-secondary"
                   >
                     Contact
                   </Link>
                   <Link
                     href="/faqs"
-                    className="font-circular-std font-[450] text-[16px]/[24px] tracking-normal text-[#767E94] hover:underline"
+                    className="font-circular-std font-[450] text-[16px]/[24px] tracking-normal text-[#767E94] hover:underline underline-offset-4 decoration-secondary"
                   >
                     FAQs
                   </Link>
                   <Link
                     href="/pricing"
-                    className="font-circular-std font-[450] text-[16px]/[24px] tracking-normal text-[#767E94] hover:underline"
+                    className="font-circular-std font-[450] text-[16px]/[24px] tracking-normal text-[#767E94] hover:underline underline-offset-4 decoration-secondary"
                   >
                     Pricing
                   </Link>
                   <Link
                     href="/safety-guide"
-                    className="font-circular-std font-[450] text-[16px]/[24px] tracking-normal text-[#767E94] hover:underline"
+                    className="font-circular-std font-[450] text-[16px]/[24px] tracking-normal text-[#767E94] hover:underline underline-offset-4 decoration-secondary"
                   >
                     Safety Guide
                   </Link>
@@ -124,25 +126,25 @@ export default function FooterSection() {
                 <div className="flex flex-col gap-2">
                   <Link
                     href="/about"
-                    className="font-circular-std font-[450] text-[16px]/[24px] tracking-normal text-[#767E94] hover:underline"
+                    className="font-circular-std font-[450] text-[16px]/[24px] tracking-normal text-[#767E94] hover:underline underline-offset-4 decoration-secondary"
                   >
                     About
                   </Link>
                   <Link
                     href="/boost-ads"
-                    className="font-circular-std font-[450] text-[16px]/[24px] tracking-normal text-[#767E94] hover:underline"
+                    className="font-circular-std font-[450] text-[16px]/[24px] tracking-normal text-[#767E94] hover:underline underline-offset-4 decoration-secondary"
                   >
                     Boost Ads
                   </Link>
                   <Link
                     href="/ads/post"
-                    className="font-circular-std font-[450] text-[16px]/[24px] tracking-normal text-[#767E94] hover:underline"
+                    className="font-circular-std font-[450] text-[16px]/[24px] tracking-normal text-[#767E94] hover:underline underline-offset-4 decoration-secondary"
                   >
                     Post a Ads
                   </Link>
                   <Link
                     href="/blog"
-                    className="font-circular-std font-[450] text-[16px]/[24px] tracking-normal text-[#767E94] hover:underline"
+                    className="font-circular-std font-[450] text-[16px]/[24px] tracking-normal text-[#767E94] hover:underline underline-offset-4 decoration-secondary"
                   >
                     Blog
                   </Link>
@@ -178,7 +180,14 @@ export default function FooterSection() {
           </div>
         </div>
       </div>
-      <div className="w-full flex justify-between mx-auto h-[72px] px-2 md:px-4 lg:px-6 xl:px-8 3xl:px-0">
+
+      <div className="w-full flex justify-between mx-auto h-[72px] px-2 md:px-4 lg:px-6 xl:px-8 3xl:px-0 bg-[#2E3447] relative">
+        <button
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          className="absolute -top-6 right-8 w-[56px] h-[56px] rounded-full border-[6px] border-[#0A243F] p-4 flex justify-center items-center bg-[#2E3447] text-white cursor-pointer"
+        >
+          <ArrowUp className="h-6 w-6" />
+        </button>
         <div className="w-full max-w-[1320px] mx-auto h-full flex flex-col xl:flex-row justify-between items-center gap-4">
           <p className="hidden xl:flex font-[450] font-circular-std text-[16px]/[24px] tracking-normal text-[#767E94]">
             Skoolsel © {new Date().getFullYear()}. All rights reserved
@@ -186,18 +195,19 @@ export default function FooterSection() {
           <div className="w-fit h-[24px] text-[14px] tracking-normal gap-3 flex items-center">
             <Link
               href="/privacy-policy"
-              className="font-[450] font-circular-std text-[16px]/[24px] tracking-normal text-[#767E94] pr-4 lg:border-r lg:border-[#767E94] hover:underline"
+              className="font-[450] font-circular-std text-[16px]/[24px] tracking-normal text-[#767E94] pr-4 lg:border-r lg:border-[#767E94] hover:underline underline-offset-4 decoration-secondary"
             >
               Privacy Policy
             </Link>
 
             <Link
               href="/terms"
-              className="font-[450] font-circular-std text-[16px]/[24px] tracking-normal text-[#767E94] pl-4 hover:underline"
+              className="font-[450] font-circular-std text-[16px]/[24px] tracking-normal text-[#767E94] pl-4 hover:underline underline-offset-4 decoration-secondary"
             >
               Terms & Condition
             </Link>
           </div>
+
           <p className="flex xl:hidden font-[450] font-circular-std text-[16px]/[24px] tracking-normal text-[#767E94]">
             Skoolsel © {new Date().getFullYear()}. All rights reserved
           </p>

@@ -33,17 +33,16 @@ export default function Header() {
     <nav className="bg-primary text-white border-0">
       <div className="w-full max-w-[1320px] mx-auto flex items-center justify-between h-[60px] xl:h-[103px] px-4 lg-md:px-6">
         {/* Logo */}
-        <Link href="/" className="flex-shrink-0 cursor-pointer">
+        <Link href="/" className="flex-shrink-0 w-[182px] h-[42px]">
           <Image
             src="/logowhite.svg"
             alt="Skoolsel Logo"
-            width={100}
-            height={40}
+            width={182}
+            height={42}
             priority
-            className="object-contain"
+            className="w-auto h-auto object-contain"
           />
         </Link>
-
         {/* SearchBar */}
         <div className="hidden lg-md:block w-full max-w-[626px] mx-4">
           <SearchBar />
