@@ -1,8 +1,8 @@
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Ads Details | Skoolsel",
-  description: "Skoolsel ads details page",
+  title: "Ad Details | Skoolsel",
+  description: "Skoolsel ad details page",
 }
 
 export default function LandingRootLayout({

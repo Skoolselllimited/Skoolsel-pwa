@@ -76,7 +76,7 @@ export default function Hero() {
       />
       {/* Content */}
       <div className="w-full flex flex-col justify-center items-center relative z-10 px-4 py-24 text-center gap-4 lg:gap-6">
-        <div className="w-full xl:w-[824px] h-[184px] space-y-4">
+        <div className="w-full xl:w-[824px] h-[154px] lg:h-[184px] space-y-4">
           <span className="w-fit h-[40px] py-1 px-[4.73px] lg:px-5 inline-flex bg-secondary rounded-[5px] font-[900] font-circular-std uppercase text-white text-[12px]/[100%] lg:text-[16px]/[32px] tracking-normal text-center justify-center items-center">
             Over 95,00,000 Live Ads
           </span>

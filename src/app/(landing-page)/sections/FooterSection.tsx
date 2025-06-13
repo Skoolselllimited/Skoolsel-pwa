@@ -15,7 +15,7 @@ import { RiTwitterXLine } from "react-icons/ri"
 
 export default function FooterSection() {
   return (
-    <footer className="w-full  min-h-[726px] flex flex-col gap-[100px] mx-auto bg-[#191F33]">
+    <footer className="w-full min-h-[726px] flex flex-col xl:gap-[100px] mx-auto bg-[#191F33]">
       {/* //NEWSLETTER */}
       <div className="w-full mx-auto flex flex-col xl:flex-row justify-between py-[50px] shadow-[0px_-1px_0px_0px_#2E3447_inset] px-2 md:px-4 lg:px-6 xl:px-8 3xl:px-0">
         <div className="w-full max-w-[1320px] mx-auto h-full flex flex-col xl:flex-row justify-between gap-4">
@@ -161,7 +161,7 @@ export default function FooterSection() {
                   now!
                 </p>
               </div>
-              <div className="w-full lg:h-[70px] flex flex-col xl:flex-row gap-4 mt-5">
+              <div className="w-full flex flex-col xl:flex-row gap-4 mt-5">
                 <Link
                   href="#"
                   className="h-[70px] py-[27px] px-[16px] bg-secondary hover:bg-secondary/80 cursor-pointer flex gap-2 items-center justify-center rounded-[10px] font-extrabold font-nunito text-[14px]/[16px] tracking-[1.6px] text-white"

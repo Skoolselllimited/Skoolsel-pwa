@@ -13,7 +13,6 @@ export function getInitials(name: string) {
   return (words[0][0] + words[1][0]).toUpperCase()
 }
 
-// lib/generateBreadcrumbs.ts
 export type BreadcrumbItem = {
   label: string
   href: string
@@ -21,7 +20,6 @@ export type BreadcrumbItem = {
 }
 
 export function generateBreadcrumbs(pathname: string): BreadcrumbItem[] {
-  console.log("pathname", pathname)
   const segments = pathname.split("/").filter(Boolean)
 
   const breadcrumbs: BreadcrumbItem[] = [

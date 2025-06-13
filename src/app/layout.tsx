@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { Nunito_Sans } from "next/font/google"
+import { Nunito_Sans, Inter } from "next/font/google"
 import localFont from "next/font/local"
 import Script from "next/script"
 import type { ReactNode } from "react"
@@ -7,6 +7,11 @@ import "./globals.css"
 import { siteDescription, siteUrl } from "@/config"
 import { Toaster } from "@/components/ui/sonner"
 
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter",
+})
 const nunito = Nunito_Sans({
   variable: "--font-nunito",
   subsets: ["latin"],

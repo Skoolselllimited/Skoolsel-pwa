@@ -16,7 +16,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
   return (
     <Link
       href={`/ads/${product.id}`}
-      className="w-full max-w-[193px] lg:max-w-[311px] flex flex-col gap-[2.65px] bg-white p-1 lg:p-2 rounded-[10.6px] lg:rounded-[16px] hover:shadow-sm overflow-hidden border border-[#F1F2F4]  cursor-pointer"
+      className="flex flex-col gap-[2.65px] bg-white p-1 lg:p-2 rounded-[10.6px] lg:rounded-[16px] hover:shadow-sm overflow-hidden border border-[#F1F2F4]  cursor-pointer"
     >
       <div className="relative">
         <Image

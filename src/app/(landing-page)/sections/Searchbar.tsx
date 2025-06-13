@@ -61,7 +61,7 @@ export default function SearchBar() {
       <Input
         type="search"
         placeholder="Search by item here...."
-        className="bg-white h-9 sm:h-10 lg:h-[56px] flex-1 border-0 shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 px-3 lg:pl-4 lg:pr-1 font-nunito text-xs sm:text-sm text-foreground placeholder:text-[#384853]"
+        className="bg-white h-9 sm:h-10 lg:h-[56px] flex-1 border-0 shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 pr-0 pl-1 lg:pl-2.5 lg:pr-1 font-nunito text-xs sm:text-sm text-foreground placeholder:text-[#384853]"
       />
 
       <Button

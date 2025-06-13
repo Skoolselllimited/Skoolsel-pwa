@@ -14,7 +14,7 @@ export default function Navbar() {
             alt="Skoolsel Logo"
             width={120}
             height={40}
-            className="object-contain"
+            className="w-auto h-auto object-contain"
           />
         </div>
 

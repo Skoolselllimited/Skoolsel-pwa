@@ -1,8 +1,10 @@
 "use client"
 
-import { ChevronLeft, ChevronRight, X } from "lucide-react"
+import type React from "react"
+
 import Image from "next/image"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
+import { ChevronLeft, ChevronRight, X } from "lucide-react"
 
 interface ImageGalleryProps {
   images: string[]
@@ -18,6 +20,9 @@ export function ImageGallery({
   onClose,
 }: ImageGalleryProps) {
   const [currentIndex, setCurrentIndex] = useState(initialIndex)
+  const touchStartX = useRef<number | null>(null)
+  const touchEndX = useRef<number | null>(null)
+  const galleryRef = useRef<HTMLDivElement>(null)
 
   // Reset current index when initial index changes
   useEffect(() => {
@@ -62,22 +67,58 @@ export function ImageGallery({
     setCurrentIndex((prev) => (prev - 1 + images.length) % images.length)
   }
 
+  // Touch handlers for swipe functionality
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX
+  }
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.touches[0].clientX
+  }
+
+  const handleTouchEnd = () => {
+    if (!touchStartX.current || !touchEndX.current) return
+
+    const diffX = touchStartX.current - touchEndX.current
+    const threshold = 50 // minimum distance to be considered a swipe
+
+    if (Math.abs(diffX) > threshold) {
+      if (diffX > 0) {
+        // Swipe left, go to next image
+        nextImage()
+      } else {
+        // Swipe right, go to previous image
+        prevImage()
+      }
+    }
+
+    // Reset values
+    touchStartX.current = null
+    touchEndX.current = null
+  }
+
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center">
+    <div
+      className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center"
+      ref={galleryRef}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
       <div className="relative w-full h-full flex flex-col">
         {/* Header */}
         <div className="flex justify-between items-center p-4 text-white">
           <div className="text-sm">
             {currentIndex + 1} / {images.length}
           </div>
-          <span
+          <button
             onClick={onClose}
-            className="w-10 h-10 text-white hover:bg-white/20 flex justify-center items-center cursor-pointer"
+            className="px-4 py-2 text-white hover:bg-white/20 flex justify-center items-center cursor-pointer"
           >
-            <X className="h-8 w-8" />
-          </span>
+            <X className="w-8 h-8" />
+          </button>
         </div>
 
         {/* Main image area */}
@@ -93,24 +134,38 @@ export function ImageGallery({
             />
           </div>
 
-          {/* Navigation buttons */}
-          <span
-            className="absolute left-0 xl:left-4 text-white hover:bg-white/20 rounded-full h-[60px] w-[60px] flex justify-center items-center cursor-pointer"
+          {/* Navigation buttons - visible on all devices */}
+          <button
             onClick={prevImage}
+            className="absolute left-4 top-1/2 -translate-y-1/2 w-15 h-15 bg-transparent flex items-center justify-center text-white"
+            aria-label="Previous image"
           >
-            <ChevronLeft className="h-[60px] w-[60px]" />
-          </span>
+            <ChevronLeft className="w-15 h-15" />
+          </button>
 
-          <span
-            className="absolute right-0 xl:right-4 text-white hover:bg-white/20 rounded-full h-[60px] w-[60px] flex justify-center items-center cursor-pointer"
+          <button
             onClick={nextImage}
+            className="absolute right-4 top-1/2 -translate-y-1/2 w-20 h-20 bg-transparent flex items-center justify-center text-white"
+            aria-label="Next image"
           >
-            <ChevronRight className="h-[60px] w-[60px]" />
-          </span>
+            <ChevronRight className="w-15 h-15" />
+          </button>
         </div>
 
-        {/* Thumbnails */}
-        <div className="pb-8 xl:py-8 opacity-70 px-4">
+        {/* Mobile indicator dots */}
+        <div className="flex justify-center space-x-2 py-4 md:hidden">
+          {images.map((_, index) => (
+            <button
+              key={index}
+              className={`w-2 h-2 rounded-full ${index === currentIndex ? "bg-secondary" : "bg-white/50"}`}
+              onClick={() => setCurrentIndex(index)}
+              aria-label={`Go to image ${index + 1}`}
+            />
+          ))}
+        </div>
+
+        {/* Thumbnails - adjust for better mobile display */}
+        <div className="pb-8 xl:py-8 opacity-70 px-4 hidden sm:block">
           <div className="h-16 xl:h-[112px] flex justify-center gap-3 overflow-x-auto pb-4">
             {images.map((image, index) => (
               <div

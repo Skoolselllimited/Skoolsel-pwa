@@ -1,10 +1,10 @@
 "use client"
 
+import BreadcrumbNav from "@/components/breadCrumbs"
 import {
   AnchorLink,
   ClockIcon,
   ExpandIcon,
-  EyeIcon,
   HeartIcon,
   LightStrikeIcon,
   MapPinIcon,
@@ -14,51 +14,28 @@ import {
 } from "@/components/svgs"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
+import { Card } from "@/components/ui/card"
+import { generateBreadcrumbs, getInitials } from "@/lib/utils"
 import {
-  Anchor,
-  AnchorIcon,
   ChevronLeft,
   ChevronRight,
-  Clock,
   CopyIcon,
-  MapPin,
   Share2,
   TriangleAlert,
 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { useState } from "react"
-import {
-  FaFacebookF,
-  FaInstagram,
-  FaLinkedinIn,
-  FaWhatsapp,
-} from "react-icons/fa"
+import { FaFacebookF, FaLinkedinIn, FaWhatsapp } from "react-icons/fa"
+import { RiTwitterXLine } from "react-icons/ri"
 import { toast } from "sonner"
 import { ImageGallery } from "../../_components/image-gallery"
-import { RiTwitterXLine } from "react-icons/ri"
-import { getInitials } from "@/lib/utils"
-import BreadcrumbNav from "@/components/breadCrumbs"
+import { usePathname } from "next/navigation"
 
-const breadcrumbItems = [
-  { label: "Home", href: "/" },
-  { label: "Ad lists", href: "/" },
-  { label: "Mobile", href: "/" },
-  { label: "Samsung", href: "/docs/components" },
-  { label: "Samsung S24 Ultra", current: true },
-]
-
-export default function Component() {
+export default function AdsDetails() {
+  const pathname = usePathname()
+  const breadcrumbItems = generateBreadcrumbs(pathname)
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   // Add a new state variable after the currentImageIndex state
   const [isGalleryOpen, setIsGalleryOpen] = useState(false)
@@ -92,10 +69,10 @@ export default function Component() {
       })
   }
   return (
-    <div className="w-full flex flex-col gap-4">
+    <div className="w-full flex flex-col gap-4 bg-[#F4F6F8]">
       <div className="w-full bg-[#E8EBEE] h-[43px] flex items-center">
         <div className="w-full h-full max-w-[1320px] bg-[#E8EBEE] mx-auto">
-          <BreadcrumbNav items={breadcrumbItems} className="w-[498px] h-6" />
+          <BreadcrumbNav items={breadcrumbItems} className=" h-6" />
         </div>
       </div>
       <div className="max-w-[1320px] mx-auto xl:p-4 min-h-screen">
@@ -107,7 +84,7 @@ export default function Component() {
               <div className="relative">
                 <div
                   onClick={() => setIsGalleryOpen(true)}
-                  className="cursor-pointer w-full h-full xl:w-[648px] xl:h-[505px]"
+                  className="hidden xl:block cursor-pointer w-full h-full xl:w-[648px] xl:h-[505px]"
                 >
                   <Image
                     src={images[currentImageIndex] || "/placeholder.svg"}
@@ -117,8 +94,17 @@ export default function Component() {
                     className="w-full h-full object-cover object-center"
                   />
                 </div>
+                <div className="block xl:hidden cursor-pointer w-full h-full xl:w-[648px] xl:h-[505px]">
+                  <Image
+                    src={images[currentImageIndex] || "/placeholder.svg"}
+                    alt="Product image"
+                    width={448}
+                    height={440}
+                    className="w-full h-full object-cover object-center"
+                  />
+                </div>
                 <span
-                  className="w-12 h-12 absolute top-4 right-4 xl:-right-14 bg-[#0A243F] hover:bg-[#0A243F]/90 hover:scale-[0.98] transition-all duration-200 cursor-pointer flex justify-center items-center"
+                  className="hidden w-12 h-12 absolute top-4 right-4 xl:-right-14 bg-[#0A243F] hover:bg-[#0A243F]/90 hover:scale-[0.98] transition-all duration-200 cursor-pointer xl:flex justify-center items-center"
                   onClick={(e) => {
                     e.stopPropagation()
                     setIsGalleryOpen(true)
@@ -130,10 +116,10 @@ export default function Component() {
             </div>
 
             {/* Thumbnail Images */}
-            <div className="relative">
+            <div className="relative px-1.5">
               <div className="flex xl:gap-3 overflow-hidden">
                 <span
-                  className="w-12 h-12 p-3 rounded absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-[#EBEEF7] hover:bg-[#EBEEF7]/95  flex justify-center items-center gap-[10px] cursor-pointer shadow-none"
+                  className="w-12 h-12 p-3 rounded absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-[#EBEEF7] hover:bg-[#EBEEF7]/95  hidden xl:flex justify-center items-center gap-[10px] cursor-pointer shadow-none"
                   onClick={prevImage}
                 >
                   <ChevronLeft className="h-6 w-6" />
@@ -141,7 +127,7 @@ export default function Component() {
 
                 {/* Update the thumbnail click handler to also update the current image index
               // Replace the existing thumbnail div with this: */}
-                <div className="w-full max-w-[732px] h-[86.14px] xl:h-[112px] flex justify-between space-x-3 xl:px-8 opacity-30">
+                <div className="w-full max-w-[732px] h-[86.14px] xl:h-[112px] flex justify-between space-x-3 px-2 xl:px-8 opacity-70 xl:opacity-30">
                   {images.map((image, index) => (
                     <div
                       key={index}
@@ -163,7 +149,7 @@ export default function Component() {
                 </div>
 
                 <span
-                  className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-[#EBEEF7] rounded shadow-none p-3 w-12 h-12 hover:bg-[#EBEEF7]/95 flex justify-center items-center gap-[10px] cursor-pointer"
+                  className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-[#EBEEF7] rounded shadow-none p-3 w-12 h-12 hover:bg-[#EBEEF7]/95 hidden xl:flex justify-center items-center gap-[10px] cursor-pointer"
                   onClick={nextImage}
                 >
                   <ChevronRight className="h-6 w-6" />
@@ -205,10 +191,10 @@ export default function Component() {
                     <ClockIcon className="h-6 w-6" />
                     29 Jun 10:21 PM
                   </div>
-                  <div className="flex items-center gap-[6px]">
+                  {/* <div className="flex items-center gap-[6px]">
                     <EyeIcon className="h-6 w-6" />
                     69,656 Viewed
-                  </div>
+                  </div> */}
                 </div>
               </div>
 
@@ -263,7 +249,7 @@ export default function Component() {
           </div>
 
           {/* Right Column - Price and Actions */}
-          <div className="space-y-4">
+          <div className="lg:space-y-4">
             <div className="w-full flex flex-col gap-[1px] border rounded px-0">
               {/* Price */}
 
@@ -272,14 +258,14 @@ export default function Component() {
                   ₦230,000
                 </h3>
                 <div className="bg-[#E8F7FF] p-3 w-12 h-12 flex justify-center items-center rounded text-secondary">
-                  <HeartIcon className="text-[#54ABDB]" />
+                  <HeartIcon className="text-secondary" />
                 </div>
               </Card>
-              <Card className="flex flex-col gap-4 h-[202px]">
+              <Card className="hidden lg:flex flex-col gap-4 h-[202px] relative">
                 {/* Phone */}
-                <div className="w-full h-[72px] bg-[#F5F7FA] p-5 rounded-md flex items-center gap-2 text-[#0A243F] text-[20px]/[32px] font-[450] font-circular-std tracking-normal cursor-pointer justify-between">
+                <div className="w-full h-[72px] bg-[#F5F7FA] p-5 rounded-md items-center gap-2 text-[#0A243F] text-[20px]/[32px] font-[450] font-circular-std tracking-normal cursor-pointer flex justify-between">
                   <span className="flex items-center gap-3">
-                    <PhoneIcon />
+                    <PhoneIcon className="text-secondary" />
                     <span>
                       {isPhoneRevealed
                         ? "(+234) 5735 8764"
@@ -297,7 +283,7 @@ export default function Component() {
                 </div>
 
                 <Button
-                  className="h-[50px] flex gap-2 rounded px-5 text-white bg-[#2DD54B] hover:bg-[#2DD54B]/80 font-bold font-circular-std text-[16px]/[50px] tracking-normal capitalize hover:scale-99 transition-all duration-200"
+                  className="h-[50px] gap-2 rounded px-5 text-white bg-[#2DD54B] hover:bg-[#2DD54B]/80 font-bold font-circular-std text-[16px]/[50px] tracking-normal capitalize hover:scale-99 transition-all duration-200"
                   onClick={() => setIsPhoneRevealed((prev) => !prev)}
                 >
                   {isPhoneRevealed ? "Hide Number" : "Reveal Number"}
@@ -305,7 +291,7 @@ export default function Component() {
               </Card>
 
               {/* Seller Info */}
-              <Card className="w-full h-[168px] flex flex-col gap-6">
+              <Card className="w-full lg:h-[168px] flex flex-col gap-6">
                 <div className="flex h-[56px] items-center justify-between">
                   <div className="flex items-center gap-4">
                     <Avatar className="w-[56px] h-[56px]">
@@ -342,13 +328,13 @@ export default function Component() {
                 </div>
               </Card>
             </div>
-            <div className="w-full py-8 flex flex-col gap-[1px] border rounded px-0">
+            <div className="w-full flex flex-col gap-[1px] border rounded px-0">
               {/* Safety Tips */}
               <Card>
                 <h2 className="font-circular-std font-medium text-[24px]/[32px] tracking-normal text-[#0A243F]">
                   Safety Tip
                 </h2>
-                <ul className="space-y-[14px] text-[14px]/[24px] xl:text-[16px]/[24px] tracking-normal text-[#0A243F]">
+                <ul className="space-y-1 text-[14px]/[24px] xl:text-[16px]/[24px] tracking-normal text-[#0A243F]">
                   <li>Meet in public place;</li>
                   <li>Bring a friend</li>
                   <li>Meet during the day</li>
@@ -356,7 +342,7 @@ export default function Component() {
                   <li>Inspect items carefully</li>
                 </ul>
               </Card>
-              <Card className="flex flex-col gap-4 h-[80px]">
+              <Card className="flex flex-col gap-4 h-[60px] justify-center">
                 <Button
                   variant="ghost"
                   className="h-[24px] flex gap-2 rounded px-5 text-[#FF4F4F] hover:bg-transparent hover:text-[#FF4F4F]/80 font-medium font-circular-std text-[16px]/[24px] tracking-normal capitalize hover:scale-99 transition-all duration-200 justify-start"
@@ -365,7 +351,7 @@ export default function Component() {
                 </Button>
               </Card>
               {/* Share */}
-              <Card className="flex-col min-h-[82px] gap-[18px] px-6">
+              <Card className="flex-col gap-[18px] px-6">
                 <div className="flex items-center gap-3 font-medium font-circular-std text-[16px]/[24px] text-[#464D61] tracking-normal">
                   <Share2 className="h-6 w-6 shrink-0" />
                   <span>Share Ads</span>
@@ -408,25 +394,26 @@ export default function Component() {
           </div>
         </div>
         {/* Related Ads Section */}
-        <div className="mt-12 space-y-[50px] bg-[#F4F6F8] shadow-[0px_1px_0px_0px_#EBEEF7_inset] pt-10 pb-[150px] px-4">
+        <div className="mt-12 space-y-[50px] bg-[#F4F6F8] shadow-[0px_1px_0px_0px_#EBEEF7_inset] pt-10 pb-[150px] px-2 lg:px-4">
           <h2 className="font-circular-std font-medium text-[24px]/[32px] xl:text-[40px]/[48px] tracking-normal text-[#191F33]">
             Related Ads
           </h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8"> */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg-md:grid-cols-3 2xl:grid-cols-4 gap-1 lg:gap-6 xl:gap-4">
             {Array.from({ length: 12 }, (_, idx) => (
               <Link
                 key={idx}
                 href={`/products/details/${idx}`}
-                className="bg-white p-1 lg:p-2 rounded-[10.6px] lg:rounded-[16px] hover:shadow-sm overflow-hidden border border-[#F1F2F4] w-[193.41px] h-[298.07px] lg:w-[311px] lg:h-[450px] cursor-pointer mx-auto flex flex-col gap-[2.65px]"
+                className="w-full max-w-[193px] lg:max-w-[311px] flex flex-col gap-[2.65px] bg-white p-1 lg:p-2.5 rounded-[10.6px] lg:rounded-[16px] hover:shadow-sm overflow-hidden border border-[#F1F2F4] cursor-pointer"
               >
                 <div className="relative">
                   <Image
                     src="/images/related_ad.webp"
                     alt="iPhone 12 Pro max"
-                    width={192}
-                    height={128}
-                    className="w-full h-32 sm:h-[176.86px] sm:w-[193.75px] lg:h-[267px] lg:w-[292.5px] object-cover rounded-[8px] bg-[#E3E6EA] hover:scale-[1.01] transition-transform duration-200"
+                    width={292}
+                    height={267}
+                    className="w-full h-32 sm:h-[176.86px] lg:h-[267px] object-cover rounded-[8px] bg-[#E3E6EA] hover:scale-[1.01] transition-transform duration-200"
                   />
 
                   {/* {product.isSponsored && ( */}
@@ -444,34 +431,34 @@ export default function Component() {
 
                 {/* Content */}
                 <div className="pt-1 lg:pt-2 pb-0 flex flex-col gap-[2.65px] lg:gap-1">
-                  <h3 className="text-[12px]/[11.92px] lg:text-[16px]/[18px] font-[450px] font-circular-std text-[#384853] truncate">
+                  <h3 className="text-[12px]/[11.92px] lg:text-[16px]/[18px] font-medium font-circular-std text-[#384853] truncate">
                     iPhone 12 Pro max
                   </h3>
-                  <p className="text-secondary font-bold text-[12px]/[15.9px]  lg:text-[18px]/[24px] -tracking-[1%] align-middle">
+                  <p className="text-secondary font-bold text-[12px]/[15.9px] lg:text-[18px]/[24px] -tracking-[1%] align-middle">
                     ₦1,277,098
                   </p>
-                  <div className="w-[193.41px] lg:w-[292px] h-[18px] lg:h-[26px] grid grid-cols-2 gap-1">
-                    <div className="h-full flex items-center  gap-[2px] lg:gap-[10px] py-1 pr-[10px]">
-                      <MapPinIcon className="text-[#384853]" />
-                      <span className="text-[#384853] text-[12px]/[18px] lg:text-[14px]/[18px] -tracking-[1%] font-[450] font-circular-std">
+                  <div className="w-full grid grid-cols-2 gap-1">
+                    <div className="flex items-center gap-1.5 lg:gap-2">
+                      <MapPinIcon className="w-4 h-4 text-[#384853]" />
+                      <span className="text-[#384853] text-[12px] lg:text-[14px] leading-[1.2] font-medium font-circular-std truncate">
                         Umuahia
                       </span>
                     </div>
-                    <div className="h-full flex items-center gap-[2px] lg:gap-[10px] py-1 pr-[10px]">
-                      <ClockIcon className="text-[#384853]" />
-                      <span className="text-[#384853] text-[12px]/[18px] lg:text-[14px]/[18px] -tracking-[1%] font-[450] font-circular-std">
+                    <div className="hidden sm:flex items-center justify-end gap-1.5 lg:gap-2">
+                      <ClockIcon className="w-4 h-4 text-[#384853]" />
+                      <span className="text-[#384853] text-[12px] lg:text-[14px] leading-[1.2] font-medium font-circular-std truncate">
                         1 week ago
                       </span>
                     </div>
                   </div>
 
-                  <div className="w-[193.4px] h-[37.17px] lg:w-[292px] lg:h-[56px] py-[6.62px] lg:py-[10px] px-[10.6px] lg:px-4 bg-[#FAFAFA] rounded-[5.3px] lg:rounded-[8px] mt-1 lg:mt-4 flex flex-col gap-[2.65px] lg:gap-1.5">
-                    <p className="text-[#6B7B8A] text-[10px]/[10.6px] lg:text-[14px]/[16px] tracking-normal font-circular-std font-[450]">
+                  <div className="w-full py-[6.62px] lg:py-[10px] px-[10.6px] lg:px-4 bg-[#FAFAFA] rounded-[5.3px] lg:rounded-[8px] mt-1 lg:mt-4 flex flex-col gap-[2.65px] lg:gap-1.5">
+                    <p className="text-[#6B7B8A] text-[10px]/[10.6px] lg:text-[14px]/[16px] tracking-normal font-circular-std font-medium">
                       Vendor
-                    </p>{" "}
+                    </p>
                     {/* Adjusted font size, margin */}
                     <div className="w-full h-[18px] flex items-center gap-[5px]">
-                      <Avatar className="w-6 h-6">
+                      <Avatar className="w-[10.6px] h-[10.6px] lg:w-6 lg:h-6">
                         <AvatarImage
                           src="/images/vendor.jpg"
                           alt="Vendor's photo"
@@ -480,7 +467,7 @@ export default function Component() {
                           {getInitials("Aliya Gadget Store")}
                         </AvatarFallback>
                       </Avatar>
-                      <p className="font-bold font-circular-std text-[#384853] text-[12px]/[11.92px] text-lg:[15px]/[18px] tracking-normal truncate">
+                      <p className="font-bold font-circular-std text-[#384853] text-[12px]/[11.92px] lg:text-[15px]/[18px] tracking-normal truncate">
                         Aliya Gadget Store
                       </p>
                     </div>
@@ -491,18 +478,29 @@ export default function Component() {
           </div>
 
           <div className="w-full flex justify-center items-center">
-            <Button className="w-fit h-[50px] px-5 bg-[#E8F7FF] hover:bg-[#E8F7FF] text-[#54ABDB] hover:scale-[0.98] font-circular-std font-bold text-[16px]/[50px] tracking-normal capitalize flex justify-center items-center gap-2 rounded cursor-pointer">
+            <Button className="w-fit h-[50px] px-5 bg-[#E8F7FF] hover:bg-[#E8F7FF] text-secondary hover:scale-[0.98] font-circular-std font-bold text-[16px]/[50px] tracking-normal capitalize flex justify-center items-center gap-2 rounded cursor-pointer">
               <SpinnerIcon /> Load More
             </Button>
           </div>
         </div>
-        {/* Add the ImageGallery component at the end of the return statement, just before the final closing div */}
         <ImageGallery
           images={images}
           initialIndex={currentImageIndex}
           isOpen={isGalleryOpen}
           onClose={() => setIsGalleryOpen(false)}
         />
+      </div>
+
+      {/* Sticky Call Button for Mobile */}
+      <div className="fixed bottom-0 left-0 right-0 z-40 lg:hidden">
+        <div className="p-4">
+          <Link
+            href="tel:+23457358764"
+            className="w-full h-[50px] flex items-center justify-center gap-3 rounded px-5 text-white bg-[#2DD54B] hover:bg-[#2DD54B]/90 font-bold font-circular-std text-[16px] tracking-normal transition-all duration-200 active:scale-95"
+          >
+            Call Seller
+          </Link>
+        </div>
       </div>
     </div>
   )
