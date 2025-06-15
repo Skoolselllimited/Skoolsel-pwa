@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Card, CardContent } from "@/components/ui/card"
-import { z } from "zod"
-import { CustomButton } from "@/components/ui/button/customButton"
-import { FormInput, PasswordInput, FormSelect } from "@/components/ui/form"
+import { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { z } from "zod";
+import { CustomButton } from "@/components/ui/button/customButton";
+import { FormInput, PasswordInput, FormSelect } from "@/components/ui/form";
 
 // Define the validation schema
 const formSchema = z.object({
@@ -19,16 +19,16 @@ const formSchema = z.object({
     .string()
     .min(1, "Password is required")
     .min(6, "Password must be at least 6 characters long"),
-})
+});
 
-type FormData = z.infer<typeof formSchema>
+type FormData = z.infer<typeof formSchema>;
 
 interface FormErrors {
-  fullName?: string
-  email?: string
-  role?: string
-  category?: string
-  password?: string
+  fullName?: string;
+  email?: string;
+  role?: string;
+  category?: string;
+  password?: string;
 }
 
 export default function FormDemo() {
@@ -38,69 +38,69 @@ export default function FormDemo() {
     role: "",
     category: "",
     password: "",
-  })
-  const [errors, setErrors] = useState<FormErrors>({})
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  });
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleInputChange = (field: keyof FormData, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }))
+    setFormData((prev) => ({ ...prev, [field]: value }));
 
     // Clear field-specific error when user starts typing
     if (errors[field]) {
-      setErrors((prev) => ({ ...prev, [field]: undefined }))
+      setErrors((prev) => ({ ...prev, [field]: undefined }));
     }
 
     // Real-time validation for the specific field
     try {
-      formSchema.shape[field].parse(value)
-      setErrors((prev) => ({ ...prev, [field]: undefined }))
+      formSchema.shape[field].parse(value);
+      setErrors((prev) => ({ ...prev, [field]: undefined }));
     } catch (error) {
       if (error instanceof z.ZodError) {
         setErrors((prev) => ({
           ...prev,
           [field]: error.errors[0]?.message,
-        }))
+        }));
       }
     }
-  }
+  };
 
   const validateForm = (): boolean => {
     try {
-      formSchema.parse(formData)
-      setErrors({})
-      return true
+      formSchema.parse(formData);
+      setErrors({});
+      return true;
     } catch (error) {
       if (error instanceof z.ZodError) {
-        const fieldErrors: FormErrors = {}
+        const fieldErrors: FormErrors = {};
         error.errors.forEach((err) => {
           if (err.path[0]) {
-            fieldErrors[err.path[0] as keyof FormErrors] = err.message
+            fieldErrors[err.path[0] as keyof FormErrors] = err.message;
           }
-        })
-        setErrors(fieldErrors)
+        });
+        setErrors(fieldErrors);
       }
-      return false
+      return false;
     }
-  }
+  };
 
   const handleSubmit = async () => {
     if (!validateForm()) {
-      return
+      return;
     }
 
-    setIsSubmitting(true)
+    setIsSubmitting(true);
 
     try {
       // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-      console.log("Form submitted with:", formData)
-      alert("Form submitted successfully!")
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      console.log("Form submitted with:", formData);
+      alert("Form submitted successfully!");
     } catch (error) {
-      console.error("Submission error:", error)
+      console.error("Submission error:", error);
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
-  }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
@@ -185,5 +185,5 @@ export default function FormDemo() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

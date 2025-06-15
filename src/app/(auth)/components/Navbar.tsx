@@ -9,13 +9,15 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto flex items-center justify-around">
         {/* Logo */}
         <div className="flex items-center">
-          <Image
-            src="/logowhite.svg"
-            alt="Skoolsel Logo"
-            width={120}
-            height={40}
-            className="w-auto h-auto object-contain"
-          />
+          <Link href="/">
+            <Image
+              src="/logowhite.svg"
+              alt="Skoolsel Logo"
+              width={120}
+              height={40}
+              className="w-auto h-auto object-contain"
+            />
+          </Link>
         </div>
 
         {/* Search Bar */}

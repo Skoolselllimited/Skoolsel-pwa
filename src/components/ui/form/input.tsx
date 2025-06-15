@@ -1,17 +1,17 @@
-"use client"
+"use client";
 
-import { forwardRef, useState, useEffect, useRef } from "react"
-import { Input } from "@/components/ui/input"
-import { CautionIcon } from "@/components/svgs"
+import { forwardRef, useState, useEffect, useRef } from "react";
+import { Input } from "@/components/ui/input";
+import { CautionIcon } from "@/components/svgs";
 
 interface FormInputProps {
-  label: string
-  value: string
-  onChange: (value: string) => void
-  type?: string
-  error?: string
-  hasError?: boolean
-  className?: string
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  type?: string;
+  error?: string;
+  hasError?: boolean;
+  className?: string;
 }
 
 export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
@@ -28,66 +28,66 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
     },
     ref
   ) => {
-    const [isFocused, setIsFocused] = useState(false)
-    const [isAutofilled, setIsAutofilled] = useState(false)
-    const inputRef = useRef<HTMLInputElement>(null)
+    const [isFocused, setIsFocused] = useState(false);
+    const [isAutofilled, setIsAutofilled] = useState(false);
+    const inputRef = useRef<HTMLInputElement>(null);
 
     // Combine the forwarded ref with our local ref
     const handleRef = (element: HTMLInputElement) => {
-      inputRef.current = element
+      inputRef.current = element;
       if (typeof ref === "function") {
-        ref(element)
+        ref(element);
       } else if (ref) {
-        ref.current = element
+        ref.current = element;
       }
-    }
+    };
 
     // Check for autofill
     useEffect(() => {
       const checkAutofill = () => {
-        if (!inputRef.current) return
+        if (!inputRef.current) return;
 
         // Check for the autofill background color
-        const computedStyle = window.getComputedStyle(inputRef.current)
-        const bgColor = computedStyle.backgroundColor
+        const computedStyle = window.getComputedStyle(inputRef.current);
+        const bgColor = computedStyle.backgroundColor;
 
         // Different browsers use different colors for autofill
         // This is a simplified check that works in most cases
         const isAutofilledNow =
           bgColor.includes("rgb(232, 240, 254)") || // Chrome
           bgColor.includes("rgb(250, 255, 189)") || // Firefox
-          inputRef.current.matches(":-webkit-autofill") // Another way to check
+          inputRef.current.matches(":-webkit-autofill"); // Another way to check
 
         if (isAutofilledNow !== isAutofilled) {
-          setIsAutofilled(isAutofilledNow)
+          setIsAutofilled(isAutofilledNow);
         }
-      }
+      };
 
       // Check immediately and then periodically
-      checkAutofill()
-      const interval = setInterval(checkAutofill, 1000)
-      return () => clearInterval(interval)
-    }, [isAutofilled])
+      checkAutofill();
+      const interval = setInterval(checkAutofill, 1000);
+      return () => clearInterval(interval);
+    }, [isAutofilled]);
 
-    const containerBgClass = hasError ? "bg-[#FF4F4F14]" : "bg-[#919EAB14]"
-    const labelColorClass = hasError ? "text-[#FF4F4F]" : "text-[#637381]"
+    const containerBgClass = hasError ? "bg-[#FF4F4F14]" : "bg-[#919EAB14]";
+    const labelColorClass = hasError ? "text-[#FF4F4F]" : "text-[#637381]";
 
     // Determine if label should be in "active" state (small and positioned as label)
-    const isLabelActive = isFocused || value.length > 0 || isAutofilled
+    const isLabelActive = isFocused || value.length > 0 || isAutofilled;
 
     return (
       <div className={className}>
         <div className="space-y-1">
           <div className="relative">
             <div
-              className={`${containerBgClass} rounded-[8px] overflow-hidden h-[53px]`}
+              className={`${containerBgClass} rounded-[8px] overflow-hidden h-[46px] md:h-[53px]`}
             >
               <div className="relative h-full pl-[12px] pr-[10px]">
                 <label
-                  className={`absolute left-[12px] text-[12px]/[12px] font-[450] transition-all duration-200 ease-in-out pointer-events-none z-10 ${labelColorClass} ${
+                  className={`absolute left-[12px] text-[12px]/[12px] font-[50] transition-all duration-200 ease-in-out pointer-events-none z-10 ${labelColorClass} ${
                     isLabelActive
                       ? "top-3"
-                      : "top-1/2 -translate-y-1/2 text-base font-normal"
+                      : "top-1/2 -translate-y-1/2 text-xs md:text-base font-normal"
                   }`}
                 >
                   {label}
@@ -115,8 +115,8 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
           )}
         </div>
       </div>
-    )
+    );
   }
-)
+);
 
-FormInput.displayName = "FormInput"
+FormInput.displayName = "FormInput";

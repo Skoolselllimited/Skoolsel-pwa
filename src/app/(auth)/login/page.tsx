@@ -1,28 +1,85 @@
 "use client";
+
 import { useState } from "react";
-import Image from "next/image";
-import { PiEyeClosedBold, PiEye } from "react-icons/pi";
 import Link from "next/link";
+import { z } from "zod";
 import { FcGoogle } from "react-icons/fc";
-import { FaChevronLeft } from "react-icons/fa6";
+import Image from "next/image";
 import { GoArrowRight } from "react-icons/go";
+import { FaChevronLeft } from "react-icons/fa6";
+import { Card, CardContent } from "@/components/ui/card";
+import { FormInput, PasswordInput } from "@/components/ui/form";
+import { CustomButton } from "@/components/ui/button/customButton";
+
+const loginSchema = z.object({
+  email: z.string().min(1, "Email is required").email("Invalid email address"),
+  password: z.string().min(1, "Password is required"),
+});
+
+type LoginFormData = z.infer<typeof loginSchema>;
+type LoginFormErrors = Partial<Record<keyof LoginFormData, string>>;
 
 export default function Login() {
+  const [formData, setFormData] = useState<LoginFormData>({
+    email: "",
+    password: "",
+  });
+
+  const [errors, setErrors] = useState<LoginFormErrors>({});
   const [showPassword, setShowPassword] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleInputChange = (field: keyof LoginFormData, value: string) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
 
-    const form = e.target as HTMLFormElement;
-    const email = form.email.value;
-    const password = form.password.value;
+    try {
+      loginSchema.shape[field].parse(value);
+      setErrors((prev) => ({ ...prev, [field]: undefined }));
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        setErrors((prev) => ({
+          ...prev,
+          [field]: error.errors[0]?.message,
+        }));
+      }
+    }
+  };
 
-    if (email !== "test@example.com" || password !== "password123") {
-      setErrorMessage("Email or password is invalid");
-    } else {
-      setErrorMessage("");
-      // Handle successful login logic
+  const validateForm = (): boolean => {
+    try {
+      loginSchema.parse(formData);
+      setErrors({});
+      return true;
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const newErrors: LoginFormErrors = {};
+        for (const issue of error.errors) {
+          newErrors[issue.path[0] as keyof LoginFormData] = issue.message;
+        }
+        setErrors(newErrors);
+      }
+      return false;
+    }
+  };
+
+  const handleLogin = async () => {
+    if (!validateForm()) return;
+    setIsSubmitting(true);
+
+    try {
+      await new Promise((res) => setTimeout(res, 1000));
+
+      if (
+        formData.email !== "test@example.com" ||
+        formData.password !== "password123"
+      ) {
+        setErrors({ password: "Email or password is invalid" });
+      } else {
+        alert("Login successful");
+        // Redirect or proceed with login flow
+      }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -30,7 +87,7 @@ export default function Login() {
     <div className="min-h-screen flex flex-col md:flex-row bg-[#F7F8F9] font-inter">
       {/* Left Section - Login Form */}
       <div className="w-full md:w-2/3 lg:w-1/2 hidden md:flex items-center justify-center px-4 py-8 md:py-16">
-        <div className="w-full max-w-md bg-white rounded-xl border p-8">
+        <div className="w-full max-w-xl bg-white rounded-xl border p-8">
           <h1 className="text-2xl font-bold text-center text-[#003553] mb-2">
             Welcome Back! 👋
           </h1>
@@ -40,30 +97,25 @@ export default function Login() {
           </p>
           <form className="space-y-4">
             <div>
-              <input
-                type="text"
-                id="email"
-                className="w-full px-3 py-2 rounded-lg text-[12px] bg-[#f6f7f8] placeholder-gray-400"
-                placeholder="Username or email address"
+              <FormInput
+                label="Email Address"
+                type="email"
+                value={formData.email}
+                onChange={(value) => handleInputChange("email", value)}
+                error={errors.email}
+                hasError={!!errors.email}
               />
             </div>
             <div className="relative">
-              <input
-                type={showPassword ? "text" : "password"}
-                id="password"
-                className="w-full px-3 py-2  rounded-lg text-[12px] bg-[#f6f7f8] placeholder-gray-400"
-                placeholder="Enter your password"
+              <PasswordInput
+                label="Password"
+                value={formData.password}
+                onChange={(value) => handleInputChange("password", value)}
+                error={errors.password}
+                hasError={!!errors.password}
               />
-              <span
-                className="absolute right-3 top-1/2  transform -translate-y-1/2 text-gray-500 cursor-pointer text-sm"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? <PiEye /> : <PiEyeClosedBold />}
-              </span>
             </div>
             <div className="flex justify-end pt-1">
-              {" "}
-              {/* Added top padding for spacing */}
               <Link
                 href="/forgot-password"
                 className="text-xs text-[#54abdb] hover:underline hover:text-[#429aca]"
@@ -71,12 +123,18 @@ export default function Login() {
                 Forgot password?
               </Link>
             </div>
-            <button
-              type="submit"
-              className="w-full bg-[#54abdb] hover:bg-[#429aca] flex items-center justify-center gap-2 text-white py-2 rounded text-sm font-medium transition"
-            >
-              Log In <GoArrowRight className="text-base" />
-            </button>
+            <CustomButton onClick={handleLogin} disabled={isSubmitting}>
+              {isSubmitting ? (
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  Logging in...
+                </div>
+              ) : (
+                <>
+                  Log In <GoArrowRight className="text-base" />
+                </>
+              )}
+            </CustomButton>
           </form>
 
           <div className="flex items-center justify-between my-4">
@@ -89,7 +147,7 @@ export default function Login() {
 
           <button
             type="button"
-            className="w-full flex items-center justify-center gap-2 border border-gray-300 py-2 rounded-lg hover:bg-gray-50 transition text-sm text-gray-700 font-medium"
+            className="w-full flex items-center justify-center gap-2 border border-gray-300 py-3 rounded-lg hover:bg-gray-50 transition text-sm text-gray-700 font-medium"
           >
             <FcGoogle className="text-lg" />
             Sign in with Google
@@ -108,7 +166,7 @@ export default function Login() {
       </div>
 
       <div className="hidden md:flex flex-col justify-center items-center w-full md:w-1/3 lg:w-1/2 pl-8 p-2">
-        <div className="w-full max-w-xl ">
+        <div className="w-full max-w-2xl  ">
           <Image
             src="/login.png"
             alt="User grid collage"
@@ -136,43 +194,46 @@ export default function Login() {
           </p>
 
           <form className="space-y-5">
-            <input
-              type="email"
-              placeholder="Email Address"
-              className="w-full px-4 py-3 rounded-lg text-[11px] bg-[#f6f7f8]  placeholder-gray-400"
-            />
-
-            <div className="relative">
-              <input
-                type={showPassword ? "text" : "password"}
-                placeholder="Password"
-                className="w-full px-4 py-3  rounded-lg text-[11px] bg-[#f6f7f8] placeholder-gray-400"
+            <div>
+              <FormInput
+                label="Email Address"
+                type="email"
+                value={formData.email}
+                onChange={(value) => handleInputChange("email", value)}
+                error={errors.email}
+                hasError={!!errors.email}
               />
-              <span
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 cursor-pointer text-sm"
-                onClick={() => setShowPassword(!showPassword)}
+            </div>
+            <div className="relative">
+              <PasswordInput
+                label="Password"
+                value={formData.password}
+                onChange={(value) => handleInputChange("password", value)}
+                error={errors.password}
+                hasError={!!errors.password}
+              />
+            </div>
+            <div className="flex justify-end pt-1">
+              <Link
+                href="/forgot-password"
+                className="text-xs text-[#54abdb] hover:underline hover:text-[#429aca]"
               >
-                {showPassword ? <PiEye /> : <PiEyeClosedBold />}
-              </span>
+                Forgot password?
+              </Link>
             </div>
 
-            <label className="flex justify-center items-center text-sm text-gray-700">
-              <span className="text-[12px] text-justify">
-                <Link
-                  href="/forgot-password"
-                  className="text-[#54abdb] hover:text-[#429aca]"
-                >
-                  Forgot password?
-                </Link>{" "}
-              </span>
-            </label>
-
-            <button
-              type="submit"
-              className="w-full bg-[#54abdb] hover:bg-[#429aca] flex items-center justify-center gap-2 text-white py-2 rounded text-[13px] font-medium transition"
-            >
-              Login <GoArrowRight className="text-base" />
-            </button>
+            <CustomButton onClick={handleLogin} disabled={isSubmitting}>
+              {isSubmitting ? (
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  Logging in...
+                </div>
+              ) : (
+                <>
+                  Log In <GoArrowRight className="text-base" />
+                </>
+              )}
+            </CustomButton>
           </form>
 
           <div className="flex items-center justify-between my-3">
