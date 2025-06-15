@@ -42,3 +42,11 @@ function formatLabel(segment: string): string {
     .replace(/-/g, " ")
     .replace(/\b\w/g, (char) => char.toUpperCase())
 }
+
+export const formatViews = (views: number) => {
+  return views.toLocaleString()
+}
+
+export const formatPrice = (price: number) => {
+  return `₦${price.toLocaleString()}`
+}

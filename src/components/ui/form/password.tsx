@@ -112,7 +112,7 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
                 {showPassword ? (
                   <EyeCloseIcon className="w-5 h-5" />
                 ) : (
-                  <EyeIcon className="w-5 h-5" />
+                  <EyeIcon className="w-5 h-5 text-[#637381]" />
                 )}
               </button>
             </div>

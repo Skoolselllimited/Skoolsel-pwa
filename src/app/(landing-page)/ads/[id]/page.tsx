@@ -76,7 +76,7 @@ export default function AdsDetails() {
         </div>
       </div>
       <div className="max-w-[1320px] mx-auto xl:p-4 min-h-screen">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
           {/* Left Column - Product Images and Details */}
           <div className="lg:col-span-2 space-y-9 rounded-xl xl:p-8 bg-white">
             {/* Main Image */}
@@ -182,13 +182,13 @@ export default function AdsDetails() {
                   Apple iPhone 7 Plus (32 GB) 🔥 Hot price (Used)
                 </h1>
 
-                <div className="w-full max-w-[665px] flex gap-4 xl:gap-8 items-center text-[14px]/[16px] tracking-normal font-[450] font-circular-std text-[#767E94]">
+                <div className="w-full max-w-[665px] flex gap-4 justify-between xl:gap-8 items-center text-[14px]/[24px] tracking-normal font-[450] font-circular-std text-[#767E94]">
                   <div className="flex items-center gap-[6px]">
-                    <MapPinIcon className="h-6 w-6" />
+                    <MapPinIcon className="text-[#767E94] h-5 w-5 lg:h-6 lg:w-6" />
                     FUT Minna
                   </div>
                   <div className="flex items-center gap-[6px]">
-                    <ClockIcon className="h-6 w-6" />
+                    <ClockIcon className="text-[#767E94] h-5 w-5 lg:h-6 lg:w-6" />
                     29 Jun 10:21 PM
                   </div>
                   {/* <div className="flex items-center gap-[6px]">
@@ -249,8 +249,8 @@ export default function AdsDetails() {
           </div>
 
           {/* Right Column - Price and Actions */}
-          <div className="lg:space-y-4">
-            <div className="w-full flex flex-col gap-[1px] border rounded px-0">
+          <div className="xl:space-y-4">
+            <div className="flex flex-col gap-[1px] border rounded px-0">
               {/* Price */}
 
               <Card className="w-full flex flex-row justify-between">
@@ -399,12 +399,11 @@ export default function AdsDetails() {
             Related Ads
           </h2>
 
-          {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8"> */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg-md:grid-cols-3 2xl:grid-cols-4 gap-1 lg:gap-6 xl:gap-4">
             {Array.from({ length: 12 }, (_, idx) => (
               <Link
                 key={idx}
-                href={`/products/details/${idx}`}
+                href={`/ads/${idx}`}
                 className="w-full max-w-[193px] lg:max-w-[311px] flex flex-col gap-[2.65px] bg-white p-1 lg:p-2.5 rounded-[10.6px] lg:rounded-[16px] hover:shadow-sm overflow-hidden border border-[#F1F2F4] cursor-pointer"
               >
                 <div className="relative">

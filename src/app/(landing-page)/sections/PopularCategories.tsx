@@ -59,7 +59,7 @@ export default function ShopWithCategories() {
   }
 
   return (
-    <section className="min-h-[516px] py-[100px] w-full max-w-[1320px] mx-auto px-1 lg-md:px-6 xl:px-8 flex flex-col gap-10">
+    <section className="min-h-[516px] py-15 xl:py-[100px] w-full max-w-[1320px] mx-auto px-1 lg-md:px-6 xl:px-8 flex flex-col gap-10">
       <h2 className="text-[20px] sm:text-[28px]/[28.52px] lg:text-[36px]/[45.52px] tracking-normal font-bold font-circular-std text-center text-[#052332]">
         Shop with Categories
       </h2>
