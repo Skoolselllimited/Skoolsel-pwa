@@ -5,10 +5,12 @@ import {
   AnchorLink,
   ClockIcon,
   ExpandIcon,
+  EyeIcon,
   HeartIcon,
   LightStrikeIcon,
   MapPinIcon,
   PhoneIcon,
+  Spinner,
   SpinnerIcon,
   VerifiedIcon,
 } from "@/components/svgs"
@@ -26,20 +28,23 @@ import {
 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { useState } from "react"
 import { FaFacebookF, FaLinkedinIn, FaWhatsapp } from "react-icons/fa"
 import { RiTwitterXLine } from "react-icons/ri"
 import { toast } from "sonner"
 import { ImageGallery } from "../../_components/image-gallery"
-import { usePathname } from "next/navigation"
 
 export default function AdsDetails() {
   const pathname = usePathname()
   const breadcrumbItems = generateBreadcrumbs(pathname)
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
-  // Add a new state variable after the currentImageIndex state
   const [isGalleryOpen, setIsGalleryOpen] = useState(false)
   const [isPhoneRevealed, setIsPhoneRevealed] = useState(false)
+
+  // Add load more functionality states
+  const [visibleAds, setVisibleAds] = useState(12)
+  const [isLoadingMore, setIsLoadingMore] = useState(false)
 
   const images = [
     "/images/main_image.webp",
@@ -50,6 +55,19 @@ export default function AdsDetails() {
     "/images/thumbnail_5.webp",
   ]
 
+  // Create related ads data
+  const relatedAdsData = Array.from({ length: 24 }, (_, idx) => ({
+    id: idx + 1,
+    name: "iPhone 12 Pro max",
+    price: "₦1,277,098",
+    location: "Umuahia",
+    timePosted: "1 week ago",
+    image: "/images/related_ad.webp",
+    vendor: "Aliya Gadget Store",
+    condition: "New",
+    isSponsored: idx % 3 === 0,
+  }))
+
   const nextImage = () => {
     setCurrentImageIndex((prev) => (prev + 1) % images.length)
   }
@@ -57,6 +75,7 @@ export default function AdsDetails() {
   const prevImage = () => {
     setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length)
   }
+
   const handleCopyPhone = () => {
     const phone = isPhoneRevealed ? "(+234) 5735 8764" : "(+234) 5•••• ••••"
     navigator.clipboard
@@ -68,6 +87,16 @@ export default function AdsDetails() {
         toast.error("Failed to copy phone number")
       })
   }
+
+  // Add load more functionality
+  const handleLoadMore = async () => {
+    setIsLoadingMore(true)
+    // Simulate API call delay
+    await new Promise((resolve) => setTimeout(resolve, 800))
+    setVisibleAds((prev) => Math.min(prev + 6, relatedAdsData.length))
+    setIsLoadingMore(false)
+  }
+
   return (
     <div className="w-full flex flex-col gap-4 bg-[#F4F6F8]">
       <div className="w-full bg-[#E8EBEE] h-[43px] flex items-center">
@@ -125,9 +154,7 @@ export default function AdsDetails() {
                   <ChevronLeft className="h-6 w-6" />
                 </span>
 
-                {/* Update the thumbnail click handler to also update the current image index
-              // Replace the existing thumbnail div with this: */}
-                <div className="w-full max-w-[732px] h-[86.14px] xl:h-[112px] flex justify-between space-x-3 px-2 xl:px-8 opacity-70 xl:opacity-30">
+                <div className="w-full xl:w-[732px] h-[86.14px] xl:h-[112px] flex justify-between items-center space-x-3 px-2 xl:px-8 opacity-70 xl:opacity-30 ml-5">
                   {images.map((image, index) => (
                     <div
                       key={index}
@@ -191,10 +218,10 @@ export default function AdsDetails() {
                     <ClockIcon className="text-[#767E94] h-5 w-5 lg:h-6 lg:w-6" />
                     29 Jun 10:21 PM
                   </div>
-                  {/* <div className="flex items-center gap-[6px]">
+                  <div className="hidden xl:flex items-center gap-[6px]">
                     <EyeIcon className="h-6 w-6" />
                     69,656 Viewed
-                  </div> */}
+                  </div>
                 </div>
               </div>
 
@@ -252,8 +279,7 @@ export default function AdsDetails() {
           <div className="xl:space-y-4">
             <div className="flex flex-col gap-[1px] border rounded px-0">
               {/* Price */}
-
-              <Card className="w-full flex flex-row justify-between">
+              <Card className="w-full flex flex-row justify-between lg:py-5">
                 <h3 className="text-[28px/[40px] xl:text-[32px]/[40px] text-foreground font-bold tracking-normal">
                   ₦230,000
                 </h3>
@@ -261,7 +287,7 @@ export default function AdsDetails() {
                   <HeartIcon className="text-secondary" />
                 </div>
               </Card>
-              <Card className="hidden lg:flex flex-col gap-4 h-[202px] relative">
+              <Card className="hidden lg:flex flex-col gap-4 h-[202px] relative lg:py-5">
                 {/* Phone */}
                 <div className="w-full h-[72px] bg-[#F5F7FA] p-5 rounded-md items-center gap-2 text-[#0A243F] text-[20px]/[32px] font-[450] font-circular-std tracking-normal cursor-pointer flex justify-between">
                   <span className="flex items-center gap-3">
@@ -400,53 +426,51 @@ export default function AdsDetails() {
           </h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg-md:grid-cols-3 2xl:grid-cols-4 gap-1 lg:gap-6 xl:gap-4">
-            {Array.from({ length: 12 }, (_, idx) => (
+            {relatedAdsData.slice(0, visibleAds).map((product, idx) => (
               <Link
                 key={idx}
-                href={`/ads/${idx}`}
+                href={`/ads/${product.id}`}
                 className="w-full max-w-[193px] lg:max-w-[311px] flex flex-col gap-[2.65px] bg-white p-1 lg:p-2.5 rounded-[10.6px] lg:rounded-[16px] hover:shadow-sm overflow-hidden border border-[#F1F2F4] cursor-pointer"
               >
                 <div className="relative">
                   <Image
-                    src="/images/related_ad.webp"
-                    alt="iPhone 12 Pro max"
+                    src={product.image || "/placeholder.svg"}
+                    alt={product.name}
                     width={292}
                     height={267}
                     className="w-full h-32 sm:h-[176.86px] lg:h-[267px] object-cover rounded-[8px] bg-[#E3E6EA] hover:scale-[1.01] transition-transform duration-200"
                   />
 
-                  {/* {product.isSponsored && ( */}
-                  <span className="w-fit h-8 flex items-center justify-center gap-[10px] rounded-[8px] p-2 absolute top-[130px] lg:top-[226.49px] left-[14.03px] bg-[#131313]/80 text-[#FFCC33] text-[12px]/[16px] font-bold font-circular-std tracking-normal">
-                    <LightStrikeIcon /> Sponsored
-                  </span>
-                  {/* )} */}
+                  {product.isSponsored && (
+                    <span className="w-fit h-8 flex items-center justify-center gap-[10px] rounded-[8px] p-2 absolute top-[130px] lg:top-[226.49px] left-[14.03px] bg-[#131313]/80 text-[#FFCC33] text-[12px]/[16px] font-bold font-circular-std tracking-normal">
+                      <LightStrikeIcon /> Sponsored
+                    </span>
+                  )}
 
-                  {/* {product.isTopSeller && ( */}
                   <span className="w-fit h-6 py-1 px-2 flex justify-center items-center gap-[10px] absolute top-2 left-2 bg-white text-[#384853] text-[12px]/[16px] font-medium font-circular-std rounded-[8px]">
-                    New
+                    {product.condition}
                   </span>
-                  {/* )} */}
                 </div>
 
                 {/* Content */}
                 <div className="pt-1 lg:pt-2 pb-0 flex flex-col gap-[2.65px] lg:gap-1">
                   <h3 className="text-[12px]/[11.92px] lg:text-[16px]/[18px] font-medium font-circular-std text-[#384853] truncate">
-                    iPhone 12 Pro max
+                    {product.name}
                   </h3>
                   <p className="text-secondary font-bold text-[12px]/[15.9px] lg:text-[18px]/[24px] -tracking-[1%] align-middle">
-                    ₦1,277,098
+                    {product.price}
                   </p>
                   <div className="w-full grid grid-cols-2 gap-1">
                     <div className="flex items-center gap-1.5 lg:gap-2">
                       <MapPinIcon className="w-4 h-4 text-[#384853]" />
                       <span className="text-[#384853] text-[12px] lg:text-[14px] leading-[1.2] font-medium font-circular-std truncate">
-                        Umuahia
+                        {product.location}
                       </span>
                     </div>
                     <div className="hidden sm:flex items-center justify-end gap-1.5 lg:gap-2">
                       <ClockIcon className="w-4 h-4 text-[#384853]" />
                       <span className="text-[#384853] text-[12px] lg:text-[14px] leading-[1.2] font-medium font-circular-std truncate">
-                        1 week ago
+                        {product.timePosted}
                       </span>
                     </div>
                   </div>
@@ -455,7 +479,6 @@ export default function AdsDetails() {
                     <p className="text-[#6B7B8A] text-[10px]/[10.6px] lg:text-[14px]/[16px] tracking-normal font-circular-std font-medium">
                       Vendor
                     </p>
-                    {/* Adjusted font size, margin */}
                     <div className="w-full h-[18px] flex items-center gap-[5px]">
                       <Avatar className="w-[10.6px] h-[10.6px] lg:w-6 lg:h-6">
                         <AvatarImage
@@ -463,11 +486,11 @@ export default function AdsDetails() {
                           alt="Vendor's photo"
                         />
                         <AvatarFallback>
-                          {getInitials("Aliya Gadget Store")}
+                          {getInitials(product.vendor)}
                         </AvatarFallback>
                       </Avatar>
                       <p className="font-bold font-circular-std text-[#384853] text-[12px]/[11.92px] lg:text-[15px]/[18px] tracking-normal truncate">
-                        Aliya Gadget Store
+                        {product.vendor}
                       </p>
                     </div>
                   </div>
@@ -476,11 +499,27 @@ export default function AdsDetails() {
             ))}
           </div>
 
-          <div className="w-full flex justify-center items-center">
-            <Button className="w-fit h-[50px] px-5 bg-[#E8F7FF] hover:bg-[#E8F7FF] text-secondary hover:scale-[0.98] font-circular-std font-bold text-[16px]/[50px] tracking-normal capitalize flex justify-center items-center gap-2 rounded cursor-pointer">
-              <SpinnerIcon /> Load More
-            </Button>
-          </div>
+          {/* Load More Button with functionality */}
+          {visibleAds < relatedAdsData.length && (
+            <div className="w-full flex justify-center items-center">
+              <Button
+                onClick={handleLoadMore}
+                disabled={isLoadingMore}
+                className="w-fit h-[50px] px-5 bg-[#E8F7FF] hover:bg-[#E8F7FF] text-secondary hover:scale-[0.98] font-circular-std font-bold text-[16px]/[50px] tracking-normal capitalize flex justify-center items-center gap-2 rounded cursor-pointer disabled:opacity-50"
+              >
+                {isLoadingMore ? (
+                  <>
+                    <Spinner />
+                    Loading...
+                  </>
+                ) : (
+                  <>
+                    <SpinnerIcon /> Load More
+                  </>
+                )}
+              </Button>
+            </div>
+          )}
         </div>
         <ImageGallery
           images={images}

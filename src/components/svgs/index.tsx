@@ -525,6 +525,75 @@ export function SpinnerIcon() {
     </svg>
   )
 }
+export function Spinner({ className }: IconProps) {
+  return (
+    <svg
+      width="25"
+      height="24"
+      viewBox="0 0 25 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={`animate-spin ${className || ""}`}
+    >
+      <path
+        d="M12.5 3V6"
+        stroke="#54ABDB"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M18.864 5.63672L16.7427 7.75804"
+        stroke="#54ABDB"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M21.5 12H18.5"
+        stroke="#54ABDB"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M18.864 18.3635L16.7427 16.2422"
+        stroke="#54ABDB"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M12.5 21V18"
+        stroke="#54ABDB"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M6.13611 18.3635L8.25743 16.2422"
+        stroke="#54ABDB"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M3.5 12H6.5"
+        stroke="#54ABDB"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M6.13611 5.63672L8.25743 7.75804"
+        stroke="#54ABDB"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
 export function DashboardIcon({ className }: IconProps) {
   return (
     <svg

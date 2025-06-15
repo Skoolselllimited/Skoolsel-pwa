@@ -1,7 +1,7 @@
 "use client"
-import Link from "next/link"
 import Image from "next/image"
-import { FaPlusCircle, FaSearch, FaBars } from "react-icons/fa"
+import Link from "next/link"
+import { FaBars, FaSearch } from "react-icons/fa"
 import { LuCirclePlus } from "react-icons/lu"
 export default function Navbar() {
   return (

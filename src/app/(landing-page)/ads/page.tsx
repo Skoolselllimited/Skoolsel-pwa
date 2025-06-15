@@ -5,6 +5,7 @@ import {
   ClockIcon,
   LightStrikeIcon,
   MapPinIcon,
+  Spinner,
   SpinnerIcon,
 } from "@/components/svgs"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -1087,7 +1088,7 @@ export default function AdsPage() {
                     >
                       {isLoading ? (
                         <>
-                          <div className="w-4 h-4 border-2 border-secondary border-t-transparent rounded-full animate-spin"></div>
+                          <Spinner />
                           Loading...
                         </>
                       ) : (
