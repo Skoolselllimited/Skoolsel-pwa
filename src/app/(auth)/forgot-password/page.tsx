@@ -153,7 +153,7 @@ const ForgotPassword = () => {
         <div className="mt-4 text-center">
           <Link
             href="/login"
-            className="md:text-md text-[13px] text-[#54abdb] hover:text-[#429aca] hover:underline"
+            className=" md:text-[15px] font-bold text-[13px] text-[#54abdb] hover:text-[#429aca] hover:underline"
           >
             Back to Login
           </Link>
