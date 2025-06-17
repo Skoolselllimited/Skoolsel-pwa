@@ -241,7 +241,7 @@ export default function Login() {
             <hr className="flex-grow border-t border-gray-300" />
           </div>
 
-          <button className="w-full flex items-center justify-center gap-3 border border-gray-300 py-3 rounded-lg hover:bg-gray-50 transition text-[12px] text-gray-700 font-medium">
+          <button className="w-full flex items-center justify-center gap-3 py-3 rounded-lg hover:bg-gray-50 transition text-[12px] text-gray-700 font-medium">
             <FcGoogle className="text-xl" />
             Sign in with Google
           </button>
