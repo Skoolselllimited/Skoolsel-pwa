@@ -1,7 +1,6 @@
 "use client";
 
 import type React from "react";
-
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { forwardRef } from "react";
@@ -19,11 +18,19 @@ interface CustomButtonProps
     | "link";
   size?: "default" | "sm" | "lg" | "icon";
   asChild?: boolean;
+  disabledCondition?: boolean;
 }
 
 export const CustomButton = forwardRef<HTMLButtonElement, CustomButtonProps>(
   (
-    { children, className, variant = "default", size = "default", ...props },
+    {
+      children,
+      className,
+      variant = "default",
+      size = "default",
+      disabledCondition = false,
+      ...props
+    },
     ref
   ) => {
     return (
@@ -34,8 +41,10 @@ export const CustomButton = forwardRef<HTMLButtonElement, CustomButtonProps>(
         className={cn(
           "w-full h-[50px] px-8 gap-3 rounded-md bg-secondary hover:bg-secondary/80 text-white font-bold md:text-[16px]/[50px] tracking-normal transition-colors",
           "border-0 shadow-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2",
-          className
+          className,
+          disabledCondition && "cursor-not-allowed opacity-50"
         )}
+        disabled={props.disabled || disabledCondition}
         {...props}
       >
         {children}

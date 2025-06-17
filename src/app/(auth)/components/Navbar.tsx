@@ -1,8 +1,10 @@
-"use client"
-import Image from "next/image"
-import Link from "next/link"
-import { FaBars, FaSearch } from "react-icons/fa"
-import { LuCirclePlus } from "react-icons/lu"
+"use client";
+import Link from "next/link";
+import Image from "next/image";
+import { CircledPlusIcon } from "@/components/svgs";
+import { FaSearch, FaBars } from "react-icons/fa";
+
+
 export default function Navbar() {
   return (
     <nav className="hidden md:block bg-[#003654] text-white py-3 px-4 shadow-md">
@@ -39,27 +41,31 @@ export default function Navbar() {
         </div>
 
         {/* Right Navigation */}
-        <div className="hidden md:flex items-center gap-4">
-          {/* Login/Register Links */}
-          <div className="flex items-center text-sm">
-            <Link href="/login" className="hover:underline">
+        <div className="hidden lg-md:flex items-center gap-6">
+          <div className="flex gap-1">
+            <Link
+              href="/login"
+              className="text-[16px]/[24px] font-circular-std font-medium tracking-normal hover:underline underline-offset-4 text-white cursor-pointer"
+            >
               Login
             </Link>
-            <span className="px-0.5 text-[12px]">/</span>
-            <Link href="/register" className="hover:underline">
+            <span className="text-[#AEB3C2]">/</span>
+            <Link
+              href="/register"
+              className="text-[16px]/[24px] font-circular-std font-medium tracking-normal hover:underline underline-offset-4 text-white cursor-pointer"
+            >
               Register
             </Link>
           </div>
 
-          <div className="h-4 border-r border-gray-400" />
+          <span className="text-white">|</span>
 
-          {/* Post Ad Button */}
           <Link
             href="/ads/post"
-            className="flex items-center gap-2 bg-[#e8b737] hover:bg-yellow-500 text-white px-4 py-2 rounded "
+            className="flex items-center space-x-2 bg-[#E8B737] hover:bg-[#E8B737]/90 text-white font-normal px-4 py-2 rounded"
           >
-            <LuCirclePlus className="" />
-            <span>Post An Ad</span>
+            <CircledPlusIcon />
+            <span>Post Ads</span>
           </Link>
         </div>
 

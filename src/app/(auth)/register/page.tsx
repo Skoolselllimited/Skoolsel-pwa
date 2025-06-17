@@ -1,15 +1,15 @@
 "use client";
 import { useState } from "react";
-import { FaPhoneAlt, FaClipboardList, FaShieldAlt } from "react-icons/fa";
-import { PiEyeClosedBold, PiEye } from "react-icons/pi";
+
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
 import { FaChevronDown } from "react-icons/fa6";
-
+import { SlCallOut } from "react-icons/sl";
 import { FaChevronLeft } from "react-icons/fa6";
 import { useRouter } from "next/navigation";
 import { GoArrowRight } from "react-icons/go";
-import { MdPhoneCallback } from "react-icons/md";
+import { CiMemoPad } from "react-icons/ci";
+import { LuClipboardList } from "react-icons/lu";
 import { IoShieldCheckmarkOutline } from "react-icons/io5";
 import { FormInput, PasswordInput } from "@/components/ui/form";
 import { CustomButton } from "@/components/ui/button/customButton";
@@ -50,13 +50,13 @@ type RegisterFormErrors = Partial<Record<keyof RegisterFormData, string>>;
 
 const features = [
   {
-    icon: <FaClipboardList className="text-8xl text-[#54abdb]" />,
+    icon: <LuClipboardList className="text-9xl text-[#54abdb]" />,
     title: "Manage Your Ads",
     description:
       "Easily edit, update, or remove your listings anytime. Keep your ads fresh and make sure your items get the attention they deserve!",
   },
   {
-    icon: <MdPhoneCallback className="text-7xl text-[#54abdb]" />,
+    icon: <SlCallOut className="text-6xl text-[#54abdb]" />,
     title: "Connect with Buyers & Sellers",
     description:
       "Reach out with a quick call to chat, negotiate, and seal the deal!",
@@ -72,10 +72,11 @@ const features = [
 const countries = [{ code: "+234", flag: "/flag.png", label: "Nigeria" }];
 
 export default function Register() {
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [selected, setSelected] = useState(countries[0]);
-  const [open, setOpen] = useState(false);
+  // const [showPassword, setShowPassword] = useState(false);
+  // const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  // const [selected, setSelected] = useState(countries[0]);
+  // const [open, setOpen] = useState(false);
+  // const [isChecked, setIsChecked] = useState(false);
 
   const [selectedCountry, setSelectedCountry] = useState(countries[0]);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -98,6 +99,7 @@ export default function Register() {
       [name]: value,
     }));
   };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -210,7 +212,7 @@ export default function Register() {
   );
 
   return (
-    <div className="h-auto min-h-screen flex flex-col md:flex-row bg-[#f9fbfc]">
+    <div className="h-auto min-h-screen lg:pb-6 flex flex-col md:flex-row bg-[#f9fbfc]">
       {/* Left Feature Panel */}
       <div className="hidden md:flex flex-col justify-center items-end w-1/2 p-12 pr-8 space-y-10">
         {features.map((feature, index) => (
@@ -233,8 +235,8 @@ export default function Register() {
       </div>
 
       {/*------------------------------------------ web version----------------------------------------------------*/}
-      <div className="w-full md:w-1/2 hidden lg:flex  items-center justify-center pr-28 px-6 py-12">
-        <div className="w-full max-w-lg border bg-white rounded-lg p-8">
+      <div className="w-full md:w-1/2 hidden lg:flex items-center justify-center pr-28 px-6 py-12">
+        <div className="w-full max-w-xl border bg-white rounded-lg p-8">
           <h2 className="text-2xl font-bold text-center text-[#003553] mb-1">
             Let’s Get You Started 🚀
           </h2>
@@ -316,13 +318,14 @@ export default function Register() {
               <input
                 type="checkbox"
                 name="agreeToTerms"
-                className="mr-2 rounded text-[#54abdb] focus:ring-[#54abdb]"
+                className="mr-2 rounded mt-0.5 text-[#54abdb] focus:ring-[#54abdb]"
                 checked={formData.termsAccepted}
                 onChange={(e) =>
                   handleChange("termsAccepted", e.target.checked)
                 }
+                aria-label="Accept terms and conditions"
               />
-              <span className="text-[11.5px]">
+              <span className="text-[13px]">
                 I’ve read and agree with your{" "}
                 <Link href="#" className="text-[#54abdb] hover:text-[#429aca]">
                   Privacy Policy
@@ -334,7 +337,11 @@ export default function Register() {
               </span>
             </label>
 
-            <CustomButton onClick={handleSubmit} disabled={isSubmitting}>
+            <CustomButton
+              onClick={handleSubmit}
+              disabledCondition={!formData.termsAccepted || isSubmitting} // Disable based on terms or submission state
+              variant="secondary"
+            >
               {isSubmitting ? (
                 <div className="flex items-center gap-2">
                   <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -366,7 +373,7 @@ export default function Register() {
             <hr className="flex-grow border-gray-300" />
           </div>
 
-          <div className="w-full flex items-center justify-center gap-2 bg-[#f7f8f9] py-2 rounded hover:bg-gray-50 transition text-sm">
+          <div className="w-full flex items-center justify-center gap-2 bg-[#f7f8f9] py-3 rounded hover:bg-gray-50 transition text-sm">
             <FcGoogle />
             Sign up with Google
           </div>

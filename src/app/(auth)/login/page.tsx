@@ -84,9 +84,9 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row bg-[#F7F8F9] font-inter">
+    <div className="md:min-h-[calc(100vh-100px)]  flex flex-col md:flex-row bg-[#F7F8F9] font-inter">
       {/* Left Section - Login Form */}
-      <div className="w-full md:w-2/3 lg:w-1/2 hidden md:flex items-center justify-center px-4 py-8 md:py-16">
+      <div className="w-full lg:w-1/2 hidden md:flex items-center justify-center px-4 py-8 md:py-16">
         <div className="w-full max-w-xl bg-white rounded-xl border p-8">
           <h1 className="text-2xl font-bold text-center text-[#003553] mb-2">
             Welcome Back! 👋
@@ -118,7 +118,7 @@ export default function Login() {
             <div className="flex justify-end pt-1">
               <Link
                 href="/forgot-password"
-                className="text-xs text-[#54abdb] hover:underline hover:text-[#429aca]"
+                className="text-sm font-bold text-[#54abdb] hover:underline hover:text-[#429aca]"
               >
                 Forgot password?
               </Link>
@@ -145,13 +145,10 @@ export default function Login() {
             <hr className="flex-grow border-t border-gray-200" />
           </div>
 
-          <button
-            type="button"
-            className="w-full flex items-center justify-center gap-2 border border-gray-300 py-3 rounded-lg hover:bg-gray-50 transition text-sm text-gray-700 font-medium"
-          >
-            <FcGoogle className="text-lg" />
-            Sign in with Google
-          </button>
+          <div className="w-full flex items-center justify-center gap-2 bg-[#f7f8f9] py-3 rounded hover:bg-gray-50 transition text-sm">
+            <FcGoogle />
+            Sign up with Google
+          </div>
 
           <p className="mt-4 text-center text-sm text-gray-600">
             Don’t have an account?{" "}
@@ -165,8 +162,8 @@ export default function Login() {
         </div>
       </div>
 
-      <div className="hidden md:flex flex-col justify-center items-center w-full md:w-1/3 lg:w-1/2 pl-8 p-2">
-        <div className="w-full max-w-2xl  ">
+      <div className="hidden lg:flex flex-col justify-center items-center w-full md:w-1/3 lg:w-1/2 pl-8 p-2">
+        <div className="w-full max-w-xl">
           <Image
             src="/login.png"
             alt="User grid collage"
