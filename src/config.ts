@@ -5,7 +5,6 @@ export const env = process.env.ENV ?? "development"
 export const isDevelopment = env === "development"
 export const isProduction = env === "production"
 export const isTest = process.env.NODE_ENV === "test"
-export const isStorybook = Boolean(process.env.STORYBOOK)
 export const isSsr = typeof window === "undefined"
 export const logLevel = process.env.NEXT_PUBLIC_LOG_LEVEL ?? "info"
 export const commitSha = process.env.GITHUB_COMMIT_SHA ?? ""

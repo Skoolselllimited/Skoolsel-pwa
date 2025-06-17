@@ -128,7 +128,7 @@ export function ArrowRightIcon() {
     </svg>
   )
 }
-export function LightStrikeIcon() {
+export function LightStrikeIcon({ className }: IconProps) {
   return (
     <svg
       width="17"
@@ -136,10 +136,11 @@ export function LightStrikeIcon() {
       viewBox="0 0 17 17"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      className={className}
     >
       <path
         d="M8.69793 1.82422L2.03125 9.82421H8.03125L7.36457 15.1576L14.0313 7.15757H8.03125L8.69793 1.82422Z"
-        stroke="#FFCC33"
+        stroke="currentColor"
         strokeWidth="0.872728"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -263,14 +264,14 @@ export function EyeIcon({ className }: IconProps) {
     >
       <path
         d="M12 4.25C4.5 4.25 1.5 12.0008 1.5 12.0008C1.5 12.0008 4.5 19.75 12 19.75C19.5 19.75 22.5 12.0008 22.5 12.0008C22.5 12.0008 19.5 4.25 12 4.25Z"
-        stroke="#637381"
+        stroke="currentcolor"
         strokeWidth="1.6"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M12 15.75C14.0711 15.75 15.75 14.0711 15.75 12C15.75 9.92893 14.0711 8.25 12 8.25C9.92893 8.25 8.25 9.92893 8.25 12C8.25 14.0711 9.92893 15.75 12 15.75Z"
-        stroke="#637381"
+        stroke="currentcolor"
         strokeWidth="1.6"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -464,6 +465,75 @@ export function SpinnerIcon() {
       viewBox="0 0 25 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M12.5 3V6"
+        stroke="#54ABDB"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M18.864 5.63672L16.7427 7.75804"
+        stroke="#54ABDB"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M21.5 12H18.5"
+        stroke="#54ABDB"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M18.864 18.3635L16.7427 16.2422"
+        stroke="#54ABDB"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M12.5 21V18"
+        stroke="#54ABDB"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M6.13611 18.3635L8.25743 16.2422"
+        stroke="#54ABDB"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M3.5 12H6.5"
+        stroke="#54ABDB"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M6.13611 5.63672L8.25743 7.75804"
+        stroke="#54ABDB"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+export function Spinner({ className }: IconProps) {
+  return (
+    <svg
+      width="25"
+      height="24"
+      viewBox="0 0 25 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={`animate-spin ${className || ""}`}
     >
       <path
         d="M12.5 3V6"

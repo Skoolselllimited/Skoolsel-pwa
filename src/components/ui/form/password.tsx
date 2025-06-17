@@ -113,6 +113,7 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
                   <EyeIcon className="w-5 h-5" />
                 ) : (
                   <EyeCloseIcon className="w-8 h-8" />
+
                 )}
               </button>
             </div>

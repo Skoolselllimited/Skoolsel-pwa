@@ -4,6 +4,7 @@ import Image from "next/image";
 import { CircledPlusIcon } from "@/components/svgs";
 import { FaSearch, FaBars } from "react-icons/fa";
 
+
 export default function Navbar() {
   return (
     <nav className="hidden md:block bg-[#003654] text-white py-3 px-4 shadow-md">
@@ -74,5 +75,5 @@ export default function Navbar() {
         </button>
       </div>
     </nav>
-  );
+  )
 }

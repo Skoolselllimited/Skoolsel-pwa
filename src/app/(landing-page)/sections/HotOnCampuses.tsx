@@ -19,9 +19,7 @@ const HotOnCampuses: React.FC<Props> = () => {
         </h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg-md:grid-cols-3 2xl:grid-cols-4 gap-3 lg:gap-6 xl:gap-[25px] px-2 lg:px-0">
-          {products?.map((product, idx) => (
-            <ProductCard key={idx} product={product} />
-          ))}
+          {products?.map((ad, idx) => <ProductCard key={idx} ad={ad} />)}
         </div>
       </div>
       <div className="flex justify-center">

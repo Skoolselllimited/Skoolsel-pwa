@@ -1,3 +1,5 @@
+"use client"
+
 import { EnvelopeIcon } from "@/components/svgs"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -48,7 +50,7 @@ export default function FooterSection() {
       {/* //FOOTER */}
       <div className="w-full mx-auto flex flex-col xl:flex-row justify-between py-[50px]  px-2 md:px-4 lg:px-6 xl:px-8 3xl:px-0">
         <div className="w-full max-w-[1320px] mx-auto h-full flex  flex-col  2xl:flex-row justify-between gap-8 xl:gap-12">
-          <div className="w-[424px] h-[108px] flex flex-col gap-[32px]">
+          <div className="w-full lg:w-[424px] h-[108px] flex flex-col justify-center items-center lg:justify-start lg:items-start gap-[32px]">
             <Link href="/" className="flex-shrink-0 w-[182px] h-[42px]">
               <Image
                 src="/logowhite.svg"
@@ -86,8 +88,34 @@ export default function FooterSection() {
               </Link>
             </div>
           </div>
-          <div className="w-full xl:w-[850px] flex flex-col xl:flex-row justify-between  gap-12 xl:gap-4">
-            <div className="w-full md:w-[400px] flex gap-2">
+          <div className="w-full lg:w-[850px] flex flex-col xl:flex-row items-center justify-center lg:items-start lg:justify-start  gap-12 xl:gap-4 px-2">
+            <div className="flex w-full lg:w-[482px] xl:hidden flex-col gap-3 rounded-[20px] bg-[#2E3447] p-[31px]">
+              <div className="w-full flex flex-col gap-2">
+                <h4 className="font-nunito font-extrabold text-[18px]/[25.99px] uppercase tracking-[0.9px] text-white">
+                  Get the Skoolsel App!
+                </h4>
+                <p className="font-nunito font-normal text-[18px]/[24px] tracking-normal text-white">
+                  Buy, sell, and connect easily—right from your phone. Download
+                  now!
+                </p>
+              </div>
+              <div className="w-full flex flex-col xl:flex-row gap-4 mt-5">
+                <Link
+                  href="#"
+                  className="h-[70px] py-[27px] px-[16px] bg-secondary hover:bg-secondary/80 cursor-pointer flex gap-2 items-center justify-center rounded-[10px] font-extrabold font-nunito text-[14px]/[16px] tracking-[1.6px] text-white"
+                >
+                  <FaApple className="w-8 h-8 shrink-0" />{" "}
+                  <span> APP STORE</span>
+                </Link>
+                <Link
+                  href="#"
+                  className="h-[70px] py-[27px] px-[16px] bg-secondary hover:bg-secondary/80 cursor-pointer flex gap-2 items-center justify-center rounded-[10px] font-extrabold font-nunito text-[14px]/[16px] tracking-[1.6px] text-white"
+                >
+                  <FaGooglePlay className="w-8 h-8 shrink-0" /> PLAY STORE
+                </Link>
+              </div>
+            </div>
+            <div className="w-full lg:w-[400px] flex gap-2 justify-between">
               <div className="w-[175px] flex flex-col gap-[32px]">
                 <h4 className="font-circular-std font-medium text-[20px]/[32px] tracking-normal text-white">
                   Supports
@@ -151,7 +179,7 @@ export default function FooterSection() {
                 </div>
               </div>
             </div>
-            <div className="w-full lg:w-[482px] flex flex-col gap-3 rounded-[20px] bg-[#2E3447] p-[31px]">
+            <div className="hidden w-full lg:w-[482px] xl:flex flex-col gap-3 rounded-[20px] bg-[#2E3447] p-[31px]">
               <div className="w-full flex flex-col gap-2">
                 <h4 className="font-nunito font-extrabold text-[18px]/[25.99px] uppercase tracking-[0.9px] text-white">
                   Get the Skoolsel App!
@@ -181,28 +209,28 @@ export default function FooterSection() {
         </div>
       </div>
 
-      <div className="w-full flex justify-between mx-auto h-[72px] px-2 md:px-4 lg:px-6 xl:px-8 3xl:px-0 bg-[#2E3447] relative">
+      <div className="w-full flex justify-between mx-auto h-[157px] lg:h-[72px] px-2 md:px-4 lg:px-6 xl:px-8 3xl:px-0 bg-[#2E3447] relative">
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="absolute -top-6 right-8 w-[56px] h-[56px] rounded-full border-[6px] border-[#0A243F] p-4 flex justify-center items-center bg-[#2E3447] text-white cursor-pointer"
+          className="absolute -top-6 left-1/2 -translate-x-1/2 lg:left-auto lg:translate-x-0 lg:right-8 w-[56px] h-[56px] rounded-full border-[6px] border-[#0A243F] p-4 flex justify-center items-center bg-[#2E3447] text-white cursor-pointer"
         >
           <ArrowUp className="h-6 w-6" />
         </button>
-        <div className="w-full max-w-[1320px] mx-auto h-full flex flex-col xl:flex-row justify-between items-center gap-4">
+        <div className="w-full max-w-[1320px] mx-auto flex flex-col xl:flex-row justify-center items-center gap-3 lg:gap-4">
           <p className="hidden xl:flex font-[450] font-circular-std text-[16px]/[24px] tracking-normal text-[#767E94]">
             Skoolsel © {new Date().getFullYear()}. All rights reserved
           </p>
-          <div className="w-fit h-[24px] text-[14px] tracking-normal gap-3 flex items-center">
+          <div className="w-fit h-[24px] text-[14px] tracking-normal gap-3 flex items-center py-4">
             <Link
               href="/privacy-policy"
-              className="font-[450] font-circular-std text-[16px]/[24px] tracking-normal text-[#767E94] pr-4 lg:border-r lg:border-[#767E94] hover:underline underline-offset-4 decoration-secondary"
+              className="font-[450] font-circular-std text-[14px]/[24px] lg:text-[16px]/[24px] tracking-normal text-[#767E94] pr-4 lg:border-r lg:border-[#767E94] hover:underline underline-offset-4 decoration-secondary"
             >
               Privacy Policy
             </Link>
 
             <Link
               href="/terms"
-              className="font-[450] font-circular-std text-[16px]/[24px] tracking-normal text-[#767E94] pl-4 hover:underline underline-offset-4 decoration-secondary"
+              className="font-[450] font-circular-std text-[14px]/[24px] lg:text-[16px]/[24px] tracking-normal text-[#767E94] pl-4 hover:underline underline-offset-4 decoration-secondary"
             >
               Terms & Condition
             </Link>
