@@ -274,7 +274,6 @@ export default function Register() {
               error={errors.email}
               hasError={!!errors.email}
             />
-
             <div className="flex gap-1 md:gap-3">
               {/* Dropdown Selector */}
               <div className="flex-shrink-0">
@@ -297,7 +296,6 @@ export default function Register() {
                 hasError={!!errors.phone}
               />
             </div>
-
             <PasswordInput
               label="Password"
               value={formData.password}
@@ -305,7 +303,6 @@ export default function Register() {
               error={errors.password}
               hasError={!!errors.password}
             />
-
             <PasswordInput
               label="Confirm Password"
               value={formData.confirmPassword}
@@ -313,7 +310,6 @@ export default function Register() {
               error={errors.confirmPassword}
               hasError={!!errors.confirmPassword}
             />
-
             <label className="flex items-start text-sm text-gray-700">
               <input
                 type="checkbox"
@@ -336,7 +332,7 @@ export default function Register() {
                 </Link>
               </span>
             </label>
-
+            //llllllllll
             <CustomButton
               onClick={handleSubmit}
               disabledCondition={!formData.termsAccepted || isSubmitting} // Disable based on terms or submission state
