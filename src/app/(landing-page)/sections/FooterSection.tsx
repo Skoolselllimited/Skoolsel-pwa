@@ -91,10 +91,10 @@ export default function FooterSection() {
           <div className="w-full lg:w-[850px] flex flex-col xl:flex-row items-center justify-center lg:items-start lg:justify-start  gap-12 xl:gap-4 px-2">
             <div className="flex w-full lg:w-[482px] xl:hidden flex-col gap-3 rounded-[20px] bg-[#2E3447] p-[31px]">
               <div className="w-full flex flex-col gap-2">
-                <h4 className="font-nunito font-extrabold text-[18px]/[25.99px] uppercase tracking-[0.9px] text-white">
+                <h4 className="font-circular-std font-extrabold text-[18px]/[25.99px] uppercase tracking-[0.9px] text-white">
                   Get the Skoolsel App!
                 </h4>
-                <p className="font-nunito font-normal text-[18px]/[24px] tracking-normal text-white">
+                <p className="font-circular-std font-normal text-[18px]/[24px] tracking-normal text-white">
                   Buy, sell, and connect easily—right from your phone. Download
                   now!
                 </p>
@@ -102,14 +102,14 @@ export default function FooterSection() {
               <div className="w-full flex flex-col xl:flex-row gap-4 mt-5">
                 <Link
                   href="#"
-                  className="h-[70px] py-[27px] px-[16px] bg-secondary hover:bg-secondary/80 cursor-pointer flex gap-2 items-center justify-center rounded-[10px] font-extrabold font-nunito text-[14px]/[16px] tracking-[1.6px] text-white"
+                  className="h-[70px] py-[27px] px-[16px] bg-secondary hover:bg-secondary/80 cursor-pointer flex gap-2 items-center justify-center rounded-[10px] font-extrabold font-circular-std text-[14px]/[16px] tracking-[1.6px] text-white"
                 >
                   <FaApple className="w-8 h-8 shrink-0" />{" "}
                   <span> APP STORE</span>
                 </Link>
                 <Link
                   href="#"
-                  className="h-[70px] py-[27px] px-[16px] bg-secondary hover:bg-secondary/80 cursor-pointer flex gap-2 items-center justify-center rounded-[10px] font-extrabold font-nunito text-[14px]/[16px] tracking-[1.6px] text-white"
+                  className="h-[70px] py-[27px] px-[16px] bg-secondary hover:bg-secondary/80 cursor-pointer flex gap-2 items-center justify-center rounded-[10px] font-extrabold font-circular-std text-[14px]/[16px] tracking-[1.6px] text-white"
                 >
                   <FaGooglePlay className="w-8 h-8 shrink-0" /> PLAY STORE
                 </Link>
@@ -181,10 +181,10 @@ export default function FooterSection() {
             </div>
             <div className="hidden w-full lg:w-[482px] xl:flex flex-col gap-3 rounded-[20px] bg-[#2E3447] p-[31px]">
               <div className="w-full flex flex-col gap-2">
-                <h4 className="font-nunito font-extrabold text-[18px]/[25.99px] uppercase tracking-[0.9px] text-white">
+                <h4 className="font-circular-std font-extrabold text-[18px]/[25.99px] uppercase tracking-[0.9px] text-white">
                   Get the Skoolsel App!
                 </h4>
-                <p className="font-nunito font-normal text-[18px]/[24px] tracking-normal text-white">
+                <p className="font-circular-std font-normal text-[18px]/[24px] tracking-normal text-white">
                   Buy, sell, and connect easily—right from your phone. Download
                   now!
                 </p>
@@ -192,14 +192,14 @@ export default function FooterSection() {
               <div className="w-full flex flex-col xl:flex-row gap-4 mt-5">
                 <Link
                   href="#"
-                  className="h-[70px] py-[27px] px-[16px] bg-secondary hover:bg-secondary/80 cursor-pointer flex gap-2 items-center justify-center rounded-[10px] font-extrabold font-nunito text-[14px]/[16px] tracking-[1.6px] text-white"
+                  className="h-[70px] py-[27px] px-[16px] bg-secondary hover:bg-secondary/80 cursor-pointer flex gap-2 items-center justify-center rounded-[10px] font-extrabold font-circular-std text-[14px]/[16px] tracking-[1.6px] text-white"
                 >
                   <FaApple className="w-8 h-8 shrink-0" />{" "}
                   <span> APP STORE</span>
                 </Link>
                 <Link
                   href="#"
-                  className="h-[70px] py-[27px] px-[16px] bg-secondary hover:bg-secondary/80 cursor-pointer flex gap-2 items-center justify-center rounded-[10px] font-extrabold font-nunito text-[14px]/[16px] tracking-[1.6px] text-white"
+                  className="h-[70px] py-[27px] px-[16px] bg-secondary hover:bg-secondary/80 cursor-pointer flex gap-2 items-center justify-center rounded-[10px] font-extrabold font-circular-std text-[14px]/[16px] tracking-[1.6px] text-white"
                 >
                   <FaGooglePlay className="w-8 h-8 shrink-0" /> PLAY STORE
                 </Link>

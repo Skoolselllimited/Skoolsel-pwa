@@ -12,7 +12,7 @@ interface recentActivitiesProps {
 }
 export default function RecentActivities({ recentActivities }: any) {
   return (
-    <Card className="w-full lg-md:w-[424px] gap-6 rounded-xl border border-[#F1F2F4] p-6">
+    <Card className="w-full xl:w-[424px] gap-6 rounded-xl border border-[#F1F2F4] py-6 px-4 lg:p-6">
       <h3 className="font-medium font-circular-std text-[20px]/[32px] text-[#191F33] tracking-normal">
         Recent Activities
       </h3>

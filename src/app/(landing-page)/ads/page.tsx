@@ -10,7 +10,6 @@ import {
 } from "@/components/svgs"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
@@ -39,6 +38,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useRef, useState } from "react"
+import FilterSchoolDialog from "../sections/FilterSchool"
 
 // Sample product data
 const productResults = [
@@ -289,11 +289,12 @@ export default function AdsPage() {
   const schoolsParam = searchParams.get("schools") || ""
   const [searchQuery, setSearchQuery] = useState(query)
   const [schoolSearchTerm, setSchoolSearchTerm] = useState("")
-  const [selectedSchools, setSelectedSchools] = useState<string[]>(
-    schoolsParam ? schoolsParam.split(",") : []
+  // Changed to single school selection
+  const [selectedSchool, setSelectedSchool] = useState<string>(
+    schoolsParam ? schoolsParam.split(",")[0] : ""
   )
   const [selectedSchoolForMobile, setSelectedSchoolForMobile] =
-    useState<string>(selectedSchools.length > 0 ? selectedSchools[0] : "")
+    useState<string>(selectedSchool)
   // Change the expandedCategories state to only handle main sections
   const [expandedSections, setExpandedSections] = useState<string[]>([
     "price",
@@ -306,10 +307,9 @@ export default function AdsPage() {
     []
   )
 
-  // Filter states
-  const [selectedCategories, setSelectedCategories] = useState<
-    Record<string, string[]>
-  >({})
+  // Filter states - Changed to single selections
+  const [selectedCategory, setSelectedCategory] = useState<string>("")
+  const [selectedSubcategory, setSelectedSubcategory] = useState<string>("")
   const [selectedCondition, setSelectedCondition] = useState<string>(
     searchParams.get("condition") || "all"
   )
@@ -330,6 +330,7 @@ export default function AdsPage() {
 
   // Mobile states
   const [isFiltersOpen, setIsFiltersOpen] = useState(false)
+  const [isFilterDialogOpen, setIsFilterDialogOpen] = useState(false)
 
   // Filter schools based on search term
   const filteredSchools = schoolSearchTerm
@@ -338,45 +339,21 @@ export default function AdsPage() {
       )
     : schoolTypes
 
-  // Handle school selection
-  const handleSchoolSelect = (school: string, checked: boolean) => {
-    if (checked) {
-      setSelectedSchools((prev) => [...prev, school])
-    } else {
-      setSelectedSchools((prev) => prev.filter((s) => s !== school))
-    }
+  // Handle school selection - Changed to single selection
+  const handleSchoolSelect = (school: string) => {
+    setSelectedSchool(school)
   }
 
   // Handle mobile school selection
   const handleMobileSchoolSelect = (school: string) => {
     setSelectedSchoolForMobile(school)
-    setSelectedSchools([school])
+    setSelectedSchool(school)
   }
 
-  // Handle category selection
+  // Handle category selection - Changed to single selection
   const handleCategorySelection = (category: string, subcategory: string) => {
-    setSelectedCategories((prev) => {
-      const currentSubcategories = prev[category] || []
-
-      if (currentSubcategories.includes(subcategory)) {
-        // Remove subcategory if already selected
-        const updatedSubcategories = currentSubcategories.filter(
-          (sub) => sub !== subcategory
-        )
-
-        if (updatedSubcategories.length === 0) {
-          // Remove category key if no subcategories left
-          const { [category]: _, ...rest } = prev
-          return rest
-        } else {
-          // Update subcategories for this category
-          return { ...prev, [category]: updatedSubcategories }
-        }
-      } else {
-        // Add subcategory
-        return { ...prev, [category]: [...currentSubcategories, subcategory] }
-      }
-    })
+    setSelectedCategory(category)
+    setSelectedSubcategory(subcategory)
   }
 
   // Toggle category expansion
@@ -399,9 +376,9 @@ export default function AdsPage() {
       params.set("q", searchQuery)
     }
 
-    // Add selected schools
-    if (selectedSchools.length > 0) {
-      params.set("schools", selectedSchools.join(","))
+    // Add selected school
+    if (selectedSchool) {
+      params.set("schools", selectedSchool)
     }
 
     // Add price filters
@@ -422,12 +399,10 @@ export default function AdsPage() {
       params.set("condition", selectedCondition)
     }
 
-    // Add categories
-    if (Object.keys(selectedCategories).length > 0) {
-      params.set(
-        "categories",
-        encodeURIComponent(JSON.stringify(selectedCategories))
-      )
+    // Add category and subcategory
+    if (selectedCategory && selectedSubcategory) {
+      const categoryData = { [selectedCategory]: [selectedSubcategory] }
+      params.set("categories", encodeURIComponent(JSON.stringify(categoryData)))
     }
 
     // Add sort option
@@ -437,10 +412,20 @@ export default function AdsPage() {
     setIsFiltersOpen(false)
   }
 
+  const handleApplyFilters = (
+    school: string,
+    filterParams: URLSearchParams
+  ) => {
+    setSelectedSchool(school)
+    router.push(`/ads?${filterParams.toString()}`)
+    setIsFilterDialogOpen(false)
+  }
+
   // Clear all filters
   const clearFilters = () => {
-    setSelectedSchools([])
-    setSelectedCategories({})
+    setSelectedSchool("")
+    setSelectedCategory("")
+    setSelectedSubcategory("")
     setSelectedCondition("all")
     setPriceRange("all")
     setMinPrice("")
@@ -466,7 +451,7 @@ export default function AdsPage() {
           )
       : [0, Number.POSITIVE_INFINITY]
 
-  // Filter products based on all filters
+  // Filter products based on all filters - Updated for single selections
   const filteredProducts = productResults.filter((product) => {
     // Match by search query if provided
     const matchesQuery =
@@ -474,9 +459,11 @@ export default function AdsPage() {
       product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       product.category.toLowerCase().includes(searchQuery.toLowerCase())
 
-    // Match by schools if any are selected
+    // Match by school if selected (empty string means all schools)
     const matchesSchool =
-      selectedSchools.length === 0 || selectedSchools.includes(product.school)
+      !selectedSchool ||
+      selectedSchool === "" ||
+      selectedSchool === product.school
 
     // Match by price (both custom range and predefined ranges)
     const matchesPrice =
@@ -491,24 +478,12 @@ export default function AdsPage() {
       selectedCondition === "all" ||
       product.condition.toLowerCase() === selectedCondition.toLowerCase()
 
-    // Match by categories
-    let matchesCategory = true
-    if (Object.keys(selectedCategories).length > 0) {
-      matchesCategory = false
-      for (const [category, subcategories] of Object.entries(
-        selectedCategories
-      )) {
-        if (
-          product.category.toLowerCase() === category.toLowerCase() &&
-          subcategories.some(
-            (sub) => product.subcategory.toLowerCase() === sub.toLowerCase()
-          )
-        ) {
-          matchesCategory = true
-          break
-        }
-      }
-    }
+    // Match by category and subcategory
+    const matchesCategory =
+      !selectedCategory ||
+      !selectedSubcategory ||
+      (product.category.toLowerCase() === selectedCategory.toLowerCase() &&
+        product.subcategory.toLowerCase() === selectedSubcategory.toLowerCase())
 
     return (
       matchesQuery &&
@@ -530,7 +505,12 @@ export default function AdsPage() {
     const categoriesParam = searchParams.get("categories")
     if (categoriesParam) {
       try {
-        setSelectedCategories(JSON.parse(decodeURIComponent(categoriesParam)))
+        const categories = JSON.parse(decodeURIComponent(categoriesParam))
+        const firstCategory = Object.keys(categories)[0]
+        if (firstCategory && categories[firstCategory].length > 0) {
+          setSelectedCategory(firstCategory)
+          setSelectedSubcategory(categories[firstCategory][0])
+        }
       } catch (e) {
         console.error("Failed to parse categories", e)
       }
@@ -593,9 +573,7 @@ export default function AdsPage() {
           />
         </div>
         <div className="font-medium font-circular-std text-[16px]/[24px] tracking-normal text-secondary">
-          {selectedSchools.length > 0
-            ? selectedSchools.join(", ")
-            : schoolSearchTerm}
+          {selectedSchool || "All schools"}
         </div>
         {expandedSections.includes("school") && (
           <div className="flex flex-col gap-4">
@@ -608,24 +586,36 @@ export default function AdsPage() {
               />
             </div>
             <div className="max-h-40 overflow-y-auto space-y-1">
-              {filteredSchools.map((school) => (
-                <div key={school} className="flex items-center">
-                  <Checkbox
-                    id={`school-${school}`}
-                    checked={selectedSchools.includes(school)}
-                    onCheckedChange={(checked) =>
-                      handleSchoolSelect(school, !!checked)
-                    }
-                    className="mr-2"
-                  />
+              <RadioGroup
+                value={selectedSchool}
+                onValueChange={handleSchoolSelect}
+                className="space-y-1"
+              >
+                <div className="flex items-center">
+                  <RadioGroupItem value="" id="school-all" className="mr-2" />
                   <Label
-                    htmlFor={`school-${school}`}
+                    htmlFor="school-all"
                     className="text-sm cursor-pointer"
                   >
-                    {school}
+                    All schools
                   </Label>
                 </div>
-              ))}
+                {filteredSchools.map((school) => (
+                  <div key={school} className="flex items-center">
+                    <RadioGroupItem
+                      value={school}
+                      id={`school-${school}`}
+                      className="mr-2"
+                    />
+                    <Label
+                      htmlFor={`school-${school}`}
+                      className="text-sm cursor-pointer"
+                    >
+                      {school}
+                    </Label>
+                  </div>
+                ))}
+              </RadioGroup>
             </div>
           </div>
         )}
@@ -658,14 +648,8 @@ export default function AdsPage() {
             />
           </div>
           <div className="font-medium font-circular-std text-[16px]/[24px] tracking-normal text-secondary">
-            {Object.keys(selectedCategories).length > 0
-              ? Object.entries(selectedCategories)
-                  .map(([category, subcategories]) =>
-                    subcategories
-                      .map((sub) => `${category} - ${sub}`)
-                      .join(", ")
-                  )
-                  .join(", ")
+            {selectedCategory && selectedSubcategory
+              ? `${selectedCategory} - ${selectedSubcategory}`
               : "All"}
           </div>
           {expandedSections.includes("category") && (
@@ -702,25 +686,33 @@ export default function AdsPage() {
                   </div>
                   {expandedSubcategories.includes(category.name) && (
                     <div className="pl-4 space-y-2 mt-1">
-                      {category.subcategories.map((subcategory) => (
-                        <div key={subcategory} className="flex items-center">
-                          <Checkbox
-                            checked={
-                              selectedCategories[category.name]?.includes(
-                                subcategory
-                              ) || false
-                            }
-                            onCheckedChange={(checked) =>
-                              handleCategorySelection(
-                                category.name,
-                                subcategory
-                              )
-                            }
-                            className="mr-2"
-                          />
-                          <Label className="text-sm">{subcategory}</Label>
-                        </div>
-                      ))}
+                      <RadioGroup
+                        value={
+                          selectedCategory === category.name
+                            ? selectedSubcategory
+                            : ""
+                        }
+                        onValueChange={(value) =>
+                          handleCategorySelection(category.name, value)
+                        }
+                        className="space-y-2"
+                      >
+                        {category.subcategories.map((subcategory) => (
+                          <div key={subcategory} className="flex items-center">
+                            <RadioGroupItem
+                              value={subcategory}
+                              id={`${category.name}-${subcategory}`}
+                              className="mr-2"
+                            />
+                            <Label
+                              htmlFor={`${category.name}-${subcategory}`}
+                              className="text-sm cursor-pointer"
+                            >
+                              {subcategory}
+                            </Label>
+                          </div>
+                        ))}
+                      </RadioGroup>
                     </div>
                   )}
                 </div>
@@ -881,21 +873,18 @@ export default function AdsPage() {
       {/* Mobile Header */}
       <div className="xl:hidden bg-white px-4 py-3 flex items-center gap-3">
         <div className="flex-1 relative">
-          <ArrowLeft className="h-6 w-6 text-foreground absolute left-3 top-1/2 transform -translate-y-1/2" />
-          <Input
-            placeholder="Need something? Start typing..."
-            className="w-full h-12 bg-white border-[#DADDE5] placeholder:text-[#8B90A0] font-nunito rounded-md py-1 pl-10 pr-[10px]"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            onKeyUp={(e) => {
-              if (e.key === "Enter") {
-                applyFilters()
-              }
-            }}
-          />
-          <button className="w-10 h-10 bg-secondary rounded-full flex justify-center items-center absolute right-3 top-1/2 transform -translate-y-1/2">
-            <Search className=" h-4 w-4 text-white" />
-          </button>
+          <div
+            className="w-full h-12 bg-white border border-[#DADDE5] rounded-md py-1 pl-10 pr-[10px] flex items-center cursor-pointer"
+            onClick={() => setIsFilterDialogOpen(true)}
+          >
+            <ArrowLeft className="h-6 w-6 text-foreground absolute left-3 top-1/2 transform -translate-y-1/2" />
+            <span className="text-[#8B90A0] font-circular-std ml-7">
+              {searchQuery || "Need something? Start typing..."}
+            </span>
+            <button className="w-10 h-10 bg-secondary rounded-full flex justify-center items-center absolute right-3 top-1/2 transform -translate-y-1/2">
+              <Search className="h-4 w-4 text-white" />
+            </button>
+          </div>
         </div>
       </div>
       {/* Mobile School Selector and Filters */}
@@ -911,6 +900,7 @@ export default function AdsPage() {
             </div>
           </SelectTrigger>
           <SelectContent>
+            <SelectItem value="all">All schools</SelectItem>
             {schoolTypes.map((school) => (
               <SelectItem key={school} value={school}>
                 {school}
@@ -956,7 +946,7 @@ export default function AdsPage() {
 
       {/* Results count and sort */}
       <div className="w-full max-w-[1320px] mx-auto flex justify-between items-center p-4 shadow-[0px_1px_0px_0px_#E8EBEE]">
-        <h1 className="text-[16px] xl:text-[20px]/[32px] text-[#636A80] font-nunito font-[450] tracking-normal">
+        <h1 className="text-[16px] xl:text-[20px]/[32px] text-[#636A80] font-circular-std font-[450] tracking-normal">
           <span className="font-bold text-[#191F33]">
             {filteredProducts.length}
           </span>{" "}
@@ -1008,7 +998,7 @@ export default function AdsPage() {
                     >
                       <div className="relative">
                         <Image
-                          src={ad.image}
+                          src={ad.image || "/placeholder.svg"}
                           alt={ad.name}
                           width={292}
                           height={267}
@@ -1112,7 +1102,7 @@ export default function AdsPage() {
                 <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Search className="h-8 w-8 text-gray-400" />
                 </div>
-                <h2 className="text-xl font-semibold font-nunito-sans text-[#464D61] mb-2">
+                <h2 className="text-xl font-semibold font-circular-std text-[#464D61] mb-2">
                   No Results Found
                 </h2>
                 <p className="text-[#464D61] font-normal font-circular-std tracking-normal mb-6">
@@ -1127,6 +1117,13 @@ export default function AdsPage() {
           </div>
         </div>
       </div>
+      {/* Filter Dialog */}
+      <FilterSchoolDialog
+        open={isFilterDialogOpen}
+        onOpenChange={setIsFilterDialogOpen}
+        selectedSchool={selectedSchool}
+        onApplyFilters={handleApplyFilters}
+      />
     </div>
   )
 }

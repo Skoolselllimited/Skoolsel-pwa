@@ -1,24 +1,12 @@
 import { Toaster } from "@/components/ui/sonner"
 import { siteDescription, siteUrl } from "@/config"
 import type { Metadata } from "next"
-import { Nunito, Nunito_Sans } from "next/font/google"
 import localFont from "next/font/local"
 import Script from "next/script"
 import type { ReactNode } from "react"
-import "./globals.css"
 import React from "react"
+import "./globals.css"
 
-const nunitoSans = Nunito_Sans({
-  variable: "--font-nunito-sans",
-  subsets: ["latin"],
-  display: "swap",
-})
-
-const nunito = Nunito({
-  variable: "--font-nunito",
-  subsets: ["latin"],
-  display: "swap",
-})
 const circularStd = localFont({
   src: [
     {
@@ -91,10 +79,7 @@ const jsonLd = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html
-      lang="en"
-      className={`${nunito.variable} ${nunitoSans.variable} ${circularStd.variable}`}
-    >
+    <html lang="en" className={`${circularStd.variable}`}>
       <head>
         <meta
           name="viewport"

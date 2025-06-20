@@ -28,14 +28,17 @@ import {
 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { useState } from "react"
 import { FaFacebookF, FaLinkedinIn, FaWhatsapp } from "react-icons/fa"
 import { RiTwitterXLine } from "react-icons/ri"
 import { toast } from "sonner"
 import { ImageGallery } from "../../_components/image-gallery"
+import BackButton from "@/components/BackButton"
 
 export default function AdsDetails() {
+  const router = useRouter()
+
   const pathname = usePathname()
   const breadcrumbItems = generateBreadcrumbs(pathname)
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
@@ -99,7 +102,16 @@ export default function AdsDetails() {
 
   return (
     <div className="w-full flex flex-col gap-4 bg-[#F4F6F8]">
-      <div className="w-full bg-[#E8EBEE] h-[43px] flex items-center">
+      <div className="xl:hidden px-[15px]">
+        <div className="h-[72px] py-4 flex items-center justify-between">
+          <BackButton onClick={() => router.push("/ads")} />
+          <div className="font-circular-std font-extrabold text-[#4E4E5A] text-[20px]/[32px] tracking-normal">
+            Ad Details
+          </div>
+          <HeartIcon className="text-[#464D61]" />
+        </div>
+      </div>
+      <div className="hidden w-full bg-[#E8EBEE] h-[43px] xl:flex items-center">
         <div className="w-full h-full max-w-[1320px] bg-[#E8EBEE] mx-auto">
           <BreadcrumbNav items={breadcrumbItems} className=" h-6" />
         </div>
@@ -107,33 +119,50 @@ export default function AdsDetails() {
       <div className="max-w-[1320px] mx-auto xl:p-4 min-h-screen">
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
           {/* Left Column - Product Images and Details */}
-          <div className="lg:col-span-2 space-y-9 rounded-xl xl:p-8 bg-white">
+          <div className="lg:col-span-2 space-y-2 xl:space-y-9 rounded-xl xl:p-8 bg-white">
             {/* Main Image */}
             <div className="bg-[#EBEEF7] flex justify-center items-center overflow-hidden">
-              <div className="relative">
+              <div className="relative w-full">
+                {/* Desktop Image */}
                 <div
                   onClick={() => setIsGalleryOpen(true)}
-                  className="hidden xl:block cursor-pointer w-full h-full xl:w-[648px] xl:h-[505px]"
+                  className="hidden xl:flex cursor-pointer w-full xl:w-[648px] xl:h-[505px] justify-center items-center mx-auto"
                 >
                   <Image
                     src={images[currentImageIndex] || "/placeholder.svg"}
                     alt="Product image"
-                    width={448}
-                    height={440}
+                    width={648}
+                    height={505}
                     className="w-full h-full object-cover object-center"
                   />
                 </div>
-                <div className="block xl:hidden cursor-pointer w-full h-full xl:w-[648px] xl:h-[505px]">
-                  <Image
-                    src={images[currentImageIndex] || "/placeholder.svg"}
-                    alt="Product image"
-                    width={448}
-                    height={440}
-                    className="w-full h-full object-cover object-center"
-                  />
+
+                {/* Mobile Carousel */}
+                <div className="block xl:hidden relative w-full h-[280px] lg:h-[520px] overflow-hidden">
+                  <div
+                    className="flex transition-transform duration-300 ease-in-out h-full cursor-pointer"
+                    style={{
+                      transform: `translateX(-${currentImageIndex * 100}%)`,
+                    }}
+                    onClick={() => setIsGalleryOpen(true)}
+                  >
+                    {images.map((image, index) => (
+                      <div key={index} className="w-full h-full flex-shrink-0">
+                        <Image
+                          src={image || "/placeholder.svg"}
+                          alt={`Product image ${index + 1}`}
+                          width={400}
+                          height={280}
+                          className="w-full h-full object-cover object-center"
+                        />
+                      </div>
+                    ))}
+                  </div>
                 </div>
+
+                {/* Desktop Expand Button */}
                 <span
-                  className="hidden w-12 h-12 absolute top-4 right-4 xl:-right-14 bg-[#0A243F] hover:bg-[#0A243F]/90 hover:scale-[0.98] transition-all duration-200 cursor-pointer xl:flex justify-center items-center"
+                  className="hidden w-12 h-12 absolute top-4 right-4 bg-[#0A243F] hover:bg-[#0A243F]/90 hover:scale-[0.98] transition-all duration-200 cursor-pointer xl:flex justify-center items-center rounded-md z-10"
                   onClick={(e) => {
                     e.stopPropagation()
                     setIsGalleryOpen(true)
@@ -154,25 +183,52 @@ export default function AdsDetails() {
                   <ChevronLeft className="h-6 w-6" />
                 </span>
 
-                <div className="w-full xl:w-[732px] h-[86.14px] xl:h-[112px] flex justify-between items-center space-x-3 px-2 xl:px-8 opacity-70 xl:opacity-30 ml-5">
-                  {images.map((image, index) => (
-                    <div
-                      key={index}
-                      className={`h-[86.14px] w-[86.14px] xl:w-[112px] xl:h-[112px] relative cursor-pointer border rounded overflow-hidden ${
-                        index === currentImageIndex
-                          ? "border-secondary"
-                          : "border-white"
-                      }`}
-                      onClick={() => setCurrentImageIndex(index)}
-                    >
-                      <Image
-                        src={image || "/placeholder.svg"}
-                        alt={`Thumbnail ${index + 1}`}
-                        fill
-                        className="object-cover object-center"
-                      />
-                    </div>
-                  ))}
+                {/* Mobile: Scrollable thumbnails */}
+                <div className="xl:hidden w-full overflow-x-auto scrollbar-hide">
+                  <div className="flex gap-3 px-2 py-2 min-w-max">
+                    {images.map((image, index) => (
+                      <div
+                        key={index}
+                        className={`h-[80px] w-[80px] flex-shrink-0 relative cursor-pointer border-2 rounded overflow-hidden transition-all duration-200 ${
+                          index === currentImageIndex
+                            ? "border-secondary shadow-md"
+                            : "border-gray-200 hover:border-gray-300"
+                        }`}
+                        onClick={() => setCurrentImageIndex(index)}
+                      >
+                        <Image
+                          src={image || "/placeholder.svg"}
+                          alt={`Thumbnail ${index + 1}`}
+                          fill
+                          className="object-cover object-center"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Desktop: Original layout */}
+                <div className="hidden xl:block w-full xl:w-[732px] h-[86.14px] xl:h-[112px]">
+                  <div className="flex justify-between items-center space-x-3 px-2 xl:px-8 opacity-70 xl:opacity-30 xl:ml-3 2xl:ml-5 h-full">
+                    {images.map((image, index) => (
+                      <div
+                        key={index}
+                        className={`h-[80.14px] w-[80.14px] xl:w-[112px] xl:h-[112px] relative cursor-pointer border rounded overflow-hidden ${
+                          index === currentImageIndex
+                            ? "border-secondary"
+                            : "border-white"
+                        }`}
+                        onClick={() => setCurrentImageIndex(index)}
+                      >
+                        <Image
+                          src={image || "/placeholder.svg"}
+                          alt={`Thumbnail ${index + 1}`}
+                          fill
+                          className="object-cover object-center"
+                        />
+                      </div>
+                    ))}
+                  </div>
                 </div>
 
                 <span
@@ -342,7 +398,7 @@ export default function AdsDetails() {
 
                   <Button
                     variant="link"
-                    className="text-secondary font-semibold font-nunito text-[14px]/[20px] tracking-normal p-0 h-auto"
+                    className="text-secondary font-semibold font-circular-std text-[14px]/[20px] tracking-normal p-0 h-auto"
                   >
                     View Profile
                   </Button>

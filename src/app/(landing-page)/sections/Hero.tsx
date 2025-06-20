@@ -37,10 +37,10 @@ export default function Hero() {
       {/* Content */}
       <div className="w-full flex flex-col justify-center items-center relative z-10 px-4 py-24 text-center">
         <div className="w-full xl:w-[824px] h-[154px] lg:h-[184px] space-y-4  mb-4 lg:mb-6 xl:mb-14">
-          <span className="w-fit h-[40px] py-1 px-[4.73px] lg:px-5 inline-flex bg-secondary rounded-[5px] font-[900] font-circular-std uppercase text-white text-[12px]/[100%] lg:text-[16px]/[32px] tracking-normal text-center justify-center items-center">
+          <span className="w-fit h-[40px] py-1 px-3 lg:px-5 inline-flex bg-secondary rounded-[5px] font-[900] font-circular-std uppercase text-white text-[12px]/[100%] lg:text-[16px]/[32px] tracking-normal text-center justify-center items-center">
             Over 95,00,000 Live Ads
           </span>
-          <h1 className="font-circular-std font-bold h-[284px] tracking-normal text-center text-[28px]/[120%] md:text-[32px]/[120%] xl:text-[64px]/[76px] leading-normal">
+          <h1 className="font-circular-std font-bold h-[284px] tracking-normal text-center text-[26px]/[120%] md:text-[32px]/[120%] xl:text-[64px]/[76px] leading-normal">
             The Number One Students
             <br />
             Market Place

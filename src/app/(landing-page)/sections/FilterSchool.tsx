@@ -1,27 +1,40 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { useSearchParams } from "next/navigation"
+import type React from "react"
+
+import DialogHead from "@/components/DialogHead"
+import {
+  EducationCap,
+  HandShakeIcon,
+  HomeIcon,
+  MobilePhone,
+  ShopIcon,
+  Vehicle,
+  Wrench,
+} from "@/components/svgs"
+import SearchIcon from "@/components/svgs/search"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import {
   Dialog,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogFooter,
 } from "@/components/ui/dialog"
-import { Checkbox } from "@/components/ui/checkbox"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion"
-import { Filter, X, ArrowLeft, Search } from "lucide-react"
+import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Separator } from "@/components/ui/separator"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { useMediaQuery } from "@/hooks/use-mobile"
+import { ChevronRight, PlusIcon, X, Minus } from "lucide-react"
+import { useSearchParams } from "next/navigation"
+import { useEffect, useState } from "react"
+
+// Category type definition
+interface Category {
+  name: string
+  icon: React.ComponentType
+  subcategories: string[]
+}
 
 // School options
 const schoolTypes = [
@@ -43,9 +56,10 @@ const schoolTypes = [
 ]
 
 // Category data structure
-const categories = [
+const categories: Category[] = [
   {
     name: "Mobile",
+    icon: MobilePhone,
     subcategories: [
       "Apple",
       "Samsung",
@@ -61,6 +75,7 @@ const categories = [
   },
   {
     name: "Vehicle",
+    icon: Vehicle,
     subcategories: [
       "Toyota",
       "Honda",
@@ -76,6 +91,7 @@ const categories = [
   },
   {
     name: "Properties",
+    icon: ShopIcon,
     subcategories: [
       "Apartments",
       "Houses",
@@ -88,6 +104,7 @@ const categories = [
   },
   {
     name: "Essentials",
+    icon: Wrench,
     subcategories: [
       "Clothing",
       "Shoes",
@@ -100,6 +117,7 @@ const categories = [
   },
   {
     name: "Home & Living",
+    icon: HomeIcon,
     subcategories: [
       "Furniture",
       "Appliances",
@@ -111,6 +129,7 @@ const categories = [
   },
   {
     name: "Business & Industry",
+    icon: HandShakeIcon,
     subcategories: [
       "Equipment",
       "Tools",
@@ -122,19 +141,17 @@ const categories = [
   },
   {
     name: "Education",
+    icon: EducationCap,
     subcategories: ["Books", "Courses", "Tutoring", "Stationery", "Others"],
   },
 ]
 
 // Price ranges
 const priceRanges = [
-  { label: "All Prices", value: "all" },
-  { label: "Under ₦10,000", value: "0-10000" },
-  { label: "₦10,000 - ₦50,000", value: "10000-50000" },
-  { label: "₦50,000 - ₦100,000", value: "50000-100000" },
-  { label: "₦100,000 - ₦500,000", value: "100000-500000" },
-  { label: "₦500,000 - ₦1,000,000", value: "500000-1000000" },
-  { label: "Above ₦1,000,000", value: "1000000-" },
+  { label: "All Price", value: "all" },
+  { label: "Under N20", value: "0-20" },
+  { label: "N25 to N100", value: "25-100" },
+  { label: "N300 to N500", value: "300-500" },
 ]
 
 interface FilterSchoolDialogProps {
@@ -151,70 +168,48 @@ export default function FilterSchoolDialog({
   onApplyFilters,
 }: FilterSchoolDialogProps) {
   const searchParams = useSearchParams()
+  const isLargeDevice = useMediaQuery("(min-width: 1024px)")
 
-  // Dialog state
-  const [step, setStep] = useState<"school" | "filter">("school")
-
-  // School state
-  const [selectedSchool, setSelectedSchool] = useState<string[]>(
-    initialSelectedSchool ? [initialSelectedSchool] : []
+  // Dialog state - added subcategories step
+  const [step, setStep] = useState<
+    | "school"
+    | "filter"
+    | "categories"
+    | "subcategories"
+    | "conditions"
+    | "schools"
+    | "prices"
+  >("school")
+  const [selectedSchool, setSelectedSchool] = useState<string>(
+    initialSelectedSchool || ""
   )
   const [schoolSearchTerm, setSchoolSearchTerm] = useState("")
 
-  // Filter states
-  const [selectedCategories, setSelectedCategories] = useState<
-    Record<string, string[]>
-  >({})
-  const [selectedCondition, setSelectedCondition] = useState<string>("all")
+  // Filter states - Changed to single category/subcategory selection
+  const [selectedCategory, setSelectedCategory] = useState<string>("")
+  const [selectedSubcategory, setSelectedSubcategory] = useState<string>("")
+  const [selectedCondition, setSelectedCondition] = useState<string>("any")
   const [priceRange, setPriceRange] = useState<string>("all")
   const [minPrice, setMinPrice] = useState<string>("")
   const [maxPrice, setMaxPrice] = useState<string>("")
-  const [expandedCategories, setExpandedCategories] = useState<string[]>([])
+  const [selectedTopSchool, setSelectedTopSchool] = useState<string>("")
 
-  // Reset to school selection when dialog opens
+  // Current category for subcategory view
+  const [currentCategory, setCurrentCategory] = useState<Category | null>(null)
+
+  // Reset dialog state when opened
   useEffect(() => {
     if (open) {
-      // If a school is already selected, go to filter step
-      if (initialSelectedSchool) {
-        setStep("filter")
-      } else {
+      if (isLargeDevice) {
         setStep("school")
-      }
-
-      setSelectedSchool(initialSelectedSchool ? [initialSelectedSchool] : [])
-    }
-  }, [open, initialSelectedSchool])
-
-  // Initialize filters from URL params when dialog opens
-  useEffect(() => {
-    if (open && step === "filter") {
-      // Get price filters from URL
-      const priceRangeParam = searchParams.get("priceRange") || "all"
-      setPriceRange(priceRangeParam)
-
-      const minPriceParam = searchParams.get("minPrice") || ""
-      setMinPrice(minPriceParam)
-
-      const maxPriceParam = searchParams.get("maxPrice") || ""
-      setMaxPrice(maxPriceParam)
-
-      // Get condition from URL
-      const conditionParam = searchParams.get("condition") || "all"
-      setSelectedCondition(conditionParam)
-
-      // Get categories from URL
-      const categoriesParam = searchParams.get("categories")
-      if (categoriesParam) {
-        try {
-          setSelectedCategories(JSON.parse(decodeURIComponent(categoriesParam)))
-        } catch (e) {
-          console.error("Failed to parse categories from URL", e)
-        }
       } else {
-        setSelectedCategories({})
+        // Skip school selection on mobile, go directly to filters
+        setStep("filter")
       }
+      setSelectedSchool(initialSelectedSchool || "")
+      setSelectedTopSchool(initialSelectedSchool || "")
     }
-  }, [open, step, searchParams])
+  }, [open, initialSelectedSchool, isLargeDevice])
 
   // Filter schools based on search term
   const filteredSchools = schoolSearchTerm
@@ -223,50 +218,37 @@ export default function FilterSchoolDialog({
       )
     : schoolTypes
 
-  // Handle school selection
-  const handleSchoolSelect = (school: string, checked: boolean) => {
-    if (checked) {
-      setSelectedSchool((prev) => [...prev, school])
+  // Handle school selection (single for large devices, single for small)
+  const handleSchoolSelect = (school: string) => {
+    if (isLargeDevice) {
+      // Large devices: single selection, immediate apply
+      setSelectedSchool(school)
+      onApplyFilters(school, new URLSearchParams())
+      onOpenChange(false)
+      setStep("school")
     } else {
-      setSelectedSchool((prev) => prev.filter((s) => s !== school))
+      // Small devices: single selection for now
+      setSelectedSchool(school)
     }
   }
 
-  // Handle category selection
-  const handleCategorySelection = (category: string, subcategory: string) => {
-    setSelectedCategories((prev) => {
-      const currentSubcategories = prev[category] || []
-
-      if (currentSubcategories.includes(subcategory)) {
-        // Remove subcategory if already selected
-        const updatedSubcategories = currentSubcategories.filter(
-          (sub) => sub !== subcategory
-        )
-
-        if (updatedSubcategories.length === 0) {
-          // Remove category key if no subcategories left
-          const { [category]: _, ...rest } = prev
-          return rest
-        } else {
-          // Update subcategories for this category
-          return { ...prev, [category]: updatedSubcategories }
-        }
-      } else {
-        // Add subcategory
-        return { ...prev, [category]: [...currentSubcategories, subcategory] }
-      }
-    })
+  // Handle top school selection for mobile
+  const handleTopSchoolSelect = (school: string) => {
+    setSelectedTopSchool(school)
   }
 
-  // Toggle category expansion
-  const toggleCategoryExpansion = (category: string) => {
-    setExpandedCategories((prev) => {
-      if (prev.includes(category)) {
-        return prev.filter((c) => c !== category)
-      } else {
-        return [...prev, category]
-      }
-    })
+  // Handle category selection - navigate to subcategories step
+  const handleCategoryClick = (category: Category) => {
+    setCurrentCategory(category)
+    setStep("subcategories")
+  }
+
+  // Handle subcategory selection - Updated for single selection
+  const handleSubcategorySelect = (subcategory: string) => {
+    if (currentCategory) {
+      setSelectedCategory(currentCategory.name)
+      setSelectedSubcategory(subcategory)
+    }
   }
 
   // Apply filters
@@ -279,372 +261,534 @@ export default function FilterSchoolDialog({
       params.set("q", query)
     }
 
-    // Add selected schools
-    if (selectedSchool.length > 0) {
-      params.set("schools", selectedSchool.join(","))
+    // Add selected school only if one is specifically chosen (not "All schools")
+    const schoolToUse = selectedTopSchool || selectedSchool
+    if (schoolToUse && schoolToUse !== "") {
+      params.set("schools", schoolToUse)
     }
 
     // Add price filters
     if (priceRange !== "all") {
       params.set("priceRange", priceRange)
     }
-
-    if (minPrice) {
-      params.set("minPrice", minPrice)
-    }
-
-    if (maxPrice) {
-      params.set("maxPrice", maxPrice)
-    }
+    if (minPrice) params.set("minPrice", minPrice)
+    if (maxPrice) params.set("maxPrice", maxPrice)
 
     // Add condition
-    if (selectedCondition !== "all") {
+    if (selectedCondition !== "any") {
       params.set("condition", selectedCondition)
     }
 
-    // Add categories
-    if (Object.keys(selectedCategories).length > 0) {
-      params.set(
-        "categories",
-        encodeURIComponent(JSON.stringify(selectedCategories))
-      )
+    // Add category and subcategory - Updated for single selection
+    if (selectedCategory && selectedSubcategory) {
+      const categoryData = { [selectedCategory]: [selectedSubcategory] }
+      params.set("categories", encodeURIComponent(JSON.stringify(categoryData)))
     }
 
-    onApplyFilters(selectedSchool.join(","), params)
+    onApplyFilters(schoolToUse, params)
   }
 
-  // Clear all filters
-  const clearFilters = () => {
-    setSelectedCategories({})
-    setSelectedCondition("all")
-    setPriceRange("all")
-    setMinPrice("")
-    setMaxPrice("")
+  // Clear filters for current section
+  const clearCurrentFilters = () => {
+    if (step === "categories" || step === "subcategories") {
+      setSelectedCategory("")
+      setSelectedSubcategory("")
+    } else if (step === "conditions") {
+      setSelectedCondition("any")
+    } else if (step === "schools") {
+      setSelectedTopSchool("")
+    } else if (step === "prices") {
+      setPriceRange("all")
+      setMinPrice("")
+      setMaxPrice("")
+    }
   }
 
-  // Count total selected filters
+  // Get total selected filters count
   const getTotalSelectedFilters = () => {
     let count = 0
-
-    // Count selected categories
-    Object.values(selectedCategories).forEach((subcategories) => {
-      count += subcategories.length
-    })
-
-    // Count price filters
-    if (priceRange !== "all" || minPrice || maxPrice) {
-      count += 1
-    }
-
-    // Count condition
-    if (selectedCondition !== "all") {
-      count += 1
-    }
-
+    if (selectedCategory && selectedSubcategory) count += 1
+    if (priceRange !== "all" || minPrice || maxPrice) count += 1
+    if (selectedCondition !== "any") count += 1
     return count
   }
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[500px] p-0 max-h-[90vh] overflow-hidden flex flex-col">
-        {step === "school" ? (
+      <DialogContent
+        className={`p-0 overflow-hidden flex flex-col ${
+          isLargeDevice
+            ? "sm:max-w-[800px] max-h-[90vh]"
+            : "w-full h-full max-w-none max-h-none m-0 rounded-none"
+        }`}
+      >
+        {/* School Selection Step */}
+        {step === "school" && (
           <>
-            <DialogHeader className="p-4 border-b sticky top-0 bg-white z-10">
+            <DialogHeader className="p-4">
               <div className="flex items-center justify-between">
-                <DialogTitle className="text-xl">Select School</DialogTitle>
+                <DialogTitle className="text-lg">Select School</DialogTitle>
                 <Button
                   variant="ghost"
                   size="icon"
                   onClick={() => onOpenChange(false)}
-                  className="h-8 w-8 rounded-full"
+                  className="h-8 w-8 bg-white hover:bg-white text-[#0A243F] z-10"
                 >
-                  <X className="h-4 w-4" />
-                  <span className="sr-only">Close</span>
+                  <X className="h-6 w-6" />
                 </Button>
               </div>
             </DialogHeader>
 
             <div className="flex-1 overflow-y-auto p-4">
-              <div className="flex items-center border rounded-md px-2 mb-4 bg-gray-50">
-                <Search className="h-4 w-4 text-gray-400 flex-shrink-0" />
-                <Input
-                  placeholder="Search schools..."
-                  className="border-0 focus-visible:ring-0 focus-visible:ring-offset-0 h-10 text-sm bg-transparent"
-                  value={schoolSearchTerm}
-                  onChange={(e) => setSchoolSearchTerm(e.target.value)}
-                />
-                {schoolSearchTerm && (
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-6 w-6 p-0"
-                    onClick={() => setSchoolSearchTerm("")}
-                  >
-                    <X className="h-3 w-3" />
-                  </Button>
-                )}
-              </div>
+              <Input
+                type="search"
+                placeholder="Search for school..."
+                value={schoolSearchTerm}
+                onChange={(e) => setSchoolSearchTerm(e.target.value)}
+                className="mb-4 placeholder:text-[#8B90A0] text-[16px]/[160%]"
+              />
 
-              <div className="space-y-2">
-                {filteredSchools.length > 0 ? (
-                  filteredSchools.map((school) => (
+              {filteredSchools.length === 0 && schoolSearchTerm ? (
+                <div className="flex flex-col items-center justify-center py-8 text-center gap-[30px]">
+                  <SearchIcon />
+                  <p className="text-sm xl:text-[20px]/[24px] font-medium font-circular-std text-center text-[#464D61]">
+                    Sorry, nothing matched your search. Want to give it another
+                    shot?
+                  </p>
+                  <Button size="sm" onClick={() => setSchoolSearchTerm("")}>
+                    Clear search
+                  </Button>
+                </div>
+              ) : (
+                <RadioGroup
+                  value={selectedSchool}
+                  onValueChange={handleSchoolSelect}
+                  className="space-y-3"
+                >
+                  {filteredSchools.map((school) => (
                     <div
                       key={school}
-                      className="flex items-center gap-3 p-2 hover:bg-gray-100 rounded-md"
+                      className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-md"
                     >
-                      <Checkbox
-                        id={`school-${school}`}
-                        checked={selectedSchool.includes(school)}
-                        onCheckedChange={(checked) =>
-                          handleSchoolSelect(school, !!checked)
-                        }
-                      />
+                      <RadioGroupItem value={school} id={`school-${school}`} />
                       <Label
                         htmlFor={`school-${school}`}
-                        className="text-sm cursor-pointer flex-1"
+                        className="text-sm text-[#464D61] font-circular-std font-normal cursor-pointer flex-1"
                       >
                         {school}
                       </Label>
                     </div>
-                  ))
-                ) : (
-                  <div className="p-4 text-center text-sm text-gray-500">
-                    No schools match your search
-                  </div>
-                )}
+                  ))}
+                </RadioGroup>
+              )}
+            </div>
+
+            {!isLargeDevice && (
+              <DialogFooter className="p-4">
+                <div className="flex w-full gap-3">
+                  <Button
+                    className="h-[50px] flex-1 py-[17.58px] bg-secondary"
+                    onClick={() => setStep("filter")}
+                  >
+                    Confirm
+                  </Button>
+                </div>
+              </DialogFooter>
+            )}
+          </>
+        )}
+
+        {/* Main Filters Step */}
+        {step === "filter" && (
+          <>
+            <DialogHead
+              back={() =>
+                isLargeDevice ? setStep("school") : onOpenChange(false)
+              }
+              title="Filters"
+              clearText={`Clear All ${getTotalSelectedFilters() > 0 && getTotalSelectedFilters()}`}
+            />
+
+            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+              {/* TOP SCHOOLS */}
+              <div className="flex flex-col gap-1 border-b border-[#EBEEF7] pb-2">
+                <div
+                  className="flex items-center justify-between py-3 cursor-pointer"
+                  onClick={() => setStep("schools")}
+                >
+                  <h3 className="text-[#191F33] font-circular-std font-medium text-base tracking-normal">
+                    TOP SCHOOLS
+                  </h3>
+                  <ChevronRight className="h-6 w-6 text-gray-400" />
+                </div>
+                <div className="text-secondary font-normal font-circular-std text-base tracking-normal">
+                  {selectedTopSchool || selectedSchool || "All schools"}
+                </div>
+              </div>
+
+              {/* PRICES (NGN) */}
+              <div className="flex flex-col gap-1 border-b border-[#EBEEF7] pb-2">
+                <div
+                  className="flex items-center justify-between cursor-pointer"
+                  onClick={() => setStep("prices")}
+                >
+                  <h3 className="text-[#191F33] font-circular-std font-medium text-base tracking-normal">
+                    PRICES (NGN)
+                  </h3>
+                  <ChevronRight className="h-6 w-6 text-gray-400" />
+                </div>
+                <div className="text-secondary font-normal font-circular-std text-base tracking-normal">
+                  {priceRange !== "all"
+                    ? priceRanges.find((r) => r.value === priceRange)?.label
+                    : minPrice || maxPrice
+                      ? `₦${minPrice || "0"} - ₦${maxPrice || "∞"}`
+                      : "All prices"}
+                </div>
+              </div>
+
+              {/* CATEGORY */}
+              <div className="flex flex-col gap-1 border-b border-[#EBEEF7] pb-2">
+                <div
+                  className="flex items-center justify-between py-3 cursor-pointer"
+                  onClick={() => setStep("categories")}
+                >
+                  <h3 className="text-[#191F33] font-circular-std font-medium text-base tracking-normal">
+                    CATEGORY
+                  </h3>
+                  <ChevronRight className="h-6 w-6 text-gray-400" />
+                </div>
+                <div className="text-secondary font-normal font-circular-std text-base tracking-normal">
+                  {selectedCategory && selectedSubcategory
+                    ? `${selectedCategory} - ${selectedSubcategory}`
+                    : "All categories"}
+                </div>
+              </div>
+
+              {/* CONDITIONS */}
+              <div className="flex flex-col gap-1 border-b border-[#EBEEF7] pb-2">
+                <div
+                  className="flex items-center justify-between cursor-pointer"
+                  onClick={() => setStep("conditions")}
+                >
+                  <h3 className="text-[#191F33] font-circular-std font-medium text-base tracking-normal">
+                    CONDITIONS
+                  </h3>
+                  <ChevronRight className="h-6 w-6 text-gray-400" />
+                </div>
+                <div className="text-secondary font-normal font-circular-std text-base tracking-normal capitalize">
+                  {selectedCondition === "any" ? "Any" : selectedCondition}
+                </div>
               </div>
             </div>
 
-            <DialogFooter className="p-4 border-t sticky bottom-0 bg-white z-10">
-              <div className="flex w-full gap-3">
-                <Button
-                  onClick={() => {
-                    if (selectedSchool.length > 0) {
-                      setStep("filter")
-                    }
-                  }}
-                  className="flex-1"
-                  disabled={selectedSchool.length === 0}
-                >
-                  Continue to Filters
-                </Button>
-              </div>
+            <DialogFooter className="p-4">
+              <Button
+                onClick={applyFilters}
+                className="py-[17.58px] w-full bg-[#54ABDB] hover:bg-[#54ABDB]/60"
+              >
+                Apply Filter
+              </Button>
             </DialogFooter>
           </>
-        ) : (
+        )}
+
+        {/* Categories Step - Only shows main categories */}
+        {step === "categories" && (
           <>
-            <DialogHeader className="p-4 border-b sticky top-0 bg-white z-10">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => setStep("school")}
-                    className="h-8 w-8 rounded-full mr-1"
-                  >
-                    <ArrowLeft className="h-4 w-4" />
-                    <span className="sr-only">Back to School Selection</span>
-                  </Button>
-                  <DialogTitle className="text-xl flex items-center gap-2">
-                    <Filter className="h-5 w-5" />
-                    Filters
-                    {getTotalSelectedFilters() > 0 && (
-                      <span className="bg-secondary text-white text-xs rounded-full px-2 py-0.5 ml-2">
-                        {getTotalSelectedFilters()}
-                      </span>
-                    )}
-                  </DialogTitle>
-                </div>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => onOpenChange(false)}
-                  className="h-8 w-8 rounded-full bg-white hover:bg-white"
+            <DialogHead
+              back={() => setStep("filter")}
+              title="Categories"
+              clearText="Clear All"
+              clear={clearCurrentFilters}
+            />
+            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+              {categories.map((category) => (
+                <div
+                  key={category.name}
+                  className="flex items-center justify-between py-2 cursor-pointer hover:bg-gray-50 rounded-md px-2"
+                  onClick={() => handleCategoryClick(category)}
                 >
-                  <X className="h-4 w-4" />
-                  <span className="sr-only">Close</span>
-                </Button>
-              </div>
-              <div className="mt-2 text-sm font-circular-std text-gray-500">
-                Schools:{" "}
-                {selectedSchool.length > 0
-                  ? selectedSchool.join(", ")
-                  : "None selected"}
-              </div>
-            </DialogHeader>
+                  <div className="flex items-center gap-3">
+                    <category.icon />
+                    <span className="font-circular-std font-normal text-base text-[#464D61]">
+                      {category.name}
+                    </span>
+                    {selectedCategory === category.name &&
+                      selectedSubcategory && (
+                        <span className="text-xs text-secondary">
+                          {selectedSubcategory}
+                        </span>
+                      )}
+                  </div>
+                  <ChevronRight className="h-4 w-4 text-gray-400" />
+                </div>
+              ))}
+            </div>
 
+            <DialogFooter className="p-4">
+              <Button
+                onClick={() => setStep("filter")}
+                className="w-full h-[50px] rounded-[3.3px] px-[17.58px] bg-[#54ABDB] hover:bg-[#54ABDB]/60"
+              >
+                Confirm
+              </Button>
+            </DialogFooter>
+          </>
+        )}
+
+        {/* Subcategories Step - Shows subcategories for selected category */}
+        {step === "subcategories" && currentCategory && (
+          <>
+            <DialogHead
+              back={() => setStep("categories")}
+              title={currentCategory.name}
+              clearText="Clear All"
+              clear={clearCurrentFilters}
+            />
             <div className="flex-1 overflow-y-auto p-4">
-              {/* Price Section */}
-              <div className="mb-6">
-                <h3 className="font-semibold text-lg mb-3">Price</h3>
+              <div className="flex items-center gap-3 mb-4">
+                <currentCategory.icon />
+                <span className="font-medium">{currentCategory.name}</span>
+              </div>
 
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="flex-1">
-                    <Label
-                      htmlFor="min-price"
-                      className="text-sm text-gray-500 mb-1 block"
-                    >
-                      Min
-                    </Label>
-                    <Input
-                      id="min-price"
-                      type="number"
-                      placeholder="₦0"
-                      value={minPrice}
-                      onChange={(e) => setMinPrice(e.target.value)}
-                      className="h-10"
-                    />
-                  </div>
-                  <div className="pt-6">-</div>
-                  <div className="flex-1">
-                    <Label
-                      htmlFor="max-price"
-                      className="text-sm text-gray-500 mb-1 block"
-                    >
-                      Max
-                    </Label>
-                    <Input
-                      id="max-price"
-                      type="number"
-                      placeholder="No limit"
-                      value={maxPrice}
-                      onChange={(e) => setMaxPrice(e.target.value)}
-                      className="h-10"
-                    />
-                  </div>
-                </div>
-
-                <RadioGroup
-                  value={priceRange}
-                  onValueChange={setPriceRange}
-                  className="space-y-2"
-                >
-                  {priceRanges.map((range) => (
-                    <div key={range.value} className="flex items-center gap-3">
+              <RadioGroup
+                value={
+                  selectedCategory === currentCategory.name
+                    ? selectedSubcategory
+                    : ""
+                }
+                onValueChange={handleSubcategorySelect}
+                className="space-y-3"
+              >
+                {currentCategory.subcategories.map((subcategory) => (
+                  <div
+                    key={subcategory}
+                    className="flex items-center justify-between"
+                  >
+                    <div className="flex items-center gap-3">
                       <RadioGroupItem
-                        value={range.value}
-                        id={`price-${range.value}`}
+                        value={subcategory}
+                        id={`sub-${subcategory}`}
                       />
                       <Label
-                        htmlFor={`price-${range.value}`}
-                        className="text-sm cursor-pointer flex-1"
+                        htmlFor={`sub-${subcategory}`}
+                        className="text-sm flex-1 cursor-pointer"
                       >
-                        {range.label}
+                        {subcategory}
+                      </Label>
+                    </div>
+                    {selectedCategory === currentCategory.name &&
+                    selectedSubcategory === subcategory ? (
+                      <Minus className="h-4 w-4 text-gray-400" />
+                    ) : (
+                      <PlusIcon className="h-4 w-4 text-gray-400" />
+                    )}
+                  </div>
+                ))}
+              </RadioGroup>
+            </div>
+
+            <DialogFooter className="p-4">
+              <Button
+                onClick={() => setStep("filter")}
+                className="w-full h-[50px] rounded-[3.3px] px-[17.58px] bg-[#54ABDB] hover:bg-[#54ABDB]/60"
+              >
+                Confirm
+              </Button>
+            </DialogFooter>
+          </>
+        )}
+
+        {/* Conditions Step */}
+        {step === "conditions" && (
+          <>
+            <DialogHead
+              back={() => setStep("filter")}
+              title="Conditions"
+              clearText="Clear All"
+              clear={clearCurrentFilters}
+            />
+
+            <div className="flex-1 overflow-y-auto p-4">
+              <RadioGroup
+                value={selectedCondition}
+                onValueChange={setSelectedCondition}
+                className="space-y-4"
+              >
+                <div className="flex items-center gap-3">
+                  <RadioGroupItem value="any" id="condition-any" />
+                  <Label
+                    htmlFor="condition-any"
+                    className="text-sm flex-1 cursor-pointer"
+                  >
+                    Any
+                  </Label>
+                </div>
+                <div className="flex items-center gap-3">
+                  <RadioGroupItem value="used" id="condition-used" />
+                  <Label
+                    htmlFor="condition-used"
+                    className="text-sm flex-1 cursor-pointer"
+                  >
+                    Used
+                  </Label>
+                </div>
+                <div className="flex items-center gap-3">
+                  <RadioGroupItem value="new" id="condition-new" />
+                  <Label
+                    htmlFor="condition-new"
+                    className="text-sm flex-1 cursor-pointer"
+                  >
+                    New
+                  </Label>
+                </div>
+              </RadioGroup>
+            </div>
+
+            <DialogFooter className="p-4">
+              <Button
+                onClick={() => setStep("filter")}
+                className="w-full h-[50px] rounded-[3.3px] px-[17.58px] bg-[#54ABDB] hover:bg-[#54ABDB]/60"
+              >
+                Confirm
+              </Button>
+            </DialogFooter>
+          </>
+        )}
+
+        {/* Top Schools Step */}
+        {step === "schools" && (
+          <>
+            <DialogHead
+              back={() => setStep("filter")}
+              title="All Schools"
+              clearText="Clear All"
+              clear={clearCurrentFilters}
+            />
+
+            <div className="flex-1 overflow-y-auto p-4">
+              <Input
+                type="search"
+                placeholder="Search for school..."
+                value={schoolSearchTerm}
+                onChange={(e) => setSchoolSearchTerm(e.target.value)}
+                className="mb-4"
+              />
+
+              {filteredSchools.length === 0 && schoolSearchTerm ? (
+                <div className="flex flex-col items-center justify-center py-8 text-center">
+                  <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                    <SearchIcon />
+                  </div>
+                  <h3 className="font-medium text-[#191F33] font-circular-std text-base tracking-normal mb-2">
+                    No schools found
+                  </h3>
+                  <p className="text-secondary font-normal font-circular-std text-base tracking-normal">
+                    We couldn't find any schools matching "{schoolSearchTerm}".
+                    Try adjusting your search term.
+                  </p>
+                  <Button size="sm" onClick={() => setSchoolSearchTerm("")}>
+                    Clear search
+                  </Button>
+                </div>
+              ) : (
+                <RadioGroup
+                  value={selectedTopSchool}
+                  onValueChange={handleTopSchoolSelect}
+                  className="space-y-3"
+                >
+                  {schoolTypes.map((school) => (
+                    <div key={school} className="flex items-center gap-3">
+                      <RadioGroupItem
+                        value={school}
+                        id={`school-radio-${school}`}
+                      />
+                      <Label
+                        htmlFor={`school-radio-${school}`}
+                        className="text-sm flex-1 cursor-pointer"
+                      >
+                        {school}
                       </Label>
                     </div>
                   ))}
                 </RadioGroup>
-              </div>
-
-              <Separator className="my-6" />
-
-              {/* Categories Section */}
-              <div className="mb-6">
-                <h3 className="font-semibold text-lg mb-3">Categories</h3>
-
-                <Accordion
-                  type="multiple"
-                  value={expandedCategories}
-                  className="w-full"
-                >
-                  {categories.map((category) => (
-                    <AccordionItem
-                      key={category.name}
-                      value={category.name}
-                      className="border-b"
-                    >
-                      <AccordionTrigger
-                        onClick={(e) => {
-                          e.preventDefault()
-                          toggleCategoryExpansion(category.name)
-                        }}
-                        className="py-2 hover:no-underline"
-                      >
-                        <span className="text-sm font-medium">
-                          {category.name}
-                        </span>
-                      </AccordionTrigger>
-                      <AccordionContent>
-                        <div className="pl-2 space-y-1 py-1">
-                          {category.subcategories.map((subcategory) => (
-                            <div
-                              key={subcategory}
-                              className="flex items-center gap-3 py-1"
-                            >
-                              <Checkbox
-                                id={`${category.name}-${subcategory}`}
-                                checked={(
-                                  selectedCategories[category.name] || []
-                                ).includes(subcategory)}
-                                onCheckedChange={() =>
-                                  handleCategorySelection(
-                                    category.name,
-                                    subcategory
-                                  )
-                                }
-                              />
-                              <Label
-                                htmlFor={`${category.name}-${subcategory}`}
-                                className="text-sm cursor-pointer flex-1"
-                              >
-                                {subcategory}
-                              </Label>
-                            </div>
-                          ))}
-                        </div>
-                      </AccordionContent>
-                    </AccordionItem>
-                  ))}
-                </Accordion>
-              </div>
-
-              <Separator className="my-6" />
-
-              {/* Condition Section */}
-              <div className="mb-6">
-                <h3 className="font-semibold text-lg mb-3">Condition</h3>
-
-                <RadioGroup
-                  value={selectedCondition}
-                  onValueChange={setSelectedCondition}
-                  className="space-y-2"
-                >
-                  <div className="flex items-center gap-3">
-                    <RadioGroupItem value="all" id="condition-all" />
-                    <Label
-                      htmlFor="condition-all"
-                      className="text-sm cursor-pointer flex-1"
-                    >
-                      All
-                    </Label>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <RadioGroupItem value="new" id="condition-new" />
-                    <Label
-                      htmlFor="condition-new"
-                      className="text-sm cursor-pointer flex-1"
-                    >
-                      New
-                    </Label>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <RadioGroupItem value="used" id="condition-used" />
-                    <Label
-                      htmlFor="condition-used"
-                      className="text-sm cursor-pointer flex-1"
-                    >
-                      Used
-                    </Label>
-                  </div>
-                </RadioGroup>
-              </div>
+              )}
             </div>
 
-            <DialogFooter className="p-4 border-t sticky bottom-0 bg-white z-10">
-              <div className="flex w-full gap-3">
-                <Button onClick={clearFilters}>Clear All</Button>
-                <Button onClick={applyFilters}>Apply Filters</Button>
+            <DialogFooter className="p-4">
+              <Button
+                onClick={() => setStep("filter")}
+                className="w-full h-[50px] rounded-[3.3px] px-[17.58px] bg-[#54ABDB] hover:bg-[#54ABDB]/60"
+              >
+                Confirm
+              </Button>
+            </DialogFooter>
+          </>
+        )}
+
+        {/* Prices Step */}
+        {step === "prices" && (
+          <>
+            <DialogHead
+              back={() => setStep("filter")}
+              title="Prices"
+              clearText="Clear All"
+              clear={() => {
+                setPriceRange("all")
+                setMinPrice("")
+                setMaxPrice("")
+              }}
+            />
+
+            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+              <div className="flex gap-3">
+                <Input
+                  type="number"
+                  placeholder="Min price"
+                  value={minPrice}
+                  min={0}
+                  onChange={(e) => setMinPrice(e.target.value)}
+                  className="flex-1"
+                />
+                <Input
+                  type="number"
+                  placeholder="Max price"
+                  value={maxPrice}
+                  min={minPrice}
+                  onChange={(e) => setMaxPrice(e.target.value)}
+                  className="flex-1"
+                />
               </div>
+
+              <RadioGroup
+                value={priceRange}
+                onValueChange={setPriceRange}
+                className="space-y-3"
+              >
+                {priceRanges.map((range) => (
+                  <div key={range.value} className="flex items-center gap-3">
+                    <RadioGroupItem
+                      value={range.value}
+                      id={`price-${range.value}`}
+                    />
+                    <Label
+                      htmlFor={`price-${range.value}`}
+                      className="text-sm flex-1 cursor-pointer"
+                    >
+                      {range.label}
+                    </Label>
+                  </div>
+                ))}
+              </RadioGroup>
+            </div>
+
+            <DialogFooter className="p-4">
+              <Button
+                onClick={() => setStep("filter")}
+                className="w-full h-[50px] rounded-[3.3px] px-[17.58px] bg-[#54ABDB] hover:bg-[#54ABDB]/60"
+              >
+                Confirm
+              </Button>
             </DialogFooter>
           </>
         )}

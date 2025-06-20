@@ -27,7 +27,7 @@ export default function BreadcrumbNav({
   className = "",
 }: BreadcrumbNavProps) {
   return (
-    <div className={`w-full flex gap-2 py-3.5 px-4 ${className}`}>
+    <div className={`hidden w-full xl:flex gap-2 py-3.5 px-4 ${className}`}>
       <Breadcrumb>
         <BreadcrumbList>
           {items.map((item, index) => (
