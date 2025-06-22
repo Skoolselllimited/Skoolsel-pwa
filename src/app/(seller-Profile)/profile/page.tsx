@@ -5,7 +5,7 @@ import { generateBreadcrumbs, BreadcrumbItem } from "@/lib/utils";
 import { PublicProfile } from "../components/PublicProfile";
 import PublicProfileSidebar from "../components/PublicProfileSidebar";
 import { dummyProps } from "../data";
-
+// zawardo
 export default function PublicProfilePage() {
   const userDetails = dummyProps.userDetails;
   const mockPath = "/ad-list/mobile/samsung/jones-profile";
