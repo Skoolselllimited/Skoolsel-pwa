@@ -341,7 +341,6 @@ export default function AdsPage() {
   const query = searchParams.get("q") || ""
   const schoolsParam = searchParams.get("schools") || ""
   const categoryParam = searchParams.get("category") || "" // Direct category from ShopWithCategories
-
   const [searchQuery, setSearchQuery] = useState(query)
   const [schoolSearchTerm, setSchoolSearchTerm] = useState("")
   const [selectedSchool, setSelectedSchool] = useState<string>(

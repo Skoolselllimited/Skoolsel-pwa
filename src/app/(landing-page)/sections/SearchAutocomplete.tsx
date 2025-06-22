@@ -278,7 +278,7 @@ export default function SearchAutocompleteDialog({
                   filteredSuggestions.map((suggestion, index) => (
                     <div
                       key={`${suggestion.text}-${index}`}
-                      className="flex items-center justify-between py-4 cursor-pointer"
+                      className="flex items-center justify-between py-4 cursor-pointer font-circular-std font-[450]"
                       onClick={() => handleSuggestionClick(suggestion.text)}
                     >
                       <div className="flex items-center gap-1">
@@ -299,7 +299,7 @@ export default function SearchAutocompleteDialog({
                   ))
                 ) : (
                   <div className="text-center py-12">
-                    <div className="text-gray-400 text-base">
+                    <div className="text-[#6B7280] text-base tracking-normal">
                       No suggestions found
                     </div>
                   </div>
@@ -307,10 +307,10 @@ export default function SearchAutocompleteDialog({
               </div>
             ) : (
               /* Recent Searches */
-              <div className="space-y-1">
+              <div className="space-y-1 font-circular-std">
                 {recentSearchList.length > 0 && (
                   <>
-                    <h3 className="text-gray-400 text-base mb-4 mt-2">
+                    <h3 className="text-[#6B7280] text-base mb-4 mt-2">
                       Recent search
                     </h3>
                     {recentSearchList.map((search, index) => (
@@ -320,11 +320,11 @@ export default function SearchAutocompleteDialog({
                         onClick={() => handleRecentSearchClick(search)}
                       >
                         <div className="flex items-center gap-1">
-                          <span className="text-gray-600 text-base">
+                          <span className="text-[#6B7280]  text-base">
                             {search.text} in{" "}
                           </span>
                           <span
-                            className="text-secondary text-base font-medium cursor-pointer"
+                            className="text-[#3B82F6] text-base font-medium cursor-pointer"
                             onClick={(e) => {
                               e.stopPropagation()
                               handleCategoryClick(search.category)
@@ -340,7 +340,7 @@ export default function SearchAutocompleteDialog({
                             e.stopPropagation()
                             removeRecentSearch(index)
                           }}
-                          className="h-8 w-8 text-gray-400 hover:text-gray-600 hover:bg-gray-100"
+                          className="h-8 w-8 text-[#6B7280] hover:text-gray-600 hover:bg-gray-100"
                         >
                           <X className="h-4 w-4" />
                         </Button>
@@ -350,7 +350,7 @@ export default function SearchAutocompleteDialog({
                     {recentSearchList.length > 0 && (
                       <button
                         onClick={clearAllRecentSearches}
-                        className="text-gray-400 text-base italic mt-6 hover:text-gray-600 transition-colors"
+                        className="text-[#6B7280] text-base italic mt-6 hover:text-gray-600 transition-colors cursor-pointer"
                       >
                         Clear all
                       </button>
