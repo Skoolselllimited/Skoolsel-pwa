@@ -1,7 +1,6 @@
-export * from './FashionIcon';
-export * from './BeautyIcon';
-export * from './LaptopsComputersIcon';
-export * from './ServicesIcon';
+export * from "./FashionIcon";
+export * from "./BeautyIcon";
+export * from "./LaptopsComputersIcon";
 
 export const LogoIcon = () => {
   return (
@@ -1061,28 +1060,28 @@ export const SidebarOverview = ({ highlight }: { highlight: boolean }) => {
     >
       <path
         d="M10 3H3V10H10V3Z"
-        stroke={highlight ? '#54ABDB' : '#767E94'}
+        stroke={highlight ? "#54ABDB" : "#767E94"}
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M21 3H14V10H21V3Z"
-        stroke={highlight ? '#54ABDB' : '#767E94'}
+        stroke={highlight ? "#54ABDB" : "#767E94"}
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M21 14H14V21H21V14Z"
-        stroke={highlight ? '#54ABDB' : '#767E94'}
+        stroke={highlight ? "#54ABDB" : "#767E94"}
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M10 14H3V21H10V14Z"
-        stroke={highlight ? '#54ABDB' : '#767E94'}
+        stroke={highlight ? "#54ABDB" : "#767E94"}
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -1101,19 +1100,19 @@ export const SidebarProfile = ({ highlight }: { highlight: boolean }) => {
     >
       <path
         d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z"
-        stroke={highlight ? '#54ABDB' : '#767E94'}
+        stroke={highlight ? "#54ABDB" : "#767E94"}
         strokeWidth="1.6"
         strokeMiterlimit="10"
       />
       <path
         d="M12 15C14.0711 15 15.75 13.3211 15.75 11.25C15.75 9.17893 14.0711 7.5 12 7.5C9.92893 7.5 8.25 9.17893 8.25 11.25C8.25 13.3211 9.92893 15 12 15Z"
-        stroke={highlight ? '#54ABDB' : '#767E94'}
+        stroke={highlight ? "#54ABDB" : "#767E94"}
         strokeWidth="1.6"
         strokeMiterlimit="10"
       />
       <path
         d="M5.9812 18.6913C6.54615 17.5806 7.40744 16.6478 8.46973 15.9963C9.53202 15.3448 10.7539 15 12 15C13.2462 15 14.468 15.3448 15.5303 15.9963C16.5926 16.6478 17.4539 17.5806 18.0189 18.6913"
-        stroke={highlight ? '#54ABDB' : '#767E94'}
+        stroke={highlight ? "#54ABDB" : "#767E94"}
         strokeWidth="1.6"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -1132,20 +1131,20 @@ export const SidebarPostAds = ({ highlight }: { highlight: boolean }) => {
     >
       <path
         d="M10 19C14.9706 19 19 14.9706 19 10C19 5.02944 14.9706 1 10 1C5.02944 1 1 5.02944 1 10C1 14.9706 5.02944 19 10 19Z"
-        stroke={highlight ? '#54ABDB' : '#767E94'}
+        stroke={highlight ? "#54ABDB" : "#767E94"}
         strokeWidth="1.6"
         strokeMiterlimit="10"
       />
       <path
         d="M6.25 10H13.75"
-        stroke={highlight ? '#54ABDB' : '#767E94'}
+        stroke={highlight ? "#54ABDB" : "#767E94"}
         strokeWidth="1.6"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M10 6.25V13.75"
-        stroke={highlight ? '#54ABDB' : '#767E94'}
+        stroke={highlight ? "#54ABDB" : "#767E94"}
         strokeWidth="1.6"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -1164,28 +1163,28 @@ export const SidebarMyAds = ({ highlight }: { highlight: boolean }) => {
     >
       <path
         d="M6 13.25H12"
-        stroke={highlight ? '#54ABDB' : '#767E94'}
+        stroke={highlight ? "#54ABDB" : "#767E94"}
         strokeWidth="1.6"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M6 10.25H12"
-        stroke={highlight ? '#54ABDB' : '#767E94'}
+        stroke={highlight ? "#54ABDB" : "#767E94"}
         strokeWidth="1.6"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M12.0002 2.75H15.75C15.9489 2.75 16.1397 2.82902 16.2803 2.96967C16.421 3.11032 16.5 3.30109 16.5 3.5V19.25C16.5 19.4489 16.421 19.6397 16.2803 19.7803C16.1397 19.921 15.9489 20 15.75 20H2.25C2.05109 20 1.86032 19.921 1.71967 19.7803C1.57902 19.6397 1.5 19.4489 1.5 19.25V3.5C1.5 3.30109 1.57902 3.11032 1.71967 2.96967C1.86032 2.82902 2.05109 2.75 2.25 2.75H5.9998"
-        stroke={highlight ? '#54ABDB' : '#767E94'}
+        stroke={highlight ? "#54ABDB" : "#767E94"}
         strokeWidth="1.6"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M5.25 5.75V5C5.25 4.00544 5.64509 3.05161 6.34835 2.34835C7.05161 1.64509 8.00544 1.25 9 1.25C9.99456 1.25 10.9484 1.64509 11.6517 2.34835C12.3549 3.05161 12.75 4.00544 12.75 5V5.75H5.25Z"
-        stroke={highlight ? '#54ABDB' : '#767E94'}
+        stroke={highlight ? "#54ABDB" : "#767E94"}
         strokeWidth="1.6"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -1204,7 +1203,7 @@ export const SidebarFavAds = ({ highlight }: { highlight: boolean }) => {
     >
       <path
         d="M11 18.25C11 18.25 1.625 13 1.625 6.62501C1.62519 5.49826 2.01561 4.40635 2.72989 3.53493C3.44416 2.66351 4.4382 2.06636 5.54299 1.84501C6.64778 1.62367 7.79514 1.79179 8.78999 2.32079C9.78484 2.84979 10.5658 3.70702 11 4.74673L11 4.74673C11.4342 3.70702 12.2152 2.84979 13.21 2.32079C14.2049 1.79179 15.3522 1.62367 16.457 1.84501C17.5618 2.06636 18.5558 2.66351 19.2701 3.53493C19.9844 4.40635 20.3748 5.49826 20.375 6.62501C20.375 13 11 18.25 11 18.25Z"
-        stroke={highlight ? '#54ABDB' : '#767E94'}
+        stroke={highlight ? "#54ABDB" : "#767E94"}
         strokeWidth="1.6"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -1223,7 +1222,7 @@ export const SidebarDraft = ({ highlight }: { highlight: boolean }) => {
     >
       <path
         d="M18.3333 16.5H1.69231C1.50886 16.4995 1.33308 16.4264 1.20337 16.2966C1.07365 16.1669 1.00054 15.9911 1 15.8077V4.5H18.25C18.4489 4.5 18.6397 4.57902 18.7803 4.71967C18.921 4.86032 19 5.05109 19 5.25V15.8333C19 16.0101 18.9298 16.1797 18.8047 16.3047C18.6797 16.4298 18.5101 16.5 18.3333 16.5V16.5Z"
-        stroke={highlight ? '#54ABDB' : '#767E94'}
+        stroke={highlight ? "#54ABDB" : "#767E94"}
         strokeWidth="1.6"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -1234,7 +1233,7 @@ export const SidebarDraft = ({ highlight }: { highlight: boolean }) => {
       />
       <path
         d="M1 4.5V2.25C1 2.05109 1.07902 1.86032 1.21967 1.71967C1.36032 1.57902 1.55109 1.5 1.75 1.5H6.68934C6.78783 1.5 6.88536 1.5194 6.97635 1.55709C7.06735 1.59478 7.15003 1.65003 7.21967 1.71967L10 4.5"
-        stroke={highlight ? '#54ABDB' : '#767E94'}
+        stroke={highlight ? "#54ABDB" : "#767E94"}
         strokeWidth="1.6"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -1253,28 +1252,28 @@ export const SidebarBilling = ({ highlight }: { highlight: boolean }) => {
     >
       <path
         d="M20 1.25H2C1.58579 1.25 1.25 1.58579 1.25 2V14C1.25 14.4142 1.58579 14.75 2 14.75H20C20.4142 14.75 20.75 14.4142 20.75 14V2C20.75 1.58579 20.4142 1.25 20 1.25Z"
-        stroke={highlight ? '#54ABDB' : '#767E94'}
+        stroke={highlight ? "#54ABDB" : "#767E94"}
         strokeWidth="1.6"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M14.7495 11.75H17.7495"
-        stroke={highlight ? '#54ABDB' : '#767E94'}
+        stroke={highlight ? "#54ABDB" : "#767E94"}
         strokeWidth="1.6"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M10.2495 11.75H11.7495"
-        stroke={highlight ? '#54ABDB' : '#767E94'}
+        stroke={highlight ? "#54ABDB" : "#767E94"}
         strokeWidth="1.6"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M1.24951 5.08008H20.7495"
-        stroke={highlight ? '#54ABDB' : '#767E94'}
+        stroke={highlight ? "#54ABDB" : "#767E94"}
         strokeWidth="1.6"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -1293,14 +1292,14 @@ export const SidebarAccSettings = ({ highlight }: { highlight: boolean }) => {
     >
       <path
         d="M11 15.5C13.4853 15.5 15.5 13.4853 15.5 11C15.5 8.51472 13.4853 6.5 11 6.5C8.51472 6.5 6.5 8.51472 6.5 11C6.5 13.4853 8.51472 15.5 11 15.5Z"
-        stroke={highlight ? '#54ABDB' : '#767E94'}
+        stroke={highlight ? "#54ABDB" : "#767E94"}
         strokeWidth="1.6"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M10.5193 3.13952L8.75029 1.81315C8.65538 1.74175 8.54485 1.69393 8.42783 1.67363C8.3108 1.65332 8.19063 1.66112 8.07721 1.69638C7.52933 1.86794 6.99778 2.08787 6.48884 2.35355C6.38349 2.40881 6.29279 2.48834 6.22422 2.58556C6.15566 2.68278 6.1112 2.79492 6.09452 2.91271L5.78179 5.10186C5.66259 5.20753 5.54589 5.31742 5.43169 5.43156C5.31752 5.54573 5.2076 5.66246 5.10191 5.78176L5.10186 5.78179L2.9131 6.09479C2.7955 6.11142 2.68353 6.15576 2.58642 6.22415C2.48932 6.29254 2.40986 6.38303 2.35459 6.48816C2.08849 6.99689 1.86814 7.52826 1.69613 8.076C1.66071 8.18957 1.65281 8.30994 1.67307 8.42717C1.69334 8.5444 1.7412 8.65513 1.81269 8.75022L3.13952 10.5193C3.12995 10.6783 3.12514 10.8385 3.12509 11C3.12509 11.1614 3.1299 11.3217 3.13953 11.4808L3.13952 11.4809L1.81315 13.2499C1.74175 13.3448 1.69393 13.4553 1.67363 13.5723C1.65332 13.6894 1.66112 13.8095 1.69638 13.923C1.86794 14.4708 2.08787 15.0024 2.35355 15.5113C2.40881 15.6167 2.48834 15.7074 2.58556 15.776C2.68278 15.8445 2.79492 15.889 2.91271 15.9057L5.10186 16.2184C5.20752 16.3376 5.31742 16.4543 5.43156 16.5685C5.54572 16.6827 5.66245 16.7926 5.78175 16.8983L5.78179 16.8983L6.09479 19.0871C6.11142 19.2047 6.15575 19.3167 6.22415 19.4138C6.29254 19.5109 6.38303 19.5903 6.48816 19.6456C6.99688 19.9117 7.52825 20.132 8.07599 20.304C8.18957 20.3395 8.30994 20.3474 8.42716 20.3271C8.54439 20.3068 8.65512 20.259 8.75021 20.1875L10.5193 18.8607C10.6783 18.8702 10.8385 18.875 11 18.8751C11.1614 18.8751 11.3217 18.8703 11.4808 18.8607L11.4809 18.8607L13.2499 20.187C13.3448 20.2584 13.4553 20.3063 13.5723 20.3266C13.6894 20.3469 13.8095 20.3391 13.923 20.3038C14.4708 20.1322 15.0024 19.9123 15.5113 19.6466C15.6167 19.5914 15.7074 19.5118 15.776 19.4146C15.8445 19.3174 15.889 19.2053 15.9057 19.0875L16.2184 16.8983C16.3376 16.7927 16.4543 16.6828 16.5685 16.5686C16.6827 16.4545 16.7926 16.3377 16.8983 16.2184L16.8983 16.2184L19.0871 15.9054C19.2047 15.8888 19.3167 15.8444 19.4138 15.776C19.5109 15.7076 19.5903 15.6172 19.6456 15.512C19.9117 15.0033 20.132 14.4719 20.304 13.9242C20.3395 13.8106 20.3474 13.6902 20.3271 13.573C20.3068 13.4558 20.259 13.3451 20.1875 13.25L18.8607 11.4809C18.8702 11.3219 18.875 11.1616 18.8751 11.0002C18.8751 10.8387 18.8703 10.6785 18.8607 10.5194L18.8607 10.5193L20.187 8.75029C20.2584 8.65538 20.3063 8.54485 20.3266 8.42783C20.3469 8.3108 20.3391 8.19063 20.3038 8.07721C20.1322 7.52933 19.9123 6.99778 19.6466 6.48884C19.5914 6.38349 19.5118 6.29279 19.4146 6.22422C19.3174 6.15566 19.2053 6.1112 19.0875 6.09452L16.8983 5.78179C16.7927 5.66259 16.6828 5.54589 16.5686 5.43169C16.4545 5.31752 16.3377 5.2076 16.2184 5.10191L16.2184 5.10186L15.9054 2.9131C15.8888 2.7955 15.8444 2.68353 15.776 2.58642C15.7076 2.48932 15.6172 2.40986 15.512 2.35459C15.0033 2.08849 14.4719 1.86814 13.9242 1.69613C13.8106 1.66071 13.6902 1.65281 13.573 1.67307C13.4558 1.69334 13.3451 1.7412 13.25 1.81269L11.4809 3.13952C11.3219 3.12995 11.1616 3.12514 11.0002 3.12509C10.8387 3.12509 10.6785 3.1299 10.5194 3.13953L10.5193 3.13952Z"
-        stroke={highlight ? '#54ABDB' : '#767E94'}
+        stroke={highlight ? "#54ABDB" : "#767E94"}
         strokeWidth="1.6"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -1500,21 +1499,21 @@ export const ElectronicsIcon = ({ highlight }: { highlight: boolean }) => {
     >
       <path
         d="M30 4.5H6C4.34315 4.5 3 5.84315 3 7.5V22.5C3 24.1569 4.34315 25.5 6 25.5H30C31.6569 25.5 33 24.1569 33 22.5V7.5C33 5.84315 31.6569 4.5 30 4.5Z"
-        stroke={highlight ? 'white' : '#54ABDB'}
+        stroke={highlight ? "white" : "#54ABDB"}
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M12 31.5H24"
-        stroke={highlight ? 'white' : '#54ABDB'}
+        stroke={highlight ? "white" : "#54ABDB"}
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M18 25.5V31.5"
-        stroke={highlight ? 'white' : '#54ABDB'}
+        stroke={highlight ? "white" : "#54ABDB"}
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -1534,42 +1533,42 @@ export const HandshakeIcon = ({ highlight }: { highlight: boolean }) => {
     >
       <path
         d="M33.8509 17.1258L30.375 18.8638L25.875 10.246L29.3863 8.49035C29.6501 8.35845 29.9552 8.33542 30.2358 8.42623C30.5164 8.51703 30.7501 8.71441 30.8867 8.97585L34.345 15.5989C34.4142 15.7313 34.4563 15.8762 34.4688 16.0251C34.4814 16.1739 34.4642 16.3238 34.4182 16.466C34.3722 16.6081 34.2983 16.7397 34.2009 16.853C34.1035 16.9663 33.9846 17.059 33.8509 17.1258V17.1258Z"
-        stroke={highlight ? 'white' : '#54ABDB'}
+        stroke={highlight ? "white" : "#54ABDB"}
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M5.62503 18.7134L2.14911 16.9754C2.01548 16.9086 1.8965 16.8159 1.7991 16.7026C1.70171 16.5893 1.62786 16.4577 1.58187 16.3156C1.53587 16.1734 1.51865 16.0235 1.5312 15.8747C1.54376 15.7258 1.58584 15.5809 1.65499 15.4485L5.11337 8.82547C5.24989 8.56402 5.48363 8.36665 5.76424 8.27584C6.04486 8.18503 6.34991 8.20806 6.61372 8.33996L10.125 10.0956L5.62503 18.7134Z"
-        stroke={highlight ? 'white' : '#54ABDB'}
+        stroke={highlight ? "white" : "#54ABDB"}
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M30.375 18.8641L28.125 21.4963L22.9504 26.6709C22.813 26.8083 22.6424 26.9077 22.4552 26.9596C22.268 27.0115 22.0705 27.0139 21.8821 26.9668L13.7319 24.9293C13.579 24.8911 13.4359 24.8212 13.3117 24.7241L5.625 18.7134"
-        stroke={highlight ? 'white' : '#54ABDB'}
+        stroke={highlight ? "white" : "#54ABDB"}
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M28.1249 21.4961L21.9374 16.9961L20.1374 18.3461C19.3585 18.9303 18.4111 19.2461 17.4374 19.2461C16.4638 19.2461 15.5164 18.9303 14.7374 18.3461L13.9751 17.7744C13.8462 17.6777 13.7395 17.5544 13.6624 17.4129C13.5852 17.2713 13.5394 17.1149 13.528 16.9541C13.5166 16.7934 13.5398 16.632 13.5962 16.481C13.6525 16.33 13.7407 16.1929 13.8547 16.0789L19.3579 10.5756C19.4624 10.4711 19.5864 10.3883 19.7229 10.3317C19.8594 10.2752 20.0057 10.2461 20.1534 10.2461H25.8749"
-        stroke={highlight ? 'white' : '#54ABDB'}
+        stroke={highlight ? "white" : "#54ABDB"}
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M10.2057 10.0952L17.4226 7.99125C17.6804 7.91609 17.9565 7.93563 18.2012 8.04633L23.0624 10.2459"
-        stroke={highlight ? 'white' : '#54ABDB'}
+        stroke={highlight ? "white" : "#54ABDB"}
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M15.75 29.9337L11.5116 28.8741C11.3396 28.8311 11.1803 28.748 11.0465 28.6317L7.875 25.875"
-        stroke={highlight ? 'white' : '#54ABDB'}
+        stroke={highlight ? "white" : "#54ABDB"}
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -1590,21 +1589,21 @@ export const HomeAndLivingIcon = ({ highlight }: { highlight: boolean }) => {
       <g clipPath="url(#clip0_750_41312)">
         <path
           d="M30.375 30.3753V16.2479C30.375 16.0912 30.3422 15.9361 30.2788 15.7928C30.2154 15.6494 30.1228 15.5209 30.0068 15.4155L18.756 5.18711C18.5489 4.99884 18.2791 4.89452 17.9992 4.89453C17.7193 4.89454 17.4495 4.99888 17.2424 5.18716L5.99317 15.4155C5.87721 15.5209 5.78455 15.6494 5.72115 15.7928C5.65775 15.9361 5.625 16.0911 5.625 16.2479V30.3753"
-          stroke={highlight ? 'white' : '#54ABDB'}
+          stroke={highlight ? "white" : "#54ABDB"}
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
           d="M2.25 30.375H33.75"
-          stroke={highlight ? 'white' : '#54ABDB'}
+          stroke={highlight ? "white" : "#54ABDB"}
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
           d="M21.3743 30.374V22.499C21.3743 22.2007 21.2557 21.9145 21.0448 21.7035C20.8338 21.4926 20.5476 21.374 20.2493 21.374H15.7493C15.4509 21.374 15.1648 21.4926 14.9538 21.7035C14.7428 21.9145 14.6243 22.2007 14.6243 22.499V30.374"
-          stroke={highlight ? 'white' : '#54ABDB'}
+          stroke={highlight ? "white" : "#54ABDB"}
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -1631,7 +1630,7 @@ export const EssentialsIcon = ({ highlight }: { highlight: boolean }) => {
       <g clipPath="url(#clip0_750_41304)">
         <path
           d="M26.0143 5.21282L20.1134 11.1137L20.9089 15.0912L24.8863 15.8867L30.7872 9.9858L30.7878 9.98555C31.5182 11.7097 31.6929 13.6186 31.2875 15.4466C30.8822 17.2746 29.917 18.9308 28.5263 20.1846C27.1357 21.4384 25.3887 22.2274 23.5286 22.4418C21.6684 22.6563 19.7878 22.2854 18.1483 21.3809L18.1485 21.3806L10.2613 30.5117C9.62829 31.144 8.77003 31.4991 7.87526 31.4988C6.98049 31.4986 6.12244 31.143 5.48974 30.5103C4.85704 29.8776 4.50148 29.0196 4.50122 28.1248C4.50097 27.23 4.85604 26.3718 5.48838 25.7387L14.6193 17.8517L14.6192 17.8518C13.7147 16.2123 13.3438 14.3316 13.5582 12.4715C13.7726 10.6114 14.5616 8.86442 15.8154 7.47373C17.0692 6.08304 18.7254 5.11786 20.5534 4.71252C22.3815 4.30718 24.2904 4.48187 26.0145 5.21225L26.0143 5.21282Z"
-          stroke={highlight ? 'white' : '#54ABDB'}
+          stroke={highlight ? "white" : "#54ABDB"}
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -1658,35 +1657,35 @@ export const PropertyIcon = ({ highlight }: { highlight: boolean }) => {
       <g clipPath="url(#clip0_750_41292)">
         <path
           d="M6.75 19.6294V29.2498C6.75 29.5482 6.86853 29.8343 7.07951 30.0453C7.29048 30.2563 7.57663 30.3748 7.875 30.3748H28.125C28.4234 30.3748 28.7095 30.2563 28.9205 30.0453C29.1315 29.8343 29.25 29.5482 29.25 29.2498V19.6296"
-          stroke={highlight ? 'white' : '#54ABDB'}
+          stroke={highlight ? "white" : "#54ABDB"}
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
           d="M7.59859 5.625H28.4014C28.6459 5.625 28.8837 5.70464 29.0789 5.85186C29.2741 5.99908 29.416 6.20587 29.4831 6.44094L31.5 13.5H4.5L6.51687 6.44094C6.58404 6.20587 6.72594 5.99908 6.92112 5.85186C7.11629 5.70464 7.35411 5.625 7.59859 5.625Z"
-          stroke={highlight ? 'white' : '#54ABDB'}
+          stroke={highlight ? "white" : "#54ABDB"}
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
           d="M13.5 13.5V15.75C13.5 16.9435 13.0259 18.0881 12.182 18.932C11.3381 19.7759 10.1935 20.25 9 20.25C7.80653 20.25 6.66193 19.7759 5.81802 18.932C4.97411 18.0881 4.5 16.9435 4.5 15.75V13.5"
-          stroke={highlight ? 'white' : '#54ABDB'}
+          stroke={highlight ? "white" : "#54ABDB"}
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
           d="M22.5 13.5V15.75C22.5 16.9435 22.0259 18.0881 21.182 18.932C20.3381 19.7759 19.1935 20.25 18 20.25C16.8065 20.25 15.6619 19.7759 14.818 18.932C13.9741 18.0881 13.5 16.9435 13.5 15.75V13.5"
-          stroke={highlight ? 'white' : '#54ABDB'}
+          stroke={highlight ? "white" : "#54ABDB"}
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
           d="M31.5 13.5V15.75C31.5 16.9435 31.0259 18.0881 30.182 18.932C29.3381 19.7759 28.1935 20.25 27 20.25C25.8065 20.25 24.6619 19.7759 23.818 18.932C22.9741 18.0881 22.5 16.9435 22.5 15.75V13.5"
-          stroke={highlight ? 'white' : '#54ABDB'}
+          stroke={highlight ? "white" : "#54ABDB"}
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -1713,42 +1712,42 @@ export const VehiclesIcon = ({ highlight }: { highlight: boolean }) => {
       <g clipPath="url(#clip0_750_41280)">
         <path
           d="M-0.168701 16.2842H35.2688"
-          stroke={highlight ? 'white' : '#54ABDB'}
+          stroke={highlight ? "white" : "#54ABDB"}
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
           d="M32.7375 26.4092V30.2061C32.7375 30.5417 32.6042 30.8636 32.3669 31.101C32.1295 31.3383 31.8076 31.4717 31.4719 31.4717H27.675C27.3394 31.4717 27.0175 31.3383 26.7801 31.101C26.5428 30.8636 26.4094 30.5417 26.4094 30.2061V26.4092"
-          stroke={highlight ? 'white' : '#54ABDB'}
+          stroke={highlight ? "white" : "#54ABDB"}
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
           d="M8.69067 26.4092V30.2061C8.69067 30.5417 8.55733 30.8636 8.31998 31.101C8.08263 31.3383 7.76071 31.4717 7.42505 31.4717H3.62817C3.29251 31.4717 2.97059 31.3383 2.73324 31.101C2.49589 30.8636 2.36255 30.5417 2.36255 30.2061V26.4092"
-          stroke={highlight ? 'white' : '#54ABDB'}
+          stroke={highlight ? "white" : "#54ABDB"}
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
           d="M7.42505 21.3467H9.9563"
-          stroke={highlight ? 'white' : '#54ABDB'}
+          stroke={highlight ? "white" : "#54ABDB"}
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
           d="M25.1438 21.3467H27.675"
-          stroke={highlight ? 'white' : '#54ABDB'}
+          stroke={highlight ? "white" : "#54ABDB"}
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
           d="M32.7376 16.2842L28.0091 5.64516C27.9097 5.42144 27.7475 5.23137 27.5422 5.09796C27.3369 4.96456 27.0974 4.89355 26.8526 4.89355H8.24755C8.00273 4.89355 7.76317 4.96456 7.55789 5.09796C7.35261 5.23137 7.19044 5.42144 7.09101 5.64516L2.36255 16.2842V26.4092H32.7376V16.2842Z"
-          stroke={highlight ? 'white' : '#54ABDB'}
+          stroke={highlight ? "white" : "#54ABDB"}
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -1775,14 +1774,14 @@ export const MobilesIcon = ({ highlight }: { highlight: boolean }) => {
       <g clipPath="url(#clip0_750_41271)">
         <path
           d="M27 30.375V5.625C27 4.38236 25.9926 3.375 24.75 3.375L11.25 3.375C10.0074 3.375 9 4.38236 9 5.625V30.375C9 31.6176 10.0074 32.625 11.25 32.625H24.75C25.9926 32.625 27 31.6176 27 30.375Z"
-          stroke={highlight ? 'white' : '#54ABDB'}
+          stroke={highlight ? "white" : "#54ABDB"}
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
           d="M18 10.125C18.932 10.125 19.6875 9.36948 19.6875 8.4375C19.6875 7.50552 18.932 6.75 18 6.75C17.068 6.75 16.3125 7.50552 16.3125 8.4375C16.3125 9.36948 17.068 10.125 18 10.125Z"
-          fill={highlight ? 'white' : '#54ABDB'}
+          fill={highlight ? "white" : "#54ABDB"}
         />
       </g>
       <defs>
