@@ -55,14 +55,14 @@ export default function CreateNewPassword() {
   };
 
   return (
-    <div className="md:min-h-[calc(100vh-100px)] min-h-screen flex items-center justify-center bg-[#F7F8F9] font-inter p-4">
+    <div className="md:min-h-[calc(100vh-75px)] min-h-screen flex items-center justify-center bg-[#F7F8F9] font-inter p-4">
       <button
         onClick={() => router.back()}
         className="absolute top-4 left-4 md:hidden border text-gray-700 text-sm p-2 rounded-full hover:bg-gray-100 transition"
       >
         <FaChevronLeft />
       </button>
-      <div className="w-full max-w-lg bg-white rounded-xl shadow-lg p-4 md:p-10 border border-gray-100">
+      <div className="w-full max-w-md bg-white rounded-xl p-4 md:p-8 border border-gray-100">
         <h1 className="text-lg md:text-2xl font-bold text-center mb-6">
           Create New Password
         </h1>
