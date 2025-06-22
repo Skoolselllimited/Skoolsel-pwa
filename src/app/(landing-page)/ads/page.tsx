@@ -1,23 +1,23 @@
-"use client"
+"use client";
 
-import BreadcrumbNav from "@/components/breadCrumbs"
+import BreadcrumbNav from "@/components/breadCrumbs";
 import {
   ClockIcon,
   LightStrikeIcon,
   MapPinIcon,
   SpinnerIcon,
-} from "@/components/svgs"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
-import { generateBreadcrumbs, getInitials } from "@/lib/utils"
-import Image from "next/image"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
+} from "@/components/svgs";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { generateBreadcrumbs, getInitials } from "@/lib/utils";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function AdsDetails() {
-  const pathname = usePathname()
-  const breadcrumbItems = generateBreadcrumbs(pathname)
+  const pathname = usePathname();
+  const breadcrumbItems = generateBreadcrumbs(pathname);
 
   return (
     <div className="w-full flex flex-col gap-4 bg-[#F4F6F8]">
@@ -105,6 +105,7 @@ export default function AdsDetails() {
                             src="/images/vendor.jpg"
                             alt="Vendor's photo"
                           />
+
                           <AvatarFallback>
                             {getInitials("Aliya Gadget Store")}
                           </AvatarFallback>
@@ -128,5 +129,5 @@ export default function AdsDetails() {
         </div>
       </div>
     </div>
-  )
+  );
 }
