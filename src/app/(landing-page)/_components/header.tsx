@@ -1,22 +1,13 @@
 "use client"
 
-import { useState } from "react"
-import {
-  CircledPlusIcon,
-  HeartIcon,
-  MenuIcon,
-  SignOutIcon,
-} from "@/components/svgs"
+import { CircledPlusIcon, HeartIcon, MenuIcon } from "@/components/svgs"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { DialogClose, DialogTitle } from "@/components/ui/dialog"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { getInitials, cn } from "@/lib/utils"
-import { X } from "lucide-react"
+import { getInitials } from "@/lib/utils"
 import Image from "next/image"
 import Link from "next/link"
-import SearchBar from "../../user/_components/search"
 import { usePathname } from "next/navigation"
-import { navItems } from ".."
+import { useState } from "react"
+import SearchBar from "./search"
 
 export default function Header() {
   const pathname = usePathname()
@@ -40,7 +31,7 @@ export default function Header() {
             width={182}
             height={42}
             priority
-            className="w-auto h-auto object-contain"
+            className="w-[182] h-[42px] xl:w-auto xl:h-auto object-contain"
           />
         </Link>
         {/* SearchBar */}

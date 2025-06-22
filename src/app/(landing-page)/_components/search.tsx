@@ -1,12 +1,11 @@
 "use client"
-
 import { useState, useEffect, useRef, type FormEvent } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ChevronDown, Search, X } from "lucide-react"
-import FilterSchoolDialog from "./FilterSchool"
-import SearchAutocompleteDialog from "./SearchAutocomplete"
+import FilterSchoolDialog from "@/app/(landing-page)/sections/FilterSchool"
+import SearchIcon from "@/components/svgs/search"
 
 // Sample data for suggestions
 const recentSearches = [
@@ -199,17 +198,15 @@ const getCategoryForTerm = (term: string): string => {
   return "Electronics" // Default category
 }
 
-export default function SearchDialog() {
+export default function SearchBar() {
   const router = useRouter()
-  const [filterSchoolOpen, setFilterSchoolOpen] = useState(false)
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedSchool, setSelectedSchool] = useState<string>("")
   const [showSuggestions, setShowSuggestions] = useState(false)
   const [highlightedIndex, setHighlightedIndex] = useState(-1)
+  const [filterSchoolOpen, setFilterSchoolOpen] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
   const suggestionsRef = useRef<HTMLDivElement>(null)
-  const [isMobile, setIsMobile] = useState(false)
-  const [autocompleteOpen, setAutocompleteOpen] = useState(false)
 
   // Filtered suggestions based on search term
   const [filteredSuggestions, setFilteredSuggestions] = useState<
@@ -219,16 +216,6 @@ export default function SearchDialog() {
       type: "suggestion"
     }>
   >([])
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768)
-    }
-
-    checkMobile()
-    window.addEventListener("resize", checkMobile)
-    return () => window.removeEventListener("resize", checkMobile)
-  }, [])
 
   // Update suggestions when search term changes
   useEffect(() => {
@@ -357,24 +344,13 @@ export default function SearchDialog() {
     filterParams: URLSearchParams
   ) => {
     setSelectedSchool(schools)
-
-    // On mobile, apply filters and navigate
-    if (window.innerWidth <= 768) {
-      router.push(`/ads?${filterParams.toString()}`)
-    }
-
     setFilterSchoolOpen(false)
   }
 
-  // Handle input focus - open autocomplete dialog on mobile
+  // Handle input focus
   const handleInputFocus = () => {
-    if (isMobile) {
-      setAutocompleteOpen(true)
-      inputRef.current?.blur() // Remove focus from input
-    } else {
-      if (searchTerm.trim().length > 0) {
-        setShowSuggestions(true)
-      }
+    if (searchTerm.trim().length > 0) {
+      setShowSuggestions(true)
     }
   }
 
@@ -394,20 +370,20 @@ export default function SearchDialog() {
   }
 
   return (
-    <div className="flex items-center gap-2 p-2">
-      {/* Filter/School Button */}
+    <div className="flex w-full gap-2 items-center">
+      {/* School Selection Button */}
       <Button
         variant="ghost"
         onClick={() => setFilterSchoolOpen(true)}
-        className="w-[141px] h-12 lg:h-[54px] bg-[#F6F6F6] hover:bg-[#F6F6F6]/50 transform duration-300 border border-[#E3E6EA] rounded-[8px] px-4 sm:px-4 py-2 text-[14px]/[18px] lg:text-[16px]/[18px] font-circular-std font-bold tracking-normal flex items-center text-[#384853] gap-[6px] focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-1 focus-visible:ring-offset-white cursor-pointer"
+        className="min-w-[153px] h-10 lg:h-[48px] bg-[#F1F2F4] hover:bg-[#F1F2F4] transform duration-300 border border-[#E3E6EA] rounded-[10px] px-4 py-2 text-[14px] lg:text-[16px] font-medium flex items-center text-[#6B7B8A] gap-1 focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-1 focus-visible:ring-offset-white cursor-pointer"
       >
-        <span className="truncate max-w-[100px] sm:max-w-xs">
+        <span className="truncate max-w-[120px]">
           {selectedSchool || "All Schools"}
         </span>
-        <ChevronDown className="ml-auto h-5 w-5 text-[#384853] flex-shrink-0" />
+        <ChevronDown className="ml-auto h-4 w-4 text-[#6B7B8A] flex-shrink-0" />
       </Button>
 
-      {/* Combined Filter/School Dialog */}
+      {/* School Selection Dialog */}
       <FilterSchoolDialog
         open={filterSchoolOpen}
         onOpenChange={setFilterSchoolOpen}
@@ -415,33 +391,24 @@ export default function SearchDialog() {
         onApplyFilters={handleFilterApply}
       />
 
-      {/* Search Autocomplete Dialog for Mobile */}
-      <SearchAutocompleteDialog
-        open={autocompleteOpen}
-        onOpenChange={setAutocompleteOpen}
-        selectedSchool={selectedSchool}
-      />
-
-      {/* Autocomplete Search Input */}
-      <div className="flex-1 relative">
+      {/* Search Input with Autocomplete */}
+      <div className="relative w-full">
         <form onSubmit={handleSearch} className="flex items-center">
-          <div className="relative flex-1">
+          <div className="relative w-full">
             <Input
               ref={inputRef}
               type="search"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               onFocus={handleInputFocus}
-              onClick={handleInputFocus}
               onBlur={handleInputBlur}
               placeholder={
                 selectedSchool
-                  ? `Search items in ${selectedSchool}...`
-                  : "Search items here..."
+                  ? `Search products in ${selectedSchool}`
+                  : "Search products across all schools"
               }
-              className="bg-white h-9 sm:h-10 lg:h-[56px] flex-1 border-0 shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 pr-20 pl-1 lg:pl-2.5 font-nunito text-xs sm:text-sm text-foreground placeholder:text-[#8B90A0]"
+              className="bg-white h-10 lg:h-[48px] w-full border border-[#E3E6EA] px-4 py-2 pr-20 text-sm rounded-[10px] placeholder:text-[#9CA3AF] shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
               autoComplete="off"
-              readOnly={isMobile}
             />
 
             {/* Clear button */}
@@ -462,19 +429,19 @@ export default function SearchDialog() {
               type="submit"
               variant="ghost"
               size="icon"
-              className="absolute right-1 top-1/2 -translate-y-1/2 text-secondary hover:bg-[#E3E6EA]/30 rounded-full h-8 w-8 sm:h-9 sm:w-9 flex-shrink-0"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-secondary hover:bg-[#E3E6EA]/30 rounded-full h-7 w-7"
             >
-              <Search className="h-5 w-5 sm:h-5 sm:w-5" />
+              <Search className="h-4 w-4" />
               <span className="sr-only">Search</span>
             </Button>
           </div>
         </form>
 
-        {/* Suggestions Dropdown - Matching the UI design */}
+        {/* Suggestions Dropdown */}
         {showSuggestions && (
           <div
             ref={suggestionsRef}
-            className="absolute top-full left-0 right-0 z-50 mt-1 bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden"
+            className="absolute top-full left-0 right-0 z-50 -mt-1.5 bg-white rounded-b-[10px] shadow-none border border-gray-100 overflow-hidden"
           >
             <div className="py-2">
               {filteredSuggestions.length > 0 ? (
@@ -501,20 +468,15 @@ export default function SearchDialog() {
                   </div>
                 ))
               ) : (
-                <div className="px-6 py-8 text-center">
-                  <div className="text-4xl mb-3">🔍</div>
-                  <div className="text-gray-500 text-sm mb-2">
+                <div className="w-full flex flex-col justify-center items-center px-6 py-8 text-center font-circular-std">
+                  <SearchIcon />
+                  <div className="text-foreground text-sm mb-2">
                     No results found for "{searchTerm}"
                   </div>
-                  <div className="text-gray-400 text-xs mb-4">
+                  <div className="text-[#464D61] text-xs mb-4">
                     Try adjusting your search term or browse categories
                   </div>
-                  <button
-                    onClick={clearSearch}
-                    className="text-blue-500 text-sm hover:underline"
-                  >
-                    Clear search
-                  </button>
+                  <Button onClick={clearSearch}>Clear search</Button>
                 </div>
               )}
             </div>

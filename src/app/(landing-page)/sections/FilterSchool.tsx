@@ -251,6 +251,32 @@ export default function FilterSchoolDialog({
     }
   }
 
+  // Handle price range selection - clear custom values when range is selected
+  const handlePriceRangeChange = (value: string) => {
+    setPriceRange(value)
+    if (value !== "all") {
+      // Clear custom min/max when selecting a predefined range
+      setMinPrice("")
+      setMaxPrice("")
+    }
+  }
+
+  // Handle min price change
+  const handleMinPriceChange = (value: string) => {
+    setMinPrice(value)
+    if (value) {
+      setPriceRange("all") // Clear predefined range when custom value is entered
+    }
+  }
+
+  // Handle max price change
+  const handleMaxPriceChange = (value: string) => {
+    setMaxPrice(value)
+    if (value) {
+      setPriceRange("all") // Clear predefined range when custom value is entered
+    }
+  }
+
   // Apply filters
   const applyFilters = () => {
     const params = new URLSearchParams()
@@ -267,12 +293,16 @@ export default function FilterSchoolDialog({
       params.set("schools", schoolToUse)
     }
 
-    // Add price filters
-    if (priceRange !== "all") {
+    // Add price filters - Updated logic to handle both ranges and custom values
+    if (minPrice || maxPrice) {
+      // If custom min/max prices are set, use them and clear predefined range
+      if (minPrice) params.set("minPrice", minPrice)
+      if (maxPrice) params.set("maxPrice", maxPrice)
+      // Don't set priceRange when using custom values
+    } else if (priceRange !== "all") {
+      // Only use predefined range if no custom values are set
       params.set("priceRange", priceRange)
     }
-    if (minPrice) params.set("minPrice", minPrice)
-    if (maxPrice) params.set("maxPrice", maxPrice)
 
     // Add condition
     if (selectedCondition !== "any") {
@@ -307,6 +337,11 @@ export default function FilterSchoolDialog({
   // Get total selected filters count
   const getTotalSelectedFilters = () => {
     let count = 0
+
+    // Count school selection (if not default "All schools")
+    const schoolToUse = selectedTopSchool || selectedSchool
+    if (schoolToUse && schoolToUse !== "") count += 1
+
     if (selectedCategory && selectedSubcategory) count += 1
     if (priceRange !== "all" || minPrice || maxPrice) count += 1
     if (selectedCondition !== "any") count += 1
@@ -319,7 +354,7 @@ export default function FilterSchoolDialog({
         className={`p-0 overflow-hidden flex flex-col ${
           isLargeDevice
             ? "sm:max-w-[800px] max-h-[90vh]"
-            : "w-full h-full max-w-none max-h-none m-0 rounded-none"
+            : "w-full h-full max-w-none max-h-none m-0 shadow-none border-0 rounded-none"
         }`}
       >
         {/* School Selection Step */}
@@ -406,7 +441,11 @@ export default function FilterSchoolDialog({
                 isLargeDevice ? setStep("school") : onOpenChange(false)
               }
               title="Filters"
-              clearText={`Clear All ${getTotalSelectedFilters() > 0 && getTotalSelectedFilters()}`}
+              clearText={
+                getTotalSelectedFilters() > 0
+                  ? `Clear All (${getTotalSelectedFilters()})`
+                  : "Clear All"
+              }
             />
 
             <div className="flex-1 overflow-y-auto p-4 space-y-4">
@@ -467,7 +506,7 @@ export default function FilterSchoolDialog({
               {/* CONDITIONS */}
               <div className="flex flex-col gap-1 border-b border-[#EBEEF7] pb-2">
                 <div
-                  className="flex items-center justify-between cursor-pointer"
+                  className="flex items-center justify-between py-3 cursor-pointer"
                   onClick={() => setStep("conditions")}
                 >
                   <h3 className="text-[#191F33] font-circular-std font-medium text-base tracking-normal">
@@ -747,22 +786,22 @@ export default function FilterSchoolDialog({
                   placeholder="Min price"
                   value={minPrice}
                   min={0}
-                  onChange={(e) => setMinPrice(e.target.value)}
+                  onChange={(e) => handleMinPriceChange(e.target.value)}
                   className="flex-1"
                 />
                 <Input
                   type="number"
                   placeholder="Max price"
                   value={maxPrice}
-                  min={minPrice}
-                  onChange={(e) => setMaxPrice(e.target.value)}
+                  min={minPrice || 0}
+                  onChange={(e) => handleMaxPriceChange(e.target.value)}
                   className="flex-1"
                 />
               </div>
 
               <RadioGroup
                 value={priceRange}
-                onValueChange={setPriceRange}
+                onValueChange={handlePriceRangeChange}
                 className="space-y-3"
               >
                 {priceRanges.map((range) => (

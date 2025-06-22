@@ -40,12 +40,12 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useRef, useState } from "react"
 import FilterSchoolDialog from "../sections/FilterSchool"
 
-// Sample product data
+// Sample product data - Updated to match ShopWithCategories structure
 const productResults = [
   {
     id: 1,
     name: "iPhone 13 Pro Max",
-    category: "Electronics",
+    category: "Mobile",
     subcategory: "Apple",
     price: 750000,
     location: "Umuahia",
@@ -60,7 +60,7 @@ const productResults = [
   {
     id: 2,
     name: "MacBook Pro 16-inch",
-    category: "Computers",
+    category: "Computer & Laptop",
     subcategory: "Apple",
     price: 1200000,
     location: "Lagos",
@@ -89,9 +89,9 @@ const productResults = [
   },
   {
     id: 4,
-    name: "Sony WH-1000XM4 Headphones",
-    category: "Audio",
-    subcategory: "Sony",
+    name: "Wireless Headphones",
+    category: "Phone Accessories",
+    subcategory: "Headphones",
     price: 180000,
     location: "Port Harcourt",
     timePosted: "5 days ago",
@@ -121,7 +121,7 @@ const productResults = [
     id: 6,
     name: "PlayStation 5 Digital Edition",
     category: "Gaming",
-    subcategory: "Sony",
+    subcategory: "PlayStation",
     price: 420000,
     location: "Enugu",
     timePosted: "4 days ago",
@@ -135,7 +135,7 @@ const productResults = [
   {
     id: 7,
     name: "Dell XPS 15",
-    category: "Computers",
+    category: "Computer & Laptop",
     subcategory: "Dell",
     price: 950000,
     location: "Ibadan",
@@ -149,18 +149,48 @@ const productResults = [
   },
   {
     id: 8,
-    name: "Canon EOS R5",
-    category: "Cameras",
-    subcategory: "Canon",
-    price: 1800000,
+    name: "Designer Handbag",
+    category: "Fashion & Accessories",
+    subcategory: "Bags",
+    price: 180000,
     location: "Kaduna",
     timePosted: "2 weeks ago",
     image: "/images/image4.png",
-    vendor: "Photo Studio",
+    vendor: "Fashion Store",
     vendorImage: "/images/vendor.jpg",
     condition: "New",
     isSponsored: true,
     school: "Lagos State University",
+  },
+  {
+    id: 9,
+    name: "Smart TV 55 inch",
+    category: "Home & Living",
+    subcategory: "Appliances",
+    price: 850000,
+    location: "Abuja",
+    timePosted: "3 days ago",
+    image: "/images/image1.png",
+    vendor: "Electronics Hub",
+    vendorImage: "/images/vendor.jpg",
+    condition: "New",
+    isSponsored: false,
+    school: "University of Lagos",
+  },
+  {
+    id: 10,
+    name: "Organic Rice 50kg",
+    category: "Food",
+    subcategory: "Organic",
+    price: 45000,
+    location: "Kano",
+    timePosted: "1 day ago",
+    image: "/images/image3.png",
+    vendor: "Farm Fresh",
+    vendorImage: "/images/vendor.jpg",
+    condition: "New",
+    isSponsored: false,
+    school: "Ahmadu Bello University Zaria",
   },
 ]
 
@@ -183,12 +213,27 @@ const schoolTypes = [
   "University of Port Harcourt",
 ]
 
-// Category data structure
+// Updated category data structure to match ShopWithCategories
 const categories = [
+  {
+    name: "Computer & Laptop",
+    subcategories: [
+      "Desktop",
+      "Laptop",
+      "Gaming PC",
+      "Workstation",
+      "Mini PC",
+      "All-in-One",
+      "Apple",
+      "Dell",
+      "HP",
+      "Others",
+    ],
+  },
   {
     name: "Mobile",
     subcategories: [
-      "Apple",
+      "iPhone",
       "Samsung",
       "Xiaomi",
       "Tecno",
@@ -197,45 +242,43 @@ const categories = [
       "Vivo",
       "Huawei",
       "Nokia",
+      "Apple",
       "Others",
     ],
   },
   {
-    name: "Vehicle",
+    name: "Phone Accessories",
     subcategories: [
-      "Toyota",
-      "Honda",
-      "Mercedes-Benz",
-      "BMW",
-      "Ford",
-      "Hyundai",
-      "Kia",
-      "Nissan",
-      "Lexus",
+      "Cases & Covers",
+      "Screen Protectors",
+      "Chargers",
+      "Headphones",
+      "Power Banks",
+      "Cables",
       "Others",
     ],
   },
   {
-    name: "Properties",
+    name: "Computer Accessories",
     subcategories: [
-      "Apartments",
-      "Houses",
-      "Land",
-      "Commercial",
-      "Short Lets",
-      "Event Centers",
+      "Keyboards",
+      "Mouse",
+      "Monitors",
+      "Speakers",
+      "Webcams",
+      "Storage",
       "Others",
     ],
   },
   {
-    name: "Essentials",
+    name: "Fashion & Accessories",
     subcategories: [
       "Clothing",
       "Shoes",
       "Bags",
       "Jewelry",
       "Watches",
-      "Cosmetics",
+      "Sunglasses",
       "Others",
     ],
   },
@@ -247,23 +290,33 @@ const categories = [
       "Kitchen",
       "Decor",
       "Garden",
+      "Lighting",
       "Others",
     ],
   },
   {
-    name: "Business & Industry",
+    name: "Food",
     subcategories: [
-      "Equipment",
-      "Tools",
-      "Office",
-      "Medical",
-      "Construction",
+      "Fresh Food",
+      "Packaged Food",
+      "Beverages",
+      "Snacks",
+      "Organic",
+      "Local Delicacies",
       "Others",
     ],
   },
   {
-    name: "Education",
-    subcategories: ["Books", "Courses", "Tutoring", "Stationery", "Others"],
+    name: "Gaming",
+    subcategories: [
+      "PlayStation",
+      "Xbox",
+      "Nintendo",
+      "PC Gaming",
+      "Mobile Gaming",
+      "Accessories",
+      "Others",
+    ],
   },
 ]
 
@@ -287,27 +340,29 @@ export default function AdsPage() {
   // Search and filter states
   const query = searchParams.get("q") || ""
   const schoolsParam = searchParams.get("schools") || ""
+  const categoryParam = searchParams.get("category") || "" // Direct category from ShopWithCategories
+
   const [searchQuery, setSearchQuery] = useState(query)
   const [schoolSearchTerm, setSchoolSearchTerm] = useState("")
-  // Changed to single school selection
   const [selectedSchool, setSelectedSchool] = useState<string>(
     schoolsParam ? schoolsParam.split(",")[0] : ""
   )
   const [selectedSchoolForMobile, setSelectedSchoolForMobile] =
     useState<string>(selectedSchool)
-  // Change the expandedCategories state to only handle main sections
+
   const [expandedSections, setExpandedSections] = useState<string[]>([
     "price",
     "category",
     "condition",
     "school",
   ])
-  // Add a new state for subcategories
   const [expandedSubcategories, setExpandedSubcategories] = useState<string[]>(
     []
   )
 
-  // Filter states - Changed to single selections
+  // Filter states - Support both direct category and category/subcategory filtering
+  const [selectedDirectCategory, setSelectedDirectCategory] =
+    useState<string>(categoryParam)
   const [selectedCategory, setSelectedCategory] = useState<string>("")
   const [selectedSubcategory, setSelectedSubcategory] = useState<string>("")
   const [selectedCondition, setSelectedCondition] = useState<string>(
@@ -323,7 +378,6 @@ export default function AdsPage() {
     searchParams.get("maxPrice") || ""
   )
   const [sortOption, setSortOption] = useState<string>("latest")
-  // Add pagination state
   const [itemsToShow, setItemsToShow] = useState<number>(10)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const loadMoreRef = useRef<HTMLDivElement>(null)
@@ -339,7 +393,7 @@ export default function AdsPage() {
       )
     : schoolTypes
 
-  // Handle school selection - Changed to single selection
+  // Handle school selection
   const handleSchoolSelect = (school: string) => {
     setSelectedSchool(school)
   }
@@ -350,10 +404,20 @@ export default function AdsPage() {
     setSelectedSchool(school)
   }
 
-  // Handle category selection - Changed to single selection
+  // Handle category selection
   const handleCategorySelection = (category: string, subcategory: string) => {
     setSelectedCategory(category)
     setSelectedSubcategory(subcategory)
+    // Clear direct category when using detailed filtering
+    setSelectedDirectCategory("")
+  }
+
+  // Handle direct category selection (from URL or filter reset)
+  const handleDirectCategorySelection = (category: string) => {
+    setSelectedDirectCategory(category)
+    // Clear detailed category selection when using direct category
+    setSelectedCategory("")
+    setSelectedSubcategory("")
   }
 
   // Toggle category expansion
@@ -399,8 +463,10 @@ export default function AdsPage() {
       params.set("condition", selectedCondition)
     }
 
-    // Add category and subcategory
-    if (selectedCategory && selectedSubcategory) {
+    // Add category filters - prioritize direct category over detailed category/subcategory
+    if (selectedDirectCategory) {
+      params.set("category", selectedDirectCategory)
+    } else if (selectedCategory && selectedSubcategory) {
       const categoryData = { [selectedCategory]: [selectedSubcategory] }
       params.set("categories", encodeURIComponent(JSON.stringify(categoryData)))
     }
@@ -424,6 +490,7 @@ export default function AdsPage() {
   // Clear all filters
   const clearFilters = () => {
     setSelectedSchool("")
+    setSelectedDirectCategory("")
     setSelectedCategory("")
     setSelectedSubcategory("")
     setSelectedCondition("all")
@@ -451,7 +518,7 @@ export default function AdsPage() {
           )
       : [0, Number.POSITIVE_INFINITY]
 
-  // Filter products based on all filters - Updated for single selections
+  // Enhanced filter logic to support both direct category and detailed filtering
   const filteredProducts = productResults.filter((product) => {
     // Match by search query if provided
     const matchesQuery =
@@ -459,13 +526,13 @@ export default function AdsPage() {
       product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       product.category.toLowerCase().includes(searchQuery.toLowerCase())
 
-    // Match by school if selected (empty string means all schools)
+    // Match by school if selected
     const matchesSchool =
       !selectedSchool ||
       selectedSchool === "" ||
       selectedSchool === product.school
 
-    // Match by price (both custom range and predefined ranges)
+    // Match by price
     const matchesPrice =
       product.price >= minPriceValue &&
       product.price <= maxPriceValue &&
@@ -478,12 +545,20 @@ export default function AdsPage() {
       selectedCondition === "all" ||
       product.condition.toLowerCase() === selectedCondition.toLowerCase()
 
-    // Match by category and subcategory
+    // Enhanced category matching - support both direct category and detailed category/subcategory
     const matchesCategory =
-      !selectedCategory ||
-      !selectedSubcategory ||
-      (product.category.toLowerCase() === selectedCategory.toLowerCase() &&
-        product.subcategory.toLowerCase() === selectedSubcategory.toLowerCase())
+      // If direct category is selected (from ShopWithCategories)
+      (selectedDirectCategory &&
+        product.category.toLowerCase() ===
+          selectedDirectCategory.toLowerCase()) ||
+      // If detailed category/subcategory is selected
+      (selectedCategory &&
+        selectedSubcategory &&
+        product.category.toLowerCase() === selectedCategory.toLowerCase() &&
+        product.subcategory.toLowerCase() ===
+          selectedSubcategory.toLowerCase()) ||
+      // If no category filters are applied
+      (!selectedDirectCategory && !selectedCategory && !selectedSubcategory)
 
     return (
       matchesQuery &&
@@ -501,15 +576,26 @@ export default function AdsPage() {
 
   // Initialize filters from URL params
   useEffect(() => {
-    // Get categories from URL
+    // Handle direct category parameter (from ShopWithCategories)
+    const categoryParam = searchParams.get("category")
+    if (categoryParam) {
+      setSelectedDirectCategory(categoryParam)
+      // Clear detailed category selection when direct category is set
+      setSelectedCategory("")
+      setSelectedSubcategory("")
+    }
+
+    // Handle detailed categories parameter
     const categoriesParam = searchParams.get("categories")
-    if (categoriesParam) {
+    if (categoriesParam && !categoryParam) {
       try {
         const categories = JSON.parse(decodeURIComponent(categoriesParam))
         const firstCategory = Object.keys(categories)[0]
         if (firstCategory && categories[firstCategory].length > 0) {
           setSelectedCategory(firstCategory)
           setSelectedSubcategory(categories[firstCategory][0])
+          // Clear direct category when detailed category is set
+          setSelectedDirectCategory("")
         }
       } catch (e) {
         console.error("Failed to parse categories", e)
@@ -517,14 +603,12 @@ export default function AdsPage() {
     }
   }, [searchParams])
 
-  // Add this useEffect for intersection observer after the other useEffect hooks
+  // Intersection observer for infinite scroll
   useEffect(() => {
-    // Set up intersection observer for infinite scroll
     const observer = new IntersectionObserver(
       (entries) => {
         const [entry] = entries
         if (entry.isIntersecting && filteredProducts.length > itemsToShow) {
-          // Add a small delay to simulate loading
           setIsLoading(true)
           setTimeout(() => {
             setItemsToShow((prev) => prev + 6)
@@ -544,7 +628,7 @@ export default function AdsPage() {
         observer.unobserve(loadMoreRef.current)
       }
     }
-  }, [filteredProducts.length])
+  }, [filteredProducts.length, itemsToShow])
 
   // Filter content component
   const FilterContent = () => (
@@ -648,75 +732,126 @@ export default function AdsPage() {
             />
           </div>
           <div className="font-medium font-circular-std text-[16px]/[24px] tracking-normal text-secondary">
-            {selectedCategory && selectedSubcategory
-              ? `${selectedCategory} - ${selectedSubcategory}`
-              : "All"}
+            {selectedDirectCategory ||
+              (selectedCategory && selectedSubcategory
+                ? `${selectedCategory} - ${selectedSubcategory}`
+                : "All")}
           </div>
           {expandedSections.includes("category") && (
             <div className="mt-2">
-              {categories.map((category) => (
-                <div key={category.name} className="mb-2">
-                  <div
-                    className="flex justify-between items-center py-1 cursor-pointer"
-                    onClick={() => {
-                      if (expandedSubcategories.includes(category.name)) {
-                        setExpandedSubcategories(
-                          expandedSubcategories.filter(
-                            (c) => c !== category.name
-                          )
-                        )
-                      } else {
-                        setExpandedSubcategories([
-                          ...expandedSubcategories,
-                          category.name,
-                        ])
-                      }
-                    }}
-                  >
-                    <span className="text-[16px]/[24px] font-medium font-circular-std tracking-normal text-foreground">
-                      {category.name}
-                    </span>
-                    <ChevronRight
-                      className={`h-5 w-5 text-gray-400 transition-transform ${
-                        expandedSubcategories.includes(category.name)
-                          ? "transform rotate-90"
-                          : ""
-                      }`}
+              {/* Direct category selection */}
+              <div className="mb-4">
+                <h4 className="text-sm font-medium mb-2 text-gray-700">
+                  Main Categories
+                </h4>
+                <RadioGroup
+                  value={selectedDirectCategory}
+                  onValueChange={handleDirectCategorySelection}
+                  className="space-y-2"
+                >
+                  <div className="flex items-center">
+                    <RadioGroupItem
+                      value=""
+                      id="category-all"
+                      className="mr-2"
                     />
+                    <Label
+                      htmlFor="category-all"
+                      className="text-sm cursor-pointer"
+                    >
+                      All Categories
+                    </Label>
                   </div>
-                  {expandedSubcategories.includes(category.name) && (
-                    <div className="pl-4 space-y-2 mt-1">
-                      <RadioGroup
-                        value={
-                          selectedCategory === category.name
-                            ? selectedSubcategory
-                            : ""
-                        }
-                        onValueChange={(value) =>
-                          handleCategorySelection(category.name, value)
-                        }
-                        className="space-y-2"
+                  {categories.map((category) => (
+                    <div key={category.name} className="flex items-center">
+                      <RadioGroupItem
+                        value={category.name}
+                        id={`direct-${category.name}`}
+                        className="mr-2"
+                      />
+                      <Label
+                        htmlFor={`direct-${category.name}`}
+                        className="text-sm cursor-pointer"
                       >
-                        {category.subcategories.map((subcategory) => (
-                          <div key={subcategory} className="flex items-center">
-                            <RadioGroupItem
-                              value={subcategory}
-                              id={`${category.name}-${subcategory}`}
-                              className="mr-2"
-                            />
-                            <Label
-                              htmlFor={`${category.name}-${subcategory}`}
-                              className="text-sm cursor-pointer"
-                            >
-                              {subcategory}
-                            </Label>
-                          </div>
-                        ))}
-                      </RadioGroup>
+                        {category.name}
+                      </Label>
                     </div>
-                  )}
-                </div>
-              ))}
+                  ))}
+                </RadioGroup>
+              </div>
+
+              {/* Detailed category/subcategory selection */}
+              <div className="border-t pt-4">
+                <h4 className="text-sm font-medium mb-2 text-gray-700">
+                  Detailed Categories
+                </h4>
+                {categories.map((category) => (
+                  <div key={category.name} className="mb-2">
+                    <div
+                      className="flex justify-between items-center py-1 cursor-pointer"
+                      onClick={() => {
+                        if (expandedSubcategories.includes(category.name)) {
+                          setExpandedSubcategories(
+                            expandedSubcategories.filter(
+                              (c) => c !== category.name
+                            )
+                          )
+                        } else {
+                          setExpandedSubcategories([
+                            ...expandedSubcategories,
+                            category.name,
+                          ])
+                        }
+                      }}
+                    >
+                      <span className="text-[14px] font-medium font-circular-std tracking-normal text-foreground">
+                        {category.name}
+                      </span>
+                      <ChevronRight
+                        className={`h-4 w-4 text-gray-400 transition-transform ${
+                          expandedSubcategories.includes(category.name)
+                            ? "transform rotate-90"
+                            : ""
+                        }`}
+                      />
+                    </div>
+                    {expandedSubcategories.includes(category.name) && (
+                      <div className="pl-4 space-y-2 mt-1">
+                        <RadioGroup
+                          value={
+                            selectedCategory === category.name
+                              ? selectedSubcategory
+                              : ""
+                          }
+                          onValueChange={(value) =>
+                            handleCategorySelection(category.name, value)
+                          }
+                          className="space-y-2"
+                        >
+                          {category.subcategories.map((subcategory) => (
+                            <div
+                              key={subcategory}
+                              className="flex items-center"
+                            >
+                              <RadioGroupItem
+                                value={subcategory}
+                                id={`${category.name}-${subcategory}`}
+                                className="mr-2"
+                              />
+                              <Label
+                                htmlFor={`${category.name}-${subcategory}`}
+                                className="text-sm cursor-pointer"
+                              >
+                                {subcategory}
+                              </Label>
+                            </div>
+                          ))}
+                        </RadioGroup>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
           )}
         </div>
@@ -887,6 +1022,7 @@ export default function AdsPage() {
           </div>
         </div>
       </div>
+
       {/* Mobile School Selector and Filters */}
       <div className="xl:hidden bg-white px-4 py-3 flex items-center gap-3">
         <Select
@@ -951,6 +1087,11 @@ export default function AdsPage() {
             {filteredProducts.length}
           </span>{" "}
           Results Found
+          {selectedDirectCategory && (
+            <span className="text-secondary ml-2">
+              in {selectedDirectCategory}
+            </span>
+          )}
         </h1>
         <div className="flex items-center">
           <Select value={sortOption} onValueChange={setSortOption}>
@@ -1117,6 +1258,7 @@ export default function AdsPage() {
           </div>
         </div>
       </div>
+
       {/* Filter Dialog */}
       <FilterSchoolDialog
         open={isFilterDialogOpen}

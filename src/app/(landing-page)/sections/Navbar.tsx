@@ -1,18 +1,25 @@
 "use client"
 
 import { CircledPlusIcon, MenuIcon } from "@/components/svgs"
-import { DialogClose, DialogTitle } from "@/components/ui/dialog"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { X } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import { useState } from "react"
+import { usePathname } from "next/navigation"
+import { useEffect, useState } from "react"
 
 export default function Navbar() {
-  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const pathname = usePathname()
+  const [isHome, setIsHome] = useState(false)
+
+  useEffect(() => {
+    setIsHome(pathname === "/")
+  }, [pathname])
 
   return (
-    <nav className="hidden bg-primary text-white h-[60px] xl:h-[103px] py-4 xl:py-6 px-4 2xl:px-6 xl:flex items-center justify-center">
+    <nav
+      className={`${
+        isHome ? "flex" : "hidden"
+      } bg-primary text-white h-[60px] xl:h-[103px] py-4 xl:py-6 px-4 2xl:px-6 xl:flex items-center justify-center`}
+    >
       <div className="w-full max-w-[1320px] mx-auto flex items-center justify-between relative">
         {/* Logo */}
         <Link href="/" className="flex-shrink-0 w-[182px] h-[42px]">
@@ -22,7 +29,7 @@ export default function Navbar() {
             width={182}
             height={42}
             priority
-            className="w-auto h-auto object-contain"
+            className="w-[182] h-[42px] xl:w-auto xl:h-auto object-contain"
           />
         </Link>
 
