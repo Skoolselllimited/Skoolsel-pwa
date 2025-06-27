@@ -1,5 +1,6 @@
 "use client"
 
+import FilterSchoolDialog from "@/app/(ads)/_components/FilterSchool"
 import BreadcrumbNav from "@/components/breadCrumbs"
 import {
   ClockIcon,
@@ -27,7 +28,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
-import { generateBreadcrumbs, getInitials } from "@/lib/utils"
+import { getInitials } from "@/lib/utils"
 import {
   ArrowLeft,
   ChevronRight,
@@ -38,7 +39,6 @@ import Image from "next/image"
 import Link from "next/link"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useRef, useState } from "react"
-import FilterSchoolDialog from "../sections/FilterSchool"
 
 // Sample product data - Updated to match ShopWithCategories structure
 const productResults = [
@@ -48,7 +48,7 @@ const productResults = [
     category: "Mobile",
     subcategory: "Apple",
     price: 750000,
-    location: "Umuahia",
+    location: "ABU Zazia",
     timePosted: "1 week ago",
     image: "/images/related_ad.webp",
     vendor: "Aliya Gadget Store",
@@ -63,7 +63,7 @@ const productResults = [
     category: "Computer & Laptop",
     subcategory: "Apple",
     price: 1200000,
-    location: "Lagos",
+    location: "FUT Minna",
     timePosted: "3 days ago",
     image: "/images/image1.png",
     vendor: "Tech Hub",
@@ -78,7 +78,7 @@ const productResults = [
     category: "Mobile",
     subcategory: "Samsung",
     price: 650000,
-    location: "Abuja",
+    location: "UniLag",
     timePosted: "2 weeks ago",
     image: "/images/image2.png",
     vendor: "Mobile World",
@@ -93,7 +93,7 @@ const productResults = [
     category: "Phone Accessories",
     subcategory: "Headphones",
     price: 180000,
-    location: "Port Harcourt",
+    location: "COE Zuba",
     timePosted: "5 days ago",
     image: "/images/image3.png",
     vendor: "Sound Masters",
@@ -108,7 +108,7 @@ const productResults = [
     category: "Mobile",
     subcategory: "Apple",
     price: 550000,
-    location: "Kano",
+    location: "UniAbuja",
     timePosted: "1 day ago",
     image: "/images/image4.png",
     vendor: "Apple Store Nigeria",
@@ -123,7 +123,7 @@ const productResults = [
     category: "Gaming",
     subcategory: "PlayStation",
     price: 420000,
-    location: "Enugu",
+    location: "ABU Zaria",
     timePosted: "4 days ago",
     image: "/images/image2.png",
     vendor: "Game World",
@@ -138,7 +138,7 @@ const productResults = [
     category: "Computer & Laptop",
     subcategory: "Dell",
     price: 950000,
-    location: "Ibadan",
+    location: "FUT Minna",
     timePosted: "1 week ago",
     image: "/images/related_ad.webp",
     vendor: "Computer Village",
@@ -153,7 +153,7 @@ const productResults = [
     category: "Fashion & Accessories",
     subcategory: "Bags",
     price: 180000,
-    location: "Kaduna",
+    location: "UniLag",
     timePosted: "2 weeks ago",
     image: "/images/image4.png",
     vendor: "Fashion Store",
@@ -168,7 +168,7 @@ const productResults = [
     category: "Home & Living",
     subcategory: "Appliances",
     price: 850000,
-    location: "Abuja",
+    location: "UniLag",
     timePosted: "3 days ago",
     image: "/images/image1.png",
     vendor: "Electronics Hub",
@@ -183,7 +183,7 @@ const productResults = [
     category: "Food",
     subcategory: "Organic",
     price: 45000,
-    location: "Kano",
+    location: "ABU Zaria",
     timePosted: "1 day ago",
     image: "/images/image3.png",
     vendor: "Farm Fresh",
@@ -335,7 +335,6 @@ export default function AdsPage() {
   const pathname = usePathname()
   const router = useRouter()
   const searchParams = useSearchParams()
-  const breadcrumbItems = generateBreadcrumbs(pathname)
 
   // Search and filter states
   const query = searchParams.get("q") || ""
@@ -1059,7 +1058,7 @@ export default function AdsPage() {
                 <span>Filters</span>
                 <button
                   onClick={clearFilters}
-                  className="text-blue-500 text-sm"
+                  className="text-secondary text-sm font-circular-std"
                 >
                   Reset all
                 </button>
@@ -1073,11 +1072,7 @@ export default function AdsPage() {
       </div>
 
       {/* Desktop Breadcrumb */}
-      <div className="hidden xl:flex w-full bg-[#E8EBEE] h-[43px] items-center">
-        <div className="w-full h-full max-w-[1320px] bg-[#E8EBEE] mx-auto">
-          <BreadcrumbNav items={breadcrumbItems} className=" h-6" />
-        </div>
-      </div>
+      <BreadcrumbNav pathname={pathname} />
 
       {/* Results count and sort */}
       <div className="w-full max-w-[1320px] mx-auto flex justify-between items-center p-4 shadow-[0px_1px_0px_0px_#E8EBEE]">
@@ -1117,7 +1112,7 @@ export default function AdsPage() {
               </h2>
               <button
                 onClick={clearFilters}
-                className="text-secondary text-[18px]/[32px] font-circular-std italic tracking-normal hover:underline"
+                className="text-secondary text-[18px]/[32px] font-circular-std italic tracking-normal hover:underline cursor-pointer"
               >
                 Reset all
               </button>
@@ -1138,7 +1133,7 @@ export default function AdsPage() {
                     >
                       <div className="relative">
                         <Image
-                          src={ad.image || "/placeholder.svg"}
+                          src={ad.image}
                           alt={ad.name}
                           width={292}
                           height={267}
@@ -1228,13 +1223,7 @@ export default function AdsPage() {
                         </>
                       )}
                     </button>
-                  ) : (
-                    filteredProducts.length > 0 && (
-                      <p className="font-circular-std font-bold text-[14px] xl:text-[16px]/[50px] text-foreground/40">
-                        No more products to load
-                      </p>
-                    )
-                  )}
+                  ) : null}
                 </div>
               </>
             ) : (

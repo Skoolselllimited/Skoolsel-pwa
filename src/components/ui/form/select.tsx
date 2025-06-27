@@ -19,7 +19,8 @@ interface FormSelectProps {
   label: string
   value: string
   options: SelectOption[]
-  onChange: (value: string) => void
+  onChange?: (value: string) => void
+  onValueChange?: (value: string) => void
   error?: string
   hasError?: boolean
   className?: string
@@ -33,6 +34,7 @@ export const FormSelect = forwardRef<HTMLButtonElement, FormSelectProps>(
       value,
       options,
       onChange,
+      onValueChange,
       error,
       hasError = false,
       className = "",
@@ -42,6 +44,11 @@ export const FormSelect = forwardRef<HTMLButtonElement, FormSelectProps>(
     ref
   ) => {
     const [isFocused, setIsFocused] = useState(false)
+
+    const handleValueChange = (newValue: string) => {
+      if (onChange) onChange(newValue)
+      if (onValueChange) onValueChange(newValue)
+    }
 
     const containerBgClass = hasError ? "bg-[#FF4F4F14]" : "bg-[#919EAB14]"
     const labelColorClass = hasError ? "text-[#FF4F4F]" : "text-[#637381]"
@@ -68,12 +75,12 @@ export const FormSelect = forwardRef<HTMLButtonElement, FormSelectProps>(
                 </label>
                 <Select
                   value={value}
-                  onValueChange={onChange}
+                  onValueChange={handleValueChange}
                   onOpenChange={(open) => setIsFocused(open)}
                 >
                   <SelectTrigger
                     ref={ref}
-                    className={`w-full h-full bg-transparent text-[#212B36] text-[14px]/[100%] border-0 focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 shadow-none ${
+                    className={`w-full h-full bg-transparent text-[#0A243F] font-circular-std font-[450] text-[14px]/[100%] border-0 focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 shadow-none ${
                       isLabelActive ? "pt-9 pb-1.5" : "pt-0 pb-0"
                     } px-3`}
                     {...props}

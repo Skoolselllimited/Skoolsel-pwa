@@ -1,5 +1,7 @@
 "use client"
 
+import { ImageGallery } from "@/app/(landing-page)/_components/image-gallery"
+import BackButton from "@/components/BackButton"
 import BreadcrumbNav from "@/components/breadCrumbs"
 import {
   AnchorLink,
@@ -18,7 +20,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { generateBreadcrumbs, getInitials } from "@/lib/utils"
+import { getInitials } from "@/lib/utils"
 import {
   ChevronLeft,
   ChevronRight,
@@ -33,14 +35,10 @@ import { useState } from "react"
 import { FaFacebookF, FaLinkedinIn, FaWhatsapp } from "react-icons/fa"
 import { RiTwitterXLine } from "react-icons/ri"
 import { toast } from "sonner"
-import { ImageGallery } from "../../_components/image-gallery"
-import BackButton from "@/components/BackButton"
 
 export default function AdsDetails() {
   const router = useRouter()
-
   const pathname = usePathname()
-  const breadcrumbItems = generateBreadcrumbs(pathname)
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const [isGalleryOpen, setIsGalleryOpen] = useState(false)
   const [isPhoneRevealed, setIsPhoneRevealed] = useState(false)
@@ -111,11 +109,8 @@ export default function AdsDetails() {
           <HeartIcon className="text-[#464D61]" />
         </div>
       </div>
-      <div className="hidden w-full bg-[#E8EBEE] h-[43px] xl:flex items-center">
-        <div className="w-full h-full max-w-[1320px] bg-[#E8EBEE] mx-auto">
-          <BreadcrumbNav items={breadcrumbItems} className=" h-6" />
-        </div>
-      </div>
+      {/* Desktop Breadcrumb Bar */}
+      <BreadcrumbNav pathname={pathname} className=" h-6" />
       <div className="max-w-[1320px] mx-auto xl:p-4 min-h-screen">
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
           {/* Left Column - Product Images and Details */}

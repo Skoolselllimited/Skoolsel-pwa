@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ChevronDown, Search, X } from "lucide-react"
-import FilterSchoolDialog from "@/app/(landing-page)/sections/FilterSchool"
+import FilterSchoolDialog from "@/app/(ads)/_components/FilterSchool"
 import SearchIcon from "@/components/svgs/search"
 
 // Sample data for suggestions

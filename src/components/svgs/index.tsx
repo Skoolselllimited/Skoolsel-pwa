@@ -102,7 +102,7 @@ export function ArrowLeftIcon() {
     </svg>
   )
 }
-export function ArrowRightIcon() {
+export function ArrowRightIcon({ className }: IconProps) {
   return (
     <svg
       width="24"
@@ -110,20 +110,38 @@ export function ArrowRightIcon() {
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      className={className}
     >
       <path
         d="M3.75 12H20.25"
-        stroke="white"
+        stroke="currentColor"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M13.5 5.25L20.25 12L13.5 18.75"
-        stroke="white"
+        stroke="currentColor"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+export function EditIcon({ className }: IconProps) {
+  return (
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+    >
+      <path
+        d="M11.4 18.1529L18.796 10.7569C17.5517 10.2374 16.4216 9.47833 15.47 8.52291C14.5142 7.57112 13.7547 6.44068 13.235 5.19591L5.83902 12.5919C5.26202 13.1689 4.97302 13.4579 4.72502 13.7759C4.43213 14.1512 4.18098 14.5572 3.97602 14.9869C3.80302 15.3509 3.67402 15.7389 3.41602 16.5129L2.05402 20.5959C1.99133 20.7829 1.98203 20.9836 2.02716 21.1755C2.07229 21.3675 2.17007 21.543 2.30949 21.6824C2.44891 21.8219 2.62446 21.9196 2.81641 21.9648C3.00835 22.0099 3.20907 22.0006 3.39602 21.9379L7.47902 20.5759C8.25402 20.3179 8.64102 20.1889 9.00502 20.0159C9.43502 19.8109 9.84102 19.5599 10.216 19.2669C10.534 19.0189 10.823 18.7299 11.4 18.1529ZM20.848 8.70491C21.5855 7.96747 21.9997 6.9673 21.9997 5.92441C21.9997 4.88152 21.5855 3.88134 20.848 3.14391C20.1106 2.40647 19.1104 1.99219 18.0675 1.99219C17.0246 1.99219 16.0245 2.40647 15.287 3.14391L14.4 4.03091L14.438 4.14191C14.8751 5.39263 15.5904 6.52781 16.53 7.46191C17.492 8.42961 18.667 9.15902 19.961 9.59191L20.848 8.70491Z"
+        fill="currentColor"
       />
     </svg>
   )
@@ -320,8 +338,40 @@ export function ExpandIcon({ className }: IconProps) {
     </svg>
   )
 }
-
-export function VerifiedIcon() {
+export function CameraIcon() {
+  return (
+    <svg
+      width="32"
+      height="32"
+      viewBox="0 0 32 32"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M9.09273 29.1839H22.9073C26.5455 29.1839 27.9955 26.9562 28.1668 24.2408L28.8523 13.3526C29.0368 10.5053 26.7695 8.09304 23.9091 8.09304C23.105 8.09304 22.3668 7.63168 21.9977 6.91986L21.0486 5.00849C20.4423 3.80895 18.8605 2.82031 17.5159 2.82031H14.4973C13.1395 2.82031 11.5577 3.80895 10.9514 5.00849L10.0023 6.91986C9.63318 7.63168 8.895 8.09304 8.09091 8.09304C5.23045 8.09304 2.96318 10.5053 3.14773 13.3526L3.83318 24.2408C3.99136 26.9562 5.45454 29.1839 9.09273 29.1839Z"
+        stroke="white"
+        strokeWidth="1.97727"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M14.0227 10.7305H17.9773"
+        stroke="white"
+        strokeWidth="1.97727"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M16.0002 23.9119C18.3597 23.9119 20.2842 21.9874 20.2842 19.6278C20.2842 17.2683 18.3597 15.3438 16.0002 15.3438C13.6406 15.3438 11.7161 17.2683 11.7161 19.6278C11.7161 21.9874 13.6406 23.9119 16.0002 23.9119Z"
+        stroke="white"
+        strokeWidth="1.97727"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+export function VerifiedIcon({ className }: IconProps) {
   return (
     <svg
       width="16"
@@ -329,6 +379,7 @@ export function VerifiedIcon() {
       viewBox="0 0 16 16"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      className={className}
     >
       <rect width="16" height="16" rx="8" fill="#27C200" />
       <path

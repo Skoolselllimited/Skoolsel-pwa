@@ -1,4 +1,6 @@
 import { FormInput } from "./input"
 import { PasswordInput } from "./password"
 import { FormSelect } from "./select"
-export { FormInput, PasswordInput, FormSelect }
+import { PhoneInput } from "./phone"
+import { TextareaInput } from "./textarea"
+export { FormInput, PasswordInput, PhoneInput, TextareaInput, FormSelect }

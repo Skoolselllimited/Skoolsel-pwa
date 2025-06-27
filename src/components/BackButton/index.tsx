@@ -7,7 +7,7 @@ export default function BackButton({ onClick }: { onClick?: () => void }) {
       variant="ghost"
       size="icon"
       onClick={onClick}
-      className="h-10 w-10 border border-[#DADDE5] rounded-full"
+      className="h-10 w-10 border border-[#DADDE5] rounded-full hover:bg-transparent"
     >
       <ChevronLeft className="h-10 w-10" />
     </Button>

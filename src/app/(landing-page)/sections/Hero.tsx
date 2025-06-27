@@ -1,7 +1,7 @@
 "use client"
 import Image from "next/image"
 import { useEffect, useRef, useState } from "react"
-import SearchBar from "./Searchbar"
+import SearchBar from "../../(ads)/_components/Searchbar"
 
 export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null)

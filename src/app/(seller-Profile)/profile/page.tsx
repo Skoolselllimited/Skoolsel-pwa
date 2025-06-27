@@ -1,15 +1,15 @@
-"use client";
+"use client"
 
-import React from "react";
-import { generateBreadcrumbs, BreadcrumbItem } from "@/lib/utils";
-import { PublicProfile } from "../components/PublicProfile";
-import PublicProfileSidebar from "../components/PublicProfileSidebar";
-import { dummyProps } from "../data";
+import React from "react"
+import { generateBreadcrumbs, BreadcrumbItem } from "@/lib/utils"
+import { PublicProfile } from "../components/PublicProfile"
+import PublicProfileSidebar from "../components/PublicProfileSidebar"
+import { dummyProps } from "../data"
 
 export default function PublicProfilePage() {
-  const userDetails = dummyProps.userDetails;
-  const mockPath = "/ad-list/mobile/samsung/jones-profile";
-  const breadcrumbs: BreadcrumbItem[] = generateBreadcrumbs(mockPath);
+  const userDetails = dummyProps.userDetails
+  const mockPath = "/ad-list/mobile/samsung/jones-profile"
+  const breadcrumbs: BreadcrumbItem[] = generateBreadcrumbs(mockPath)
 
   return (
     <>
@@ -48,5 +48,5 @@ export default function PublicProfilePage() {
         </div>
       </section>
     </>
-  );
+  )
 }

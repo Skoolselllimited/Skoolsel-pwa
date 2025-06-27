@@ -1,4 +1,9 @@
-import { ClockIcon, LightStrikeIcon, MapPinIcon } from "@/components/svgs"
+import {
+  ClockIcon,
+  EditIcon,
+  LightStrikeIcon,
+  MapPinIcon,
+} from "@/components/svgs"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -66,7 +71,7 @@ export default function RecentPost({ recentAds }: recentPostProps) {
                     Boost Ad
                   </DropdownMenuItem>
                   <DropdownMenuItem className="h-9 focus:bg-[#E8F7FF] focus:text-secondary rounded py-2 px-3 flex items-center gap-3 cursor-pointer">
-                    <Edit3Icon className="w-5 h-5 text-inherit" />
+                    <EditIcon className="w-5 h-5 text-inherit" />
                     Edit Ads Details
                   </DropdownMenuItem>
                   <DropdownMenuItem className="h-9 focus:bg-[#E8F7FF] focus:text-secondary rounded py-2 px-3 flex items-center gap-3 cursor-pointer">

@@ -85,7 +85,7 @@ const recentAds = [
     id: 1,
     name: "Graphing Calculator - TI-84 Plus",
     price: 1277098,
-    location: "Umilag",
+    location: "Unilag",
     image: "/images/related_ad.webp",
     vendor: "Aliya Gadget Store",
     vendorImage: "/images/vendor.jpg",
@@ -95,7 +95,7 @@ const recentAds = [
     id: 2,
     name: "Graphing Calculator - TI-84 Plus",
     price: 1277098,
-    location: "Umilag",
+    location: "Unilag",
     image: "/images/image1.png",
     vendor: "Aliya Gadget Store",
     vendorImage: "/images/vendor.jpg",
@@ -105,7 +105,7 @@ const recentAds = [
     id: 3,
     name: "Graphing Calculator - TI-84 Plus",
     price: 1277098,
-    location: "Umilag",
+    location: "Unilag",
     image: "/images/image2.png",
     vendor: "Aliya Gadget Store",
     vendorImage: "/images/vendor.jpg",
@@ -118,7 +118,7 @@ const savedAds = [
     id: 4,
     name: "Graphing Calculator - TI-84 Plus",
     price: 1277098,
-    location: "Umilag",
+    location: "Unilag",
     image: "/images/image3.png",
     vendor: "Aliya Gadget Store",
     vendorImage: "/images/vendor.jpg",
@@ -128,7 +128,7 @@ const savedAds = [
     id: 5,
     name: "Graphing Calculator - TI-84 Plus",
     price: 1277098,
-    location: "Umilag",
+    location: "Unilag",
     image: "/images/image4.png",
     vendor: "Aliya Gadget Store",
     vendorImage: "/images/vendor.jpg",
@@ -138,7 +138,7 @@ const savedAds = [
     id: 6,
     name: "Graphing Calculator - TI-84 Plus",
     price: 1277098,
-    location: "Umilag",
+    location: "Unilag",
     image: "/images/related_ad.webp",
     vendor: "Aliya Gadget Store",
     vendorImage: "/images/vendor.jpg",
@@ -178,9 +178,9 @@ export default function OverviewPage() {
           {/* Header Section */}
           <div className="flex flex-col lg-md:flex-row md:items-center md:justify-between gap-4">
             <div className="w-full bg-white flex flex-col gap-3 p-4 rounded-md">
-              <div className="w-full flex flex-col md:flex-row justify-between gap-4">
+              <div className="w-full flex justify-between gap-4">
                 <div className="flex flex-col gap-1">
-                  <h1 className="font-circular-std font-[900] text-2xl sm:text-[28px]/[100%] text-[#212B36] tracking-normal flex items-center gap-[10px]">
+                  <h1 className="font-circular-std font-[900] text-2xl md:text-[28px]/[100%] text-[#212B36] tracking-normal flex items-center gap-[10px]">
                     Hi Auwal! 👋
                     <Badge
                       variant="secondary"
@@ -193,7 +193,7 @@ export default function OverviewPage() {
                     Let's make some great deals today
                   </p>
                 </div>
-                <div className="flex flex-col items-end">
+                <div className="hidden xl:flex flex-col items-end">
                   <Button className="bg-[#0088CC14] hover:bg-[#0088CC14] text-secondary font-bold font-circular-std text-[15px]/[26px] tracking-normal">
                     Complete Profile
                   </Button>
@@ -203,64 +203,72 @@ export default function OverviewPage() {
               <div className="w-full flex items-center gap-2">
                 <Progress
                   value={65}
-                  className="w-full h-[6px] text-secondary"
+                  className="w-full max-w-[90vw] h-[6px] text-secondary"
                 />
-                <span className="w-[120px] font-circular-std font-[450] text-[12px]/[18px] lg:text-[14px]/[18px] text-[#637381] tracking-normal">
+                <span className="w-[120px] font-circular-std font-[450] text-[12.5px]/[18px] xl:text-[14px]/[18px] text-[#637381] tracking-normal">
                   65% Complete
                 </span>
+              </div>
+              <div className="flex xl:hidden">
+                <Button className="bg-[#0088CC14] hover:bg-[#0088CC14] text-secondary font-bold font-circular-std text-[15px]/[26px] tracking-normal">
+                  Complete Profile
+                </Button>
               </div>
             </div>
           </div>
           {/* Stats Cards */}
-          <div className="w-full overflow-hidden relative">
-            <div className="flex gap-4 lg:gap-6">
-              <Card className="bg-[#E8F7FF] rounded-[12px] flex flex-row justify-between p-6">
-                <div className="flex flex-col gap-2">
-                  <p className="text-[32px]/[40px] font-semibold font-circular-std text-[#191F33] tracking-normal">
-                    27
-                  </p>
-                  <p className="text-[#464D61] text-[16px]/[24px] tracking-normal font-[450] font-circular-std">
-                    Posted Ads
-                  </p>
-                </div>
-                <div className="w-[72px] h-[72px] rounded-md  bg-white flex items-center justify-center gap-[10px]">
-                  <ClipboardText className="w-10 h-10 text-[#00AAFF]" />
-                </div>
-              </Card>
+          <div className="w-full max-w-[95vw]">
+            <div className="overflow-x-auto pb-3 scrollbar-thin scrollbar-track-blue-50 scrollbar-thumb-blue-300 hover:scrollbar-thumb-blue-400">
+              <div className="flex gap-4 md:gap-6">
+                <Card className="bg-[#E8F7FF] rounded-[12px] flex flex-row justify-between p-6 min-w-[250px] flex-shrink-0">
+                  <div className="flex flex-col gap-2">
+                    <p className="text-[32px]/[40px] font-semibold font-circular-std text-[#191F33] tracking-normal">
+                      27
+                    </p>
+                    <p className="text-[#464D61] text-[16px]/[24px] tracking-normal font-[450] font-circular-std">
+                      Posted Ads
+                    </p>
+                  </div>
+                  <div className="w-[72px] h-[72px] rounded-md bg-white flex items-center justify-center gap-[10px]">
+                    <ClipboardText className="w-10 h-10 text-[#00AAFF]" />
+                  </div>
+                </Card>
 
-              <Card className="bg-[#E4F9E0] flex-row rounded-[12px] justify-between p-6">
-                <div className="flex flex-col gap-2">
-                  <p className="text-[32px]/[40px] font-semibold font-circular-std text-[#191F33] tracking-normal">
-                    43
-                  </p>
-                  <p className="text-[#464D61] text-[16px]/[24px] tracking-normal font-[450] font-circular-std">
-                    Saved Ads
-                  </p>
-                </div>
-                <div className="w-[72px] h-[72px] rounded-md  bg-white flex items-center justify-center gap-[10px]">
-                  <HeartPulseIcon className="w-10 h-10 text-green-600" />
-                </div>
-              </Card>
+                <Card className="bg-[#E4F9E0] rounded-[12px] flex flex-row justify-between p-6 min-w-[250px] flex-shrink-0">
+                  <div className="flex flex-col gap-2">
+                    <p className="text-[32px]/[40px] font-semibold font-circular-std text-[#191F33] tracking-normal">
+                      43
+                    </p>
+                    <p className="text-[#464D61] text-[16px]/[24px] tracking-normal font-[450] font-circular-std">
+                      Saved Ads
+                    </p>
+                  </div>
+                  <div className="w-[72px] h-[72px] rounded-md bg-white flex items-center justify-center gap-[10px]">
+                    <HeartPulseIcon className="w-10 h-10 text-green-600" />
+                  </div>
+                </Card>
 
-              <Card className="bg-[#F5ECFF] rounded-[12px] flex flex-row justify-between p-6">
-                <div className="flex flex-col gap-2">
-                  <p className="text-[32px]/[40px] font-semibold font-circular-std text-[#191F33] tracking-normal">
-                    14
-                  </p>
-                  <p className="text-[#464D61] text-[16px]/[24px] tracking-normal font-[450] font-circular-std">
-                    Total Views
-                  </p>
-                </div>
-                <div className="w-[72px] h-[72px] rounded-md  bg-white flex items-center justify-center gap-[10px]">
-                  <EyeIcon className="w-10 h-10 text-[#A855F7]" />
-                </div>
-              </Card>
+                <Card className="bg-[#F5ECFF] rounded-[12px] flex flex-row justify-between p-6 min-w-[250px] flex-shrink-0">
+                  <div className="flex flex-col gap-2">
+                    <p className="text-[32px]/[40px] font-semibold font-circular-std text-[#191F33] tracking-normal">
+                      14
+                    </p>
+                    <p className="text-[#464D61] text-[16px]/[24px] tracking-normal font-[450] font-circular-std">
+                      Total Views
+                    </p>
+                  </div>
+                  <div className="w-[72px] h-[72px] rounded-md bg-white flex items-center justify-center gap-[10px]">
+                    <EyeIcon className="w-10 h-10 text-[#A855F7]" />
+                  </div>
+                </Card>
+              </div>
             </div>
           </div>
+
           {/* Main Content Grid */}
           <div className="flex flex-col xl:flex-row gap-6">
             {/* Ads View Chart */}
-            <Card className="xl:flex-1 rounded-[12px] border border-[#F1F2F4] py-6 px-4">
+            <Card className="xl:flex-1 rounded-[12px] border border-[#F1F2F4]">
               <div className="flex flex-row items-center justify-between">
                 <h3 className="text-[20px]/[32px] tracking-normal font-semibold font-circular-std">
                   Ads View
@@ -283,6 +291,7 @@ export default function OverviewPage() {
             {/* Recent Activities */}
             <RecentActivities recentActivities={recentActivities} />
           </div>
+
           {/* Recently Posted Ads */}
           <RecentPost recentAds={recentAds} />
           {/* Saved Ads */}
