@@ -11,25 +11,24 @@ export default function CreateNewPassword() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const router = useRouter();
 
+  const isFormValid = () => {
+    if (!password || !confirmPassword) return false;
+    if (password !== confirmPassword) return false;
+
+    const passwordRegex =
+      /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+={}\[\]|\\:;"'<>,.?/~`-]).{8,}$/;
+    return passwordRegex.test(password);
+  };
+
   const handleUpdatePassword = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    router.push("/password-reset-success");
     setErrorMessage("");
     setSuccessMessage("");
-
-    const form = e.target as HTMLFormElement;
-    const passwordInput = form.elements.namedItem(
-      "password"
-    ) as HTMLInputElement;
-    const confirmPasswordInput = form.elements.namedItem(
-      "confirmPassword"
-    ) as HTMLInputElement;
-
-    const password = passwordInput?.value;
-    const confirmPassword = confirmPasswordInput?.value;
 
     if (!password || !confirmPassword) {
       setErrorMessage("Please fill in both password fields.");
@@ -42,7 +41,7 @@ export default function CreateNewPassword() {
     }
 
     const passwordRegex =
-      /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+={}\[\]|\\:;"'<>,.?/~`-])[A-Za-z\d!@#$%^&*()_+={}\[\]|\\:;"'<>,.?/~`-]{8,}$/;
+      /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+={}\[\]|\\:;"'<>,.?/~`-]).{8,}$/;
     if (!passwordRegex.test(password)) {
       setErrorMessage(
         "Password must be at least 8 characters, combining letters, numbers, and symbols."
@@ -52,6 +51,7 @@ export default function CreateNewPassword() {
 
     console.log("Updating password...");
     setSuccessMessage("Your password has been successfully updated!");
+    router.push("/password-reset-success");
   };
 
   return (
@@ -62,70 +62,80 @@ export default function CreateNewPassword() {
       >
         <FaChevronLeft />
       </button>
-      <div className="w-full max-w-md bg-white rounded-xl p-4 md:p-8 border border-gray-100">
-        <h1 className="text-lg md:text-2xl font-bold text-center mb-6">
+      <div className="w-full max-w-md bg-white rounded-xl p-4 md:p-6 border border-gray-100">
+        <h1 className="text-lg md:text-xl font-bold text-center mb-4">
           Create New Password
         </h1>
 
-        <form onSubmit={handleUpdatePassword} className="space-y-4">
+        <form
+          onSubmit={handleUpdatePassword}
+          className="space-y-3 text-sm md:text-base"
+        >
           {errorMessage && (
-            <p className="text-red-500 text-sm text-center mb-4">
-              {errorMessage}
-            </p>
+            <p className="text-red-500 text-center">{errorMessage}</p>
           )}
           {successMessage && (
-            <p className="text-green-600 text-sm text-center mb-4">
-              {successMessage}
-            </p>
+            <p className="text-green-600 text-center">{successMessage}</p>
           )}
 
+          {/* Password */}
           <div className="relative">
             <input
               type={showPassword ? "text" : "password"}
-              id="Password"
-              name="Password"
+              name="password"
               placeholder="Password"
-              className="w-full px-4 py-3 rounded-lg text-[13px] md:text-base focus:outline-none bg-[#F2F3F5] md:placeholder:text-base placeholder:text-gray-400"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full px-3 py-2 rounded-lg text-sm md:text-base bg-[#F2F3F5] placeholder:text-gray-400 focus:outline-none"
               required
             />
             <span
-              className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer text-sm"
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer"
               onClick={() => setShowPassword(!showPassword)}
             >
               {showPassword ? <PiEye /> : <PiEyeClosedBold />}
             </span>
           </div>
+
+          {/* Confirm Password */}
           <div className="relative">
             <input
               type={showConfirmPassword ? "text" : "password"}
-              id="confirmPassword"
-              name="confirmPassword" // Added name attribute
+              name="confirmPassword"
               placeholder="Confirm password"
-              className="w-full px-4 py-3 rounded-lg text-[13px] md:text-base focus:outline-none  bg-[#F2F3F5] placeholder-gray-400"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              className="w-full px-3 py-2 rounded-lg text-sm md:text-base bg-[#F2F3F5] placeholder:text-gray-400 focus:outline-none"
               required
             />
-
             <span
-              className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer text-sm"
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer"
               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
             >
               {showConfirmPassword ? <PiEye /> : <PiEyeClosedBold />}
             </span>
           </div>
 
-          <div className="flex items-start text-[9px] md:text-xs text-gray-600 pt-2">
-            <FaInfoCircle className="text-[#637381] mr-2 mt-0.5 flex-shrink-0" />{" "}
+          {/* Info */}
+          <div className="flex items-start text-[11px] md:text-xs text-gray-600 pt-1">
+            <FaInfoCircle className="text-[#637381] mr-2 mt-0.5 flex-shrink-0" />
             <span>
               It must include at least 8 characters, combining letters, numbers,
               and symbols.
             </span>
           </div>
 
+          {/* Submit */}
           <button
             type="submit"
-            className="w-full bg-[#54abdb] hover:bg-[#429aca] flex items-center justify-center gap-2 text-white py-3 rounded-lg text-[13px] md:text-base font-semibold transition transform hover:scale-105 duration-200 mt-3 md:mt-6" // Increased top margin for spacing
+            disabled={!isFormValid()}
+            className={`w-full flex items-center justify-center gap-2 py-2.5 md:py-3 rounded-lg text-white font-semibold transition-transform duration-200 ${
+              isFormValid()
+                ? "bg-[#54abdb] hover:bg-[#429aca] hover:scale-105"
+                : "bg-gray-300 cursor-not-allowed"
+            }`}
           >
-            Update Password <GoArrowRight className="text-base" />
+            Update Password <GoArrowRight />
           </button>
         </form>
       </div>

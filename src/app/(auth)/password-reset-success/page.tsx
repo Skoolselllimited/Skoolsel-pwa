@@ -2,13 +2,14 @@
 import Link from "next/link";
 import { GoArrowRight } from "react-icons/go";
 import { FaCheckCircle } from "react-icons/fa";
+import { SuccessfulPublish } from "../../../../public/svgs";
 export default function PasswordResetSuccessful() {
   return (
     <div className="md:min-h-[calc(100vh-100px)] min-h-screen flex items-center justify-center bg-[#F7F8F9] font-inter p-4">
       <div className="w-full max-w-lg bg-white rounded-xl shadow-lg p-8 md:p-9 border border-gray-100 text-center">
         {/* Success Icon */}
         <div className="mb-6 flex justify-center">
-          <FaCheckCircle className="text-6xl text-green-500" />{" "}
+          <SuccessfulPublish />
         </div>
 
         <div className="w-full">
