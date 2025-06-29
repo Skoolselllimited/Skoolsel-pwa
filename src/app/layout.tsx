@@ -1,22 +1,11 @@
+import { Toaster } from "@/components/ui/sonner"
+import { siteDescription, siteUrl } from "@/config"
 import type { Metadata } from "next"
-import { Nunito_Sans, Inter } from "next/font/google"
 import localFont from "next/font/local"
 import Script from "next/script"
 import type { ReactNode } from "react"
+import React from "react"
 import "./globals.css"
-import { siteDescription, siteUrl } from "@/config"
-import { Toaster } from "@/components/ui/sonner"
-
-const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-inter",
-})
-const nunito = Nunito_Sans({
-  variable: "--font-nunito",
-  subsets: ["latin"],
-  display: "swap",
-})
 
 const circularStd = localFont({
   src: [
@@ -90,7 +79,7 @@ const jsonLd = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className={`${nunito.variable} ${circularStd.variable}`}>
+    <html lang="en" className={`${circularStd.variable}`}>
       <head>
         <meta
           name="viewport"
@@ -98,7 +87,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         />
       </head>
       <body className={`${circularStd.className} antialiased`}>
-        {children}
+        <React.Suspense fallback={<div>Loading...</div>}>
+          {children}
+        </React.Suspense>
         <Toaster />
         <Script
           id="jsonld"

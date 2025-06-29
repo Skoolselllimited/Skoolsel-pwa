@@ -1,17 +1,17 @@
-import React from "react";
-import Navbar from "../(auth)/components/Navbar";
+import React from "react"
+import Header from "../(landing-page)/_components/header"
 
 export default function SellerProfileLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
   return (
     <div>
-      <Navbar />
+      <Header />
       <div>
         {children} {/* This is where your page.tsx content will be rendered */}
       </div>
     </div>
-  );
+  )
 }

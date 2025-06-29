@@ -24,14 +24,14 @@ export const data: Category[] = [
     imageAlt: "Desktop computer and laptop",
   },
   {
-    name: "SmartPhone",
+    name: "Mobile",
     imageSrc: "/images/phone.png",
     imageAlt: "Foldable smartphone",
   },
   {
     name: "Phone Accessories",
     imageSrc: "/images/accessories.png",
-    imageAlt: "Wireless headphones",
+    imageAlt: "Phone Accessories",
   },
   {
     name: "Computer Accessories",
@@ -41,10 +41,10 @@ export const data: Category[] = [
   {
     name: "Fashion & Accessories",
     imageSrc: "/images/clothes.png",
-    imageAlt: "Winter jacket",
+    imageAlt: "Essential items and accessories",
   },
   {
-    name: "Electronics",
+    name: "Home & Living",
     imageSrc: "/images/electronics.png",
     imageAlt: "Smart TV",
   },
@@ -54,9 +54,9 @@ export const data: Category[] = [
     imageAlt: "Home appliances",
   },
   {
-    name: "Gaming Consoles",
+    name: "Gaming",
     imageSrc: "/images/game-console.jpg",
-    imageAlt: "Gaming console",
+    imageAlt: "Gaming consoles and accessories",
   },
 ]
 

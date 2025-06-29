@@ -2,9 +2,11 @@
 
 import type React from "react"
 
+import { ChevronLeft, ChevronRight, X } from "lucide-react"
 import Image from "next/image"
 import { useEffect, useState, useRef } from "react"
-import { ChevronLeft, ChevronRight, X } from "lucide-react"
+import BackButton from "@/components/BackButton"
+import { HeartIcon } from "@/components/svgs"
 
 interface ImageGalleryProps {
   images: string[]
@@ -20,16 +22,16 @@ export function ImageGallery({
   onClose,
 }: ImageGalleryProps) {
   const [currentIndex, setCurrentIndex] = useState(initialIndex)
+  const [isZoomed, setIsZoomed] = useState(false)
   const touchStartX = useRef<number | null>(null)
   const touchEndX = useRef<number | null>(null)
-  const galleryRef = useRef<HTMLDivElement>(null)
+  const touchStartY = useRef<number | null>(null)
+  const touchEndY = useRef<number | null>(null)
 
-  // Reset current index when initial index changes
   useEffect(() => {
     setCurrentIndex(initialIndex)
   }, [initialIndex])
 
-  // Handle keyboard navigation
   useEffect(() => {
     if (!isOpen) return
 
@@ -47,47 +49,71 @@ export function ImageGallery({
     return () => window.removeEventListener("keydown", handleKeyDown)
   }, [isOpen, onClose])
 
-  // Prevent body scroll when gallery is open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden"
     } else {
-      document.body.style.overflow = "auto"
+      document.body.style.overflow = "unset"
+      setIsZoomed(false)
     }
+
     return () => {
-      document.body.style.overflow = "auto"
+      document.body.style.overflow = "unset"
     }
   }, [isOpen])
 
   const nextImage = () => {
     setCurrentIndex((prev) => (prev + 1) % images.length)
+    setIsZoomed(false)
   }
 
   const prevImage = () => {
     setCurrentIndex((prev) => (prev - 1 + images.length) % images.length)
+    setIsZoomed(false)
   }
 
-  // Touch handlers for swipe functionality
+  const handleImageTap = () => {
+    setIsZoomed(!isZoomed)
+  }
+
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX
+    touchStartY.current = e.touches[0].clientY
   }
 
   const handleTouchMove = (e: React.TouchEvent) => {
     touchEndX.current = e.touches[0].clientX
+    touchEndY.current = e.touches[0].clientY
   }
 
   const handleTouchEnd = () => {
-    if (!touchStartX.current || !touchEndX.current) return
+    if (
+      !touchStartX.current ||
+      !touchEndX.current ||
+      !touchStartY.current ||
+      !touchEndY.current
+    )
+      return
 
     const diffX = touchStartX.current - touchEndX.current
-    const threshold = 50 // minimum distance to be considered a swipe
+    const diffY = touchStartY.current - touchEndY.current
+    const threshold = 50
 
-    if (Math.abs(diffX) > threshold) {
+    // Check for swipe up to close
+    if (diffY > threshold && Math.abs(diffX) < threshold) {
+      onClose()
+      return
+    }
+
+    // Horizontal swipe for navigation (only when not zoomed)
+    if (
+      Math.abs(diffX) > threshold &&
+      Math.abs(diffY) < threshold &&
+      !isZoomed
+    ) {
       if (diffX > 0) {
-        // Swipe left, go to next image
         nextImage()
       } else {
-        // Swipe right, go to previous image
         prevImage()
       }
     }
@@ -95,85 +121,99 @@ export function ImageGallery({
     // Reset values
     touchStartX.current = null
     touchEndX.current = null
+    touchStartY.current = null
+    touchEndY.current = null
+  }
+
+  const handleBackdropClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      onClose()
+    }
   }
 
   if (!isOpen) return null
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center"
-      ref={galleryRef}
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
+      className="fixed inset-0 z-50 bg-white xl:bg-[#000000]/60 flex flex-col"
+      onClick={handleBackdropClick}
     >
-      <div className="relative w-full h-full flex flex-col">
-        {/* Header */}
-        <div className="flex justify-between items-center p-4 text-white">
-          <div className="text-sm">
-            {currentIndex + 1} / {images.length}
+      {/* Header with Back Button - Mobile only */}
+      <div className="xl:hidden px-[15px]">
+        <div className="h-[72px] py-4 flex items-center justify-between">
+          <BackButton onClick={onClose} aria-label="Go back" />
+          <div className="font-circular-std font-extrabold text-[#4E4E5A] text-[20px]/[32px] tracking-normal">
+            Ad Details
           </div>
-          <button
-            onClick={onClose}
-            className="px-4 py-2 text-white hover:bg-white/20 flex justify-center items-center cursor-pointer"
-          >
-            <X className="w-8 h-8" />
-          </button>
+          <HeartIcon className="text-[#464D61]" />
+        </div>
+      </div>
+      {/* Main image area */}
+      <div className="flex-1 relative flex items-center justify-center overflow-hidden">
+        <div
+          className={`relative w-full h-full max-w-[1320px] 2xl:mt-24 max-h-[625px] mx-auto transition-transform duration-300 ease-in-out ${
+            isZoomed ? "scale-150" : "scale-100"
+          }`}
+          onClick={handleImageTap}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
+          <Image
+            src={images[currentIndex]}
+            alt={`Product image ${currentIndex + 1}`}
+            fill
+            className="object-contain cursor-pointer xl:cursor-default"
+            sizes="(max-width: 768px) 100vw, 80vw"
+            priority
+          />
         </div>
 
-        {/* Main image area */}
-        <div className="flex-1 relative flex items-center justify-center">
-          <div className="relative w-full h-full max-w-[1320px] max-h-[625px] mx-auto xl:mt-22">
-            <Image
-              src={images[currentIndex] || "/placeholder.svg"}
-              alt={`Product image ${currentIndex + 1}`}
-              fill
-              className="object-contain"
-              sizes="(max-width: 768px) 100vw, 80vw"
-              priority
-            />
-          </div>
+        {/* Desktop Navigation buttons */}
+        <button
+          onClick={prevImage}
+          className="hidden xl:flex absolute left-4 top-1/2 -translate-y-1/2 w-[100px] h-[100px] rounded-full bg-transparent cursor-pointer items-center justify-center text-white transition-all duration-200"
+          aria-label="Previous image"
+        >
+          <ChevronLeft className="h-[60px] w-[60px]" />
+        </button>
 
-          {/* Navigation buttons - visible on all devices */}
-          <button
-            onClick={prevImage}
-            className="absolute left-4 top-1/2 -translate-y-1/2 w-15 h-15 bg-transparent flex items-center justify-center text-white"
-            aria-label="Previous image"
-          >
-            <ChevronLeft className="w-15 h-15" />
-          </button>
+        <button
+          onClick={nextImage}
+          className="hidden xl:flex absolute right-4 top-1/2 -translate-y-1/2 w-[100px] h-[100px] rounded-full bg-transparent cursor-pointer items-center justify-center text-white transition-all duration-200"
+          aria-label="Next image"
+        >
+          <ChevronRight className="h-[60px] w-[60px]" />
+        </button>
 
-          <button
-            onClick={nextImage}
-            className="absolute right-4 top-1/2 -translate-y-1/2 w-20 h-20 bg-transparent flex items-center justify-center text-white"
-            aria-label="Next image"
-          >
-            <ChevronRight className="w-15 h-15" />
-          </button>
-        </div>
+        {/* Desktop Back Button */}
+        <button
+          onClick={onClose}
+          className="hidden xl:flex absolute top-4 right-4 w-[80px] h-[80px] rounded-full bg-transparent cursor-pointer  items-center justify-center text-white transition-all duration-200"
+          aria-label="Close"
+        >
+          <X className="h-8 w-8" />
+        </button>
+      </div>
 
-        {/* Mobile indicator dots */}
-        <div className="flex justify-center space-x-2 py-4 md:hidden">
-          {images.map((_, index) => (
-            <button
-              key={index}
-              className={`w-2 h-2 rounded-full ${index === currentIndex ? "bg-secondary" : "bg-white/50"}`}
-              onClick={() => setCurrentIndex(index)}
-              aria-label={`Go to image ${index + 1}`}
-            />
-          ))}
-        </div>
-
-        {/* Thumbnails - adjust for better mobile display */}
-        <div className="pb-8 xl:py-8 opacity-70 px-4 hidden sm:block">
-          <div className="h-16 xl:h-[112px] flex justify-center gap-3 overflow-x-auto pb-4">
+      {/* Thumbnails */}
+      <div
+        className={`pb-4 xl:pb-0 2xl:pb-8 px-4 transition-opacity duration-300 ${isZoomed ? "opacity-70" : "opacity-100"}`}
+      >
+        <div className="flex gap-2 xl:gap-3 overflow-x-auto pb-2 xl:pb-4 scrollbar-hide justify-start xl:justify-center">
+          <div className="flex gap-2 xl:gap-3 min-w-max">
             {images.map((image, index) => (
               <div
                 key={index}
-                className={`h-[86.14px] w-[86.14px] xl:w-[106px] xl:h-[106px] relative cursor-pointer border-4 overflow-hidden ${
-                  index === currentIndex ? "border-secondary" : "border-white"
+                className={`h-[81.53px] w-[81.53px] flex-shrink-0 relative cursor-pointer border-[3.08px] overflow-hidden rounded transition-all duration-200  ${
+                  index === currentIndex
+                    ? "border-[#54ABDB]"
+                    : "border-[#FFFFFF]"
                 }`}
-                onClick={() => setCurrentIndex(index)}
+                onClick={() => {
+                  setCurrentIndex(index)
+                  setIsZoomed(false)
+                }}
               >
                 <Image
                   src={image || "/placeholder.svg"}

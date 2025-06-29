@@ -1,16 +1,16 @@
-"use client";
+"use client"
 
-import { useState, forwardRef, useEffect, useRef } from "react";
-import { Input } from "@/components/ui/input";
-import { CautionIcon, EyeCloseIcon, EyeIcon } from "@/components/svgs";
+import { useState, forwardRef, useEffect, useRef } from "react"
+import { Input } from "@/components/ui/input"
+import { CautionIcon, EyeCloseIcon, EyeIcon } from "@/components/svgs"
 
 interface PasswordInputProps {
-  label: string;
-  value: string;
-  onChange: (value: string) => void;
-  error?: string;
-  hasError?: boolean;
-  className?: string;
+  label: string
+  value: string
+  onChange: (value: string) => void
+  error?: string
+  hasError?: boolean
+  className?: string
 }
 
 export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
@@ -26,53 +26,53 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
     },
     ref
   ) => {
-    const [showPassword, setShowPassword] = useState(false);
-    const [isFocused, setIsFocused] = useState(false);
-    const [isAutofilled, setIsAutofilled] = useState(false);
-    const inputRef = useRef<HTMLInputElement>(null);
+    const [showPassword, setShowPassword] = useState(false)
+    const [isFocused, setIsFocused] = useState(false)
+    const [isAutofilled, setIsAutofilled] = useState(false)
+    const inputRef = useRef<HTMLInputElement>(null)
 
     // Combine the forwarded ref with our local ref
     const handleRef = (element: HTMLInputElement) => {
-      inputRef.current = element;
+      inputRef.current = element
       if (typeof ref === "function") {
-        ref(element);
+        ref(element)
       } else if (ref) {
-        ref.current = element;
+        ref.current = element
       }
-    };
+    }
 
     // Check for autofill
     useEffect(() => {
       const checkAutofill = () => {
-        if (!inputRef.current) return;
+        if (!inputRef.current) return
 
         // Check for the autofill background color
-        const computedStyle = window.getComputedStyle(inputRef.current);
-        const bgColor = computedStyle.backgroundColor;
+        const computedStyle = window.getComputedStyle(inputRef.current)
+        const bgColor = computedStyle.backgroundColor
 
         // Different browsers use different colors for autofill
         // This is a simplified check that works in most cases
         const isAutofilledNow =
           bgColor.includes("rgb(232, 240, 254)") || // Chrome
           bgColor.includes("rgb(250, 255, 189)") || // Firefox
-          inputRef.current.matches(":-webkit-autofill"); // Another way to check
+          inputRef.current.matches(":-webkit-autofill") // Another way to check
 
         if (isAutofilledNow !== isAutofilled) {
-          setIsAutofilled(isAutofilledNow);
+          setIsAutofilled(isAutofilledNow)
         }
-      };
+      }
 
       // Check immediately and then periodically
-      checkAutofill();
-      const interval = setInterval(checkAutofill, 1000);
-      return () => clearInterval(interval);
-    }, [isAutofilled]);
+      checkAutofill()
+      const interval = setInterval(checkAutofill, 1000)
+      return () => clearInterval(interval)
+    }, [isAutofilled])
 
-    const containerBgClass = hasError ? "bg-[#FF4F4F14]" : "bg-[#919EAB14]";
-    const labelColorClass = hasError ? "text-[#FF4F4F]" : "text-[#637381]";
+    const containerBgClass = hasError ? "bg-[#FF4F4F14]" : "bg-[#919EAB14]"
+    const labelColorClass = hasError ? "text-[#FF4F4F]" : "text-[#637381]"
 
     // Determine if label should be in "active" state (small and positioned as label)
-    const isLabelActive = isFocused || value.length > 0 || isAutofilled;
+    const isLabelActive = isFocused || value.length > 0 || isAutofilled
 
     return (
       <div className={className}>
@@ -98,7 +98,7 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
                   onChange={(e) => onChange(e.target.value)}
                   onFocus={() => setIsFocused(true)}
                   onBlur={() => setIsFocused(false)}
-                  className={`w-full h-full bg-transparent text-[14px]/[100%] tracking-normal border-0 focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-[#919EAB] ${
+                  className={`w-full h-full bg-transparent text-[#0A243F] font-circular-std font-[450] text-[14px]/[100%] tracking-normal border-0 focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-[#919EAB] ${
                     isLabelActive ? "pt-7 pb-1.5" : "pt-0 pb-0 opacity-0"
                   } px-0 pr-8`}
                   {...props}
@@ -125,8 +125,8 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
           )}
         </div>
       </div>
-    );
+    )
   }
-);
+)
 
-PasswordInput.displayName = "PasswordInput";
+PasswordInput.displayName = "PasswordInput"

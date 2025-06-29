@@ -1,41 +1,11 @@
 "use client"
 import Image from "next/image"
 import { useEffect, useRef, useState } from "react"
-import SearchBar from "./Searchbar"
-
-const dummySchools = [
-  { id: "all", name: "All Schools" },
-  { id: "unilag", name: "University of Lagos" },
-  { id: "abu", name: "ABU Zaria" },
-  { id: "uniben", name: "Uniben" },
-]
-
-const dummyResults = [
-  "Samsung ultra 25S",
-  "Samsung galaxy",
-  "Samsung Note 3",
-  "Samsung S25",
-  "Samsung S21 Ultra",
-]
+import SearchBar from "../../(ads)/_components/Searchbar"
 
 export default function Hero() {
-  const [selectedSchool, setSelectedSchool] = useState("all")
-  const [query, setQuery] = useState("")
-  const [results, setResults] = useState<string[]>([])
-  const [schoolQuery, setSchoolQuery] = useState("")
   const containerRef = useRef<HTMLDivElement>(null)
   const [isMobile, setIsMobile] = useState(false)
-
-  useEffect(() => {
-    if (query.trim() === "") {
-      setResults([])
-    } else {
-      const filtered = dummyResults.filter((item) =>
-        item.toLowerCase().includes(query.toLowerCase())
-      )
-      setResults(filtered)
-    }
-  }, [query])
 
   useEffect(() => {
     const checkIfMobile = () => setIsMobile(window.innerWidth < 1024)
@@ -43,16 +13,6 @@ export default function Hero() {
     window.addEventListener("resize", checkIfMobile)
     return () => window.removeEventListener("resize", checkIfMobile)
   }, [])
-
-  const filteredSchools =
-    schoolQuery === ""
-      ? dummySchools
-      : dummySchools.filter((school) =>
-          school.name.toLowerCase().includes(schoolQuery.toLowerCase())
-        )
-
-  const selectedSchoolObj =
-    dummySchools.find((s) => s.id === selectedSchool) || dummySchools[0]
 
   return (
     <section className="w-full h-full xl:h-[524px] bg-primary flex justify-center items-center relative text-white">
@@ -75,12 +35,12 @@ export default function Hero() {
         }}
       />
       {/* Content */}
-      <div className="w-full flex flex-col justify-center items-center relative z-10 px-4 py-24 text-center gap-4 lg:gap-6">
-        <div className="w-full xl:w-[824px] h-[154px] lg:h-[184px] space-y-4">
-          <span className="w-fit h-[40px] py-1 px-[4.73px] lg:px-5 inline-flex bg-secondary rounded-[5px] font-[900] font-circular-std uppercase text-white text-[12px]/[100%] lg:text-[16px]/[32px] tracking-normal text-center justify-center items-center">
+      <div className="w-full flex flex-col justify-center items-center relative z-10 px-4 py-24 text-center">
+        <div className="w-full xl:w-[824px] h-[154px] lg:h-[184px] space-y-4  mb-4 lg:mb-6 xl:mb-14">
+          <span className="w-fit h-[40px] py-1 px-3 lg:px-5 inline-flex bg-secondary rounded-[5px] font-[900] font-circular-std uppercase text-white text-[12px]/[100%] lg:text-[16px]/[32px] tracking-normal text-center justify-center items-center">
             Over 95,00,000 Live Ads
           </span>
-          <h1 className="font-circular-std font-bold  tracking-normal text-center text-[28px]/[120%] md:text-[32px]/[120%] xl:text-[64px]/[76px]leading-tight">
+          <h1 className="font-circular-std font-bold h-[284px] tracking-normal text-center text-[26px]/[120%] md:text-[32px]/[120%] xl:text-[64px]/[76px] leading-normal">
             The Number One Students
             <br />
             Market Place

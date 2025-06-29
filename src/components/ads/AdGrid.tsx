@@ -1,16 +1,15 @@
-"use client";
+"use client"
 
-import React from "react";
-import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
-import ProductCard from "@/app/(landing-page)/_components/ProductCard";
-import NextLink from "../Wrapper/NextLink";
-import Product from "@/types/productCardType";
+import ProductCard from "@/app/(landing-page)/_components/ProductCard"
+import { cn } from "@/lib/utils"
+import Product from "@/types/productCardType"
+import { motion } from "framer-motion"
+import React from "react"
 
 type Props = {
-  products: Product[];
-  className?: string;
-};
+  products: Product[]
+  className?: string
+}
 
 const AdGrid: React.FC<Props> = ({ products, className }) => {
   return (
@@ -28,11 +27,11 @@ const AdGrid: React.FC<Props> = ({ products, className }) => {
           transition={{ duration: 0.8, delay: index * 0.05 }}
         >
           {/* REMOVED NextLink here */}
-          <ProductCard product={product} />
+          <ProductCard ad={product} />
         </motion.div>
       ))}
     </div>
-  );
-};
+  )
+}
 
-export default AdGrid;
+export default AdGrid
