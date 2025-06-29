@@ -48,7 +48,6 @@ export default function UserWrapper({
 }) {
   const router = useRouter()
   const pathname = usePathname()
-  const breadcrumbs = breadcrumbItems ?? generateBreadcrumbs(pathname)
   const [open, setOpen] = useState(false)
 
   const user = {
@@ -164,7 +163,7 @@ export default function UserWrapper({
         {/* Sidebar (Desktop Only) */}
         <aside className="hidden 2xl:flex flex-col w-[296px]">
           <div className="w-full bg-white border border-[#EBEEF7] rounded-[12px] py-8 flex flex-col gap-6">
-            <div className="flex flex-col 2xl:flex-row items-center gap-4 px-4">
+            <div className="flex flex-col items-center gap-4 px-4">
               <Avatar className="h-16 w-16">
                 <AvatarImage src={user.photo || "/placeholder.svg"} />
                 <AvatarFallback>{getInitials(user.name)}</AvatarFallback>
