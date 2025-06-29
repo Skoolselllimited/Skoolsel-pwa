@@ -2,8 +2,16 @@ import { useState, useMemo } from "react";
 import { StarIcon } from "lucide-react";
 import classNames from "@/lib/utils/classNames";
 
+// Define size classes
+const sizes = {
+  xs: "h-3 w-3",
+  sm: "h-4 w-4",
+  md: "h-5 w-5",
+  lg: "h-6 w-6",
+  xl: "h-7 w-7",
+};
+
 const styles = {
-  base: "h-5 w-5 flex-shrink-0",
   colors: {
     amber: {
       lit: "text-amber-400 fill-amber-400",
@@ -18,6 +26,7 @@ type StarProps = {
   onClick?: () => void;
   hoverHighlight?: boolean;
   color?: "amber";
+  size?: keyof typeof sizes; // 'sm' | 'md' | 'lg'
 };
 
 const Star = ({
@@ -25,10 +34,11 @@ const Star = ({
   onClick,
   hoverHighlight = false,
   color = "amber",
+  size = "md",
 }: StarProps) => (
   <StarIcon
     className={classNames(
-      styles.base,
+      sizes[size],
       lit ? styles.colors[color].lit : styles.colors[color].unlit,
       hoverHighlight && styles.colors[color].hover,
       hoverHighlight && "cursor-pointer"
@@ -43,17 +53,18 @@ type StarsProps = {
   rating: number;
   hoverHighlight?: boolean;
   color?: "amber";
+  size?: keyof typeof sizes; // 'sm' | 'md' | 'lg'
   onChange?: (rating: number) => void;
 };
 
-export const Stars = (props: StarsProps) => {
-  const {
-    scale = 5,
-    rating,
-    hoverHighlight,
-    color = "amber",
-    onChange,
-  } = props;
+export const Stars = ({
+  scale = 5,
+  rating,
+  hoverHighlight,
+  color = "amber",
+  size = "md",
+  onChange,
+}: StarsProps) => {
   const [currentRating, setCurrentRating] = useState(rating);
   const ratings = useMemo(() => [...Array(scale).keys()], [scale]);
 
@@ -72,6 +83,7 @@ export const Stars = (props: StarsProps) => {
           lit={index < (onChange ? currentRating : rating)}
           hoverHighlight={hoverHighlight}
           color={color}
+          size={size}
           onClick={() => handleClick(index)}
         />
       ))}
