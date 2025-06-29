@@ -19,7 +19,7 @@ export default function PublicProfilePage() {
 
       {/* Main Section */}
       <section className="w-full mx-auto bg-[#f4f6f8]">
-        <section className="max-w-[1350px] mx-auto bg-[#f4f6f8]">
+        <section className="max-w-[1400px] mx-auto bg-[#f4f6f8]">
           <section
             aria-labelledby="related-heading font-primary"
             className="flex flex-col justify-center bg-[#f4f6f8] md:px-20  md:pb-20 md:pt-10 md:flex-row gap-x-8 lg:gap-x-12 lg:px-16 "
