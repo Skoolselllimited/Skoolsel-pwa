@@ -214,174 +214,183 @@ export default function Register() {
   return (
     <div className="h-auto min-h-screen lg:pb-6 flex items-center justify-center bg-[#f9fbfc]">
       <div className="flex flex-row ">
-        <div className="hidden md:flex flex-col justify-center items-end w-1/2 p-12 pr-8 space-y-10">
-          {features.map((feature, index) => (
-            <div
-              key={index}
-              className="flex items-start text-justify pb-3 gap-5 border-b border-gray-100 max-w-md"
-            >
-              {feature.icon}
-              <div>
-                <h3 className="text-xl font-bold text-[#003553] mb-1">
-                  {feature.title}
-                </h3>
-                <p className="text-base text-gray-700 leading-relaxed">
-                  {feature.description}
-                </p>
+        <div className="h-auto min-h-screen pt-16 lg:pb-6 flex items-center justify-center bg-[#f9fbfc]">
+          <div className="hidden md:flex flex-col justify-center items-end w-1/2 p-12 pr-8 space-y-10">
+            {features.map((feature, index) => (
+              <div
+                key={index}
+                className="flex items-start text-justify pb-3 gap-5 border-b border-gray-100 max-w-md"
+              >
+                {feature.icon}
+                <div>
+                  <h3 className="text-xl font-bold text-[#003553] mb-1">
+                    {feature.title}
+                  </h3>
+                  <p className="text-base text-gray-700 leading-relaxed">
+                    {feature.description}
+                  </p>
+                </div>
+                {/* <hr className="flex-grow border-b border-gray-300" /> */}
               </div>
-              {/* <hr className="flex-grow border-b border-gray-300" /> */}
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
 
-        {/*------------------------------------------ web version----------------------------------------------------*/}
-        <div className="w-full md:w-1/2 hidden lg:flex items-center justify-center pr-28 px-6 py-12">
-          <div className="w-full max-w-xl border bg-white rounded-lg p-8">
-            <h2 className="text-2xl font-bold text-center text-[#003553] mb-1">
-              Let’s Get You Started 🚀
-            </h2>
-            <p className="text-sm text-center  mb-6">
-              Join Skoolsel to buy, sell, and explore what’s trending around
-              your campus. It's fast easy and free!
-            </p>
+          {/*------------------------------------------ web version----------------------------------------------------*/}
+          <div className="w-full md:w-1/2 hidden lg:flex items-center justify-center pr-28 px-6 py-12">
+            <div className="w-full max-w-xl border bg-white rounded-lg p-8">
+              <h2 className="text-2xl font-bold text-center text-[#003553] mb-1">
+                Let’s Get You Started 🚀
+              </h2>
+              <p className="text-sm text-center  mb-6">
+                Join Skoolsel to buy, sell, and explore what’s trending around
+                your campus. It's fast easy and free!
+              </p>
 
-            <form className="space-y-4">
-              <div className="flex gap-3">
-                <FormInput
-                  className="w-full"
-                  label="Full Name"
-                  type="text"
-                  value={formData.fullName}
-                  onChange={(value) => handleChange("fullName", value)}
-                  error={errors.fullName}
-                  hasError={!!errors.fullName}
-                />
-                <FormInput
-                  className="w-full"
-                  label="Username"
-                  type="text"
-                  value={formData.username}
-                  onChange={(value) => handleChange("username", value)} // Corrected onChange
-                  error={errors.username}
-                  hasError={!!errors.username}
-                />
-              </div>
-              <FormInput
-                label="Email Address"
-                type="text"
-                value={formData.email}
-                onChange={(value) => handleChange("email", value)}
-                error={errors.email}
-                hasError={!!errors.email}
-              />
-              <div className="flex gap-1 md:gap-3">
-                {/* Dropdown Selector */}
-                <div className="flex-shrink-0">
-                  <DropdownSelector
-                    options={countries}
-                    selected={selectedCountry}
-                    onSelect={setSelectedCountry}
-                    isOpen={dropdownOpen}
-                    toggleOpen={() => setDropdownOpen(!dropdownOpen)}
+              <form className="space-y-4">
+                <div className="flex gap-3">
+                  <FormInput
+                    className="w-full"
+                    label="Full Name"
+                    type="text"
+                    value={formData.fullName}
+                    onChange={(value) => handleChange("fullName", value)}
+                    error={errors.fullName}
+                    hasError={!!errors.fullName}
+                  />
+                  <FormInput
+                    className="w-full"
+                    label="Username"
+                    type="text"
+                    value={formData.username}
+                    onChange={(value) => handleChange("username", value)} // Corrected onChange
+                    error={errors.username}
+                    hasError={!!errors.username}
                   />
                 </div>
-
                 <FormInput
-                  label="Phone Number"
-                  type="number"
-                  className="w-full"
-                  value={formData.phone}
-                  onChange={(value) => handleChange("phone", value)}
-                  error={errors.phone}
-                  hasError={!!errors.phone}
+                  label="Email Address"
+                  type="text"
+                  value={formData.email}
+                  onChange={(value) => handleChange("email", value)}
+                  error={errors.email}
+                  hasError={!!errors.email}
                 />
-              </div>
-              <PasswordInput
-                label="Password"
-                value={formData.password}
-                onChange={(value) => handleChange("password", value)}
-                error={errors.password}
-                hasError={!!errors.password}
-              />
-              <PasswordInput
-                label="Confirm Password"
-                value={formData.confirmPassword}
-                onChange={(value) => handleChange("confirmPassword", value)}
-                error={errors.confirmPassword}
-                hasError={!!errors.confirmPassword}
-              />
-              <label className="flex items-start text-sm text-gray-700">
-                <input
-                  type="checkbox"
-                  name="agreeToTerms"
-                  className="mr-2 rounded mt-0.5 text-[#54abdb] focus:ring-[#54abdb]"
-                  checked={formData.termsAccepted}
-                  onChange={(e) =>
-                    handleChange("termsAccepted", e.target.checked)
-                  }
-                  aria-label="Accept terms and conditions"
-                />
-                <span className="text-[13px]">
-                  I’ve read and agree with your{" "}
-                  <Link
-                    href="#"
-                    className="text-[#54abdb] hover:text-[#429aca]"
-                  >
-                    Privacy Policy
-                  </Link>{" "}
-                  and{" "}
-                  <Link
-                    href="#"
-                    className="text-[#54abdb] hover:text-[#429aca]"
-                  >
-                    Terms & Conditions
-                  </Link>
-                </span>
-              </label>
-
-              <CustomButton
-                onClick={handleSubmit}
-                disabledCondition={!formData.termsAccepted || isSubmitting} // Disable based on terms or submission state
-                variant="secondary"
-              >
-                {isSubmitting ? (
-                  <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    Submitting...
+                <div className="flex gap-1 md:gap-3">
+                  {/* Dropdown Selector */}
+                  <div className="flex-shrink-0">
+                    <DropdownSelector
+                      options={countries}
+                      selected={selectedCountry}
+                      onSelect={setSelectedCountry}
+                      isOpen={dropdownOpen}
+                      toggleOpen={() => setDropdownOpen(!dropdownOpen)}
+                    />
                   </div>
-                ) : (
-                  <>
-                    Sign Up <GoArrowRight className="text-base" />
-                  </>
-                )}
-              </CustomButton>
-            </form>
 
-            <div className="text-sm text-center text-gray-600 mt-4">
-              Already have an account?{" "}
-              <Link
-                href="/login"
-                className="text-[#54abdb] font-semibold hover:underline"
-              >
-                Sign In
-              </Link>
-            </div>
+                  <FormInput
+                    label="Phone Number"
+                    type="number"
+                    className="w-full"
+                    value={formData.phone}
+                    onChange={(value) => {
+                      const trimmed = value.replace(/\D/g, "").slice(0, 11); // keep only 0–9 and limit to 11
+                      handleChange("phone", trimmed);
+                    }}
+                    error={errors.phone}
+                    hasError={!!errors.phone}
+                  />
+                  {errors.phone && (
+                    <p className="text-xs text-red-500 mt-1">{errors.phone}</p>
+                  )}
+                </div>
+                <PasswordInput
+                  label="Password"
+                  value={formData.password}
+                  onChange={(value) => handleChange("password", value)}
+                  error={errors.password}
+                  hasError={!!errors.password}
+                />
+                <PasswordInput
+                  label="Confirm Password"
+                  value={formData.confirmPassword}
+                  onChange={(value) => handleChange("confirmPassword", value)}
+                  error={errors.confirmPassword}
+                  hasError={!!errors.confirmPassword}
+                />
+                <label className="flex items-start text-sm text-gray-700">
+                  <input
+                    type="checkbox"
+                    name="agreeToTerms"
+                    className="mr-2 rounded mt-0.5 text-[#54abdb] focus:ring-[#54abdb]"
+                    checked={formData.termsAccepted}
+                    onChange={(e) =>
+                      handleChange("termsAccepted", e.target.checked)
+                    }
+                    aria-label="Accept terms and conditions"
+                  />
+                  <span className="text-[13px]">
+                    I’ve read and agree with your{" "}
+                    <Link
+                      href="#"
+                      className="text-[#54abdb] hover:text-[#429aca]"
+                    >
+                      Privacy Policy
+                    </Link>{" "}
+                    and{" "}
+                    <Link
+                      href="#"
+                      className="text-[#54abdb] hover:text-[#429aca]"
+                    >
+                      Terms & Conditions
+                    </Link>
+                  </span>
+                </label>
 
-            <div className="flex items-center justify-between my-5">
-              <hr className="flex-grow border-gray-300" />
-              <span className="mx-3 text-sm text-gray-500">
-                or sign up with email
-              </span>
-              <hr className="flex-grow border-gray-300" />
-            </div>
+                <CustomButton
+                  onClick={handleSubmit}
+                  disabledCondition={!formData.termsAccepted || isSubmitting} // Disable based on terms or submission state
+                  variant="secondary"
+                >
+                  {isSubmitting ? (
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      Submitting...
+                    </div>
+                  ) : (
+                    <>
+                      Sign Up <GoArrowRight className="text-base" />
+                    </>
+                  )}
+                </CustomButton>
+              </form>
 
-            <div className="w-full flex items-center justify-center gap-2 bg-[#f7f8f9] py-3 rounded hover:bg-gray-50 transition text-sm">
-              <FcGoogle />
-              Sign up with Google
+              <div className="text-sm text-center text-gray-600 mt-4">
+                Already have an account?{" "}
+                <Link
+                  href="/login"
+                  className="text-[#54abdb] font-semibold hover:underline"
+                >
+                  Sign In
+                </Link>
+              </div>
+
+              <div className="flex items-center justify-between my-5">
+                <hr className="flex-grow border-gray-300" />
+                <span className="mx-3 text-sm text-gray-500">
+                  or sign up with email
+                </span>
+                <hr className="flex-grow border-gray-300" />
+              </div>
+
+              <div className="w-full flex items-center justify-center gap-2 bg-[#f7f8f9] py-3 rounded hover:bg-gray-50 transition text-sm">
+                <FcGoogle />
+                Sign up with Google
+              </div>
             </div>
           </div>
         </div>
       </div>
+
       {/*------------------------------------------ mobile version----------------------------------------------------*/}
       <div className="w-full md:w-1/2 flex lg:hidden items-center justify-center px-6 pb-22 pt-20 md:py-24 relative">
         <button
@@ -449,10 +458,16 @@ export default function Register() {
                 type="number"
                 className="w-full"
                 value={formData.phone}
-                onChange={(value) => handleChange("phone", value)}
+                onChange={(value) => {
+                  const trimmed = value.replace(/\D/g, "").slice(0, 11); // keep only 0–9 and limit to 11
+                  handleChange("phone", trimmed);
+                }}
                 error={errors.phone}
                 hasError={!!errors.phone}
               />
+              {errors.phone && (
+                <p className="text-xs text-red-500 mt-1">{errors.phone}</p>
+              )}
             </div>
             <PasswordInput
               label="Password"
