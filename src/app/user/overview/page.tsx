@@ -13,14 +13,14 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { AlertTriangle, Check, HeartPulseIcon } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { useState } from "react"
 import { PiWarningCircle } from "react-icons/pi"
 import AdsViews from "./_components/chart"
 import RecentActivities from "./_components/recentActivities"
 import RecentPost from "./_components/recentPost"
 import SavedAds from "./_components/savedAds"
 import ProfileCompletionDialog from "./_components/welcomeDialog"
-import { useEffect, useState } from "react"
-import { useRouter } from "next/navigation"
 
 // Sample data for the chart
 const chartData = [
@@ -159,7 +159,7 @@ export default function OverviewPage() {
   //   }
   // }, [])
   return (
-    <div className="w-full min-h-screen bg-[#F4F6F8]">
+    <div className="w-full min-h-screen">
       {showCompletionDialog ? (
         <ProfileCompletionDialog
           open={showCompletionDialog}
@@ -219,8 +219,8 @@ export default function OverviewPage() {
           {/* Stats Cards */}
           <div className="w-full max-w-[95vw]">
             <div className="overflow-x-auto pb-3 scrollbar-thin scrollbar-track-blue-50 scrollbar-thumb-blue-300 hover:scrollbar-thumb-blue-400">
-              <div className="flex gap-4 md:gap-6">
-                <Card className="bg-[#E8F7FF] rounded-[12px] flex flex-row justify-between p-6 min-w-[250px] flex-shrink-0">
+              <div className="flex justify-between gap-4 md:gap-6">
+                <Card className="w-[312px] bg-[#E8F7FF] rounded-[12px] flex flex-row justify-between p-6 min-w-[250px] flex-shrink-0">
                   <div className="flex flex-col gap-2">
                     <p className="text-[32px]/[40px] font-semibold font-circular-std text-[#191F33] tracking-normal">
                       27
@@ -234,7 +234,7 @@ export default function OverviewPage() {
                   </div>
                 </Card>
 
-                <Card className="bg-[#E4F9E0] rounded-[12px] flex flex-row justify-between p-6 min-w-[250px] flex-shrink-0">
+                <Card className="w-[312px] bg-[#E4F9E0] rounded-[12px] flex flex-row justify-between p-6 min-w-[250px] flex-shrink-0">
                   <div className="flex flex-col gap-2">
                     <p className="text-[32px]/[40px] font-semibold font-circular-std text-[#191F33] tracking-normal">
                       43
@@ -248,7 +248,7 @@ export default function OverviewPage() {
                   </div>
                 </Card>
 
-                <Card className="bg-[#F5ECFF] rounded-[12px] flex flex-row justify-between p-6 min-w-[250px] flex-shrink-0">
+                <Card className="w-[312px] bg-[#F5ECFF] rounded-[12px] flex flex-row justify-between p-6 min-w-[250px] flex-shrink-0">
                   <div className="flex flex-col gap-2">
                     <p className="text-[32px]/[40px] font-semibold font-circular-std text-[#191F33] tracking-normal">
                       14
@@ -268,7 +268,7 @@ export default function OverviewPage() {
           {/* Main Content Grid */}
           <div className="flex flex-col xl:flex-row gap-6">
             {/* Ads View Chart */}
-            <Card className="xl:flex-1 rounded-[12px] border border-[#F1F2F4]">
+            <Card className="xl:flex-1 rounded-[12px] border border-[#EBEEF7] xl:border-[#F1F2F4] shadow-[0px_2px_32px_0px_#0022330D]">
               <div className="flex flex-row items-center justify-between">
                 <h3 className="text-[20px]/[32px] tracking-normal font-semibold font-circular-std">
                   Ads View

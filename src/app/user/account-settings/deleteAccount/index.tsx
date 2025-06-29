@@ -90,7 +90,7 @@ export default function DeleteAccountDialog({
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent
         className={cn(
-          "p-0 overflow-hidden flex flex-col",
+          "p-0 overflow-hidden flex flex-col ",
           isLargeDevice
             ? "sm:max-w-[800px] max-h-[90vh] rounded-lg"
             : "w-full h-full max-w-none max-h-none m-0 shadow-none border-0 rounded-none"

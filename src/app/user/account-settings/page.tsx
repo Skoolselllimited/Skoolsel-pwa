@@ -119,9 +119,9 @@ export default function UserProfileManagement() {
 
   // Photo upload handlers
   const handlePhotoClick = () => {
-    if (isEditing) {
-      fileInputRef.current?.click()
-    }
+    fileInputRef.current?.click()
+    // if (isEditing) {
+    // }
   }
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -183,7 +183,7 @@ export default function UserProfileManagement() {
               </Avatar>
               <button
                 onClick={handlePhotoClick}
-                disabled={!isEditing || isPhotoUploading}
+                disabled={isPhotoUploading}
                 className="absolute bottom-0 right-0 w-[58px] h-[58px] rounded-full border-[1.98px] border-white shadow-[0px_5.27px_105.45px_0px_#A7AEC14D] bg-secondary  cursor-pointer flex justify-center items-center"
               >
                 {isPhotoUploading ? (
@@ -192,16 +192,6 @@ export default function UserProfileManagement() {
                   <CameraIcon />
                 )}
               </button>
-              {isEditing && photoPreview && (
-                <Button
-                  size="icon"
-                  onClick={handleRemovePhoto}
-                  className="absolute -top-2 -right-2 rounded-full w-6 h-6 bg-red-500 hover:bg-red-600"
-                >
-                  <X className="w-3 h-3 text-white" />
-                </Button>
-              )}
-
               {/* Hidden file input */}
               <input
                 ref={fileInputRef}
@@ -212,16 +202,11 @@ export default function UserProfileManagement() {
               />
             </div>
             {/* Photo upload instructions - only show in edit mode */}
-            {isEditing && (
-              <div className="mb-4 text-foreground font-circular-std font-[450]">
-                <p className="text-sm mb-2">
-                  Click the camera icon to change your profile photo
-                </p>
-                <p className="text-xs text-gray-500">
-                  Supported formats: JPG, PNG, GIF (Max 5MB)
-                </p>
-              </div>
-            )}
+
+            <p className="text-[#767e94] font-circular-std font-[450] italic text-center text-xs mb-2">
+              Supported formats: JPG, JPEG, PNG, GIF (Max 5MB)
+            </p>
+
             <div className="w-full flex items-center justify-center">
               <div className="max-w-[262px] flex flex-col gap-1">
                 <div className="h-[30px] flex items-center justify-center gap-2">
@@ -539,7 +524,7 @@ export default function UserProfileManagement() {
             <DeleteAccountDialog>
               <Button
                 variant="destructive"
-                className="w-fit h-[24px] gap-2 bg-transparent font-bold text-[#FF4F4F] hover:bg-[#FF4F4F]/10 border-0 text-[16px/[100%] px-0"
+                className="w-fit gap-2 bg-transparent font-bold text-[#FF4F4F] hover:bg-[#FF4F4F]/10 border-0 text-[16px/[100%] px-0 mb-4"
               >
                 <Trash2 className="w-4 h-4" />
                 Delete Account

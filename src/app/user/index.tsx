@@ -58,12 +58,12 @@ export default function UserWrapper({
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white xl:bg-[#F4F6F8]">
       {/* Global Header */}
       <Header />
 
       {/* Mobile Header */}
-      <div className="xl:hidden flex flex-col px-4">
+      <div className="xl:hidden  flex flex-col px-4">
         <div className="w-full h-[72px] flex justify-between items-center py-4">
           <div
             onClick={() => router.back()}
@@ -156,14 +156,13 @@ export default function UserWrapper({
       </div>
 
       {/* Desktop Breadcrumb Bar */}
-      <div className="hidden xl:block">
-        <BreadcrumbNav pathname={pathname} className="w-[498px] h-6" />
-      </div>
+
+      <BreadcrumbNav pathname={pathname} />
 
       {/* Main Layout */}
       <div className="max-w-[1320px] mx-auto py-4 px-3 lg:p-6 flex gap-6">
         {/* Sidebar (Desktop Only) */}
-        <aside className="hidden xl:flex flex-col w-[296px]">
+        <aside className="hidden 2xl:flex flex-col w-[296px]">
           <div className="w-full bg-white border border-[#EBEEF7] rounded-[12px] py-8 flex flex-col gap-6">
             <div className="flex flex-col 2xl:flex-row items-center gap-4 px-4">
               <Avatar className="h-16 w-16">
@@ -207,7 +206,7 @@ export default function UserWrapper({
         </aside>
 
         {/* Page Content */}
-        <main className="flex-1">{children}</main>
+        <main className="flex-1 max-w-[984px]">{children}</main>
       </div>
     </div>
   )

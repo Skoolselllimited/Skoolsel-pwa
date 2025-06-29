@@ -370,7 +370,7 @@ export default function SearchBar() {
   }
 
   return (
-    <div className="flex w-full gap-2 items-center">
+    <div className="hidden 2xl:w-[626px] mx-4 xl:flex gap-2 items-center">
       {/* School Selection Button */}
       <Button
         variant="ghost"
