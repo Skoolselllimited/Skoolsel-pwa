@@ -15,7 +15,7 @@ interface Review {
 const ReviewCard: React.FC<Review> = ({ name, review, rating, avatarUrl }) => (
   <div className="md:flex gap-0 md:gap-5 md:my-4 mt-4">
     {avatarUrl && (
-      <Avatar className="w-[10.6px] h-[10.6px] lg:w-14 lg:h-14">
+      <Avatar className="w-[40.6px] h-[40.6px] lg:w-14 lg:h-14">
         <AvatarImage
           src={avatarUrl ?? "/default-avatar.png"}
           alt="Vendor's photo"
@@ -27,7 +27,7 @@ const ReviewCard: React.FC<Review> = ({ name, review, rating, avatarUrl }) => (
     <div className="md:max-w-3xl mt-4 md:mt-0 ">
       <div className="flex gap-1">
         <Stars rating={rating} color="amber" />
-        <p className="text-body-900 font-semibold text-xs">
+        <p className="text-body-900 font-semibold text-sm">
           {rating.toFixed(1)} Star Ratings
         </p>
       </div>
@@ -35,7 +35,7 @@ const ReviewCard: React.FC<Review> = ({ name, review, rating, avatarUrl }) => (
         <p className="font-semibold text-body-900 text-sm">{name}</p>
         <p className="bg-body-400 h-1 w-1 rounded-full"></p>
       </div>
-      <p className="text-gray-500">{review}</p>
+      <p className="text-[#464d61] text-sm">{review}</p>
     </div>
   </div>
 );

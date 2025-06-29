@@ -15,7 +15,7 @@ const AdGrid: React.FC<Props> = ({ products, className }) => {
   return (
     <div
       className={cn(
-        "grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-6",
+        "grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-2 md:gap-6",
         className
       )}
     >

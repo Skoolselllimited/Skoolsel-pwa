@@ -1,11 +1,12 @@
-export const WarningIcon = () => {
+import { SVGProps } from "react";
+
+export const WarningIcon = (props: SVGProps<SVGSVGElement>) => {
   return (
     <svg
-      width="24"
-      height="24"
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
       fill="none"
-      xmlns="http://www.w3.org/2000/svg"
     >
       <path
         d="M12 9.75V13.5"
