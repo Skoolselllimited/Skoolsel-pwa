@@ -56,31 +56,6 @@ interface AvatarProps {
   fallback?: React.ReactNode; // Can be string or JSX
 }
 
-// function Avatar({ className, size, src, alt, fallback }: AvatarProps) {
-//   const sizeClass = size ? `w-[${size}px] h-[${size}px]` : "size-8"; // Default size if not provided
-//   return (
-//     <div
-//       className={cn(
-//         "relative flex shrink-0 overflow-hidden rounded-full",
-//         sizeClass,
-//         className
-//       )}
-//     >
-//       {src ? (
-//         <img
-//           src={src}
-//           alt={alt}
-//           className="aspect-square size-full object-cover"
-//         />
-//       ) : (
-//         <div className="bg-gray-300 flex size-full items-center justify-center rounded-full text-gray-700 font-semibold text-lg">
-//           {fallback}
-//         </div>
-//       )}
-//     </div>
-//   );
-// }
-
 // --- Mock CardPanel Component (adapted from previous context) ---
 type CardPanelProps = React.PropsWithChildren<{
   primaryText?: string;
@@ -299,11 +274,11 @@ const PublicProfileSidebar = ({ user }: PublicProfileSidebarProps) => {
       <div className="border-t border-gray-200 w-full my-2"></div>
       <div className="px-2 py-3">
         <div className="flex items-center gap-2">
-          <WarningIcon />
           <button
             title="report"
-            className="text-red-700 text-sm  hover:underline"
+            className="text-red-700 text-sm flex flex-row items-center hover:underline"
           >
+            <WarningIcon className="w-4 h-4 mr-2" />
             Report Seller
           </button>
         </div>

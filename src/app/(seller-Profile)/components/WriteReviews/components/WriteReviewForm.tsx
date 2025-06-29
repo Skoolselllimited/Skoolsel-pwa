@@ -48,23 +48,19 @@ const WriteReviewForm = ({
   onReviewSubmit,
 }: WriteReviewFormProps) => {
   return (
-    <div className="bg-white pb-4 rounded-lg">
+    <div className="w-full bg-white pb-4 rounded-lg">
       <Formik
         initialValues={{ rating: 0, reviewText: "" }}
         validate={validateWithZod(reviewSchema)}
         onSubmit={async (values, { setSubmitting }) => {
-          if (status !== "authenticated") {
-            signOut({
-              redirect: true,
-              callbackUrl: `/account/signin?callbackUrl=${encodeURIComponent(
-                `/profile/${username}/write-reviews`
-              )}`,
-            });
-            return;
-          }
-
           try {
-            console.log("Submiting review...");
+            console.log("Submitting review...", values);
+
+            // Simulate API call here or place your actual review submission logic
+            await new Promise((resolve) => setTimeout(resolve, 1000));
+
+            // ✅ Trigger parent handler to show <ReviewSuccess />
+            onReviewSubmit();
           } catch (error) {
             console.error("Error submitting review", { error });
           } finally {
@@ -107,7 +103,11 @@ const WriteReviewForm = ({
               <Button
                 type="submit"
                 className="bg-[#54abdb] hover:bg-[#3da2d3] text-white text-sm font-semibold px-6 py-5 rounded-sm inline-flex items-center gap-2"
-                disabled={isSubmitting}
+                disabled={
+                  isSubmitting ||
+                  values.rating < 1 ||
+                  values.reviewText.trim().length < 10
+                }
               >
                 Publish Review
                 <GoArrowRight className="w-60 h-6 font-semibold" />

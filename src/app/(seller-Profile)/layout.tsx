@@ -1,10 +1,10 @@
-import React from "react"
-import Header from "../(landing-page)/_components/header"
+import React from "react";
+import Header from "../(landing-page)/_components/header";
 
 export default function SellerProfileLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <div>
@@ -13,5 +13,5 @@ export default function SellerProfileLayout({
         {children} {/* This is where your page.tsx content will be rendered */}
       </div>
     </div>
-  )
+  );
 }
