@@ -84,10 +84,10 @@ export default function Login() {
   };
 
   return (
-    <div className="md:min-h-[calc(100vh-100px)]  flex flex-col md:flex-row bg-[#F7F8F9] font-inter">
+    <div className="h-[calc(100vh-100px)] overflow-hidden w-full flex flex-col md:flex-row bg-[#F7F8F9] font-inter">
       {/* Left Section - Login Form */}
       <div className="w-full lg:w-1/2 hidden md:flex items-center justify-center px-4 py-8 md:py-16">
-        <div className="w-full max-w-xl bg-white rounded-xl border p-8">
+        <div className="w-full max-w-xl bg-white rounded-xl border p-8 overflow-hidden">
           <h1 className="text-2xl font-bold text-center text-[#003553] mb-2">
             Welcome Back! 👋
           </h1>
