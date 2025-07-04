@@ -27,6 +27,8 @@ import { FaLinkedinIn } from "react-icons/fa";
 import { IoIosLink } from "react-icons/io";
 import { CustomButton } from "@/components/ui/button/customButton";
 
+import Image from "next/image";
+
 import { ChevronLeft, Star, PhoneCallIcon, MapPin } from "lucide-react";
 
 interface PublicProfileProps {
@@ -245,14 +247,21 @@ export const PublicProfile = ({
               <h1 className="text-xl font-semibold">{userData.name}</h1>
             </div>
             {/* Profile Info Section */}
-            <div className=" flex flex-col items-center justify-center p-6 mt-6">
-              {" "}
+
+            <Image
+              src={"/images/spb.png"}
+              width={1000}
+              height={1000}
+              alt="Background Image"
+              className="w-full h-[120px] object-cover"
+            />
+            <div className="-top-18 flex flex-col items-center justify-center p-6 relative ">
               {/* Adjusted margin-top */}
               <div className="relative">
                 <img
                   src={"/images/profile2.jpg"}
                   alt="Profile Avatar"
-                  className="w-30 h-30 rounded-full border-4 border-white shadow-lg object-cover"
+                  className="w-35 h-35 rounded-full border-white  object-cover"
                 />
               </div>
               <h2 className="text-2xl font-bold mt-4 text-gray-900">
@@ -271,7 +280,7 @@ export const PublicProfile = ({
                 router.push(`?tab=${value}`);
               }}
               defaultValue="write-review"
-              className="w-full h-full"
+              className="w-full h-full px-1.5"
             >
               <TabsList className="bg-white border-b  border-gray-200 mb-5 text-left flex justify-between ">
                 <TabsTrigger
