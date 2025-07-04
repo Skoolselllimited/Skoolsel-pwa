@@ -1,24 +1,22 @@
-"use client";
-import { CardPanel } from "@/components/cardPanel/cardPanel";
-import { useState } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { products } from "@/data/hotCampus";
-import AdGrid from "@/components/ads/AdGrid";
-import ads from "@/data/mockdata";
-import { Clipboard } from "lucide-react";
-import React from "react";
-import { useRouter } from "next/navigation";
-import WriteReviewForm from "./WriteReviewForm";
-import { SpinnerIcon } from "@/components/svgs";
-import { Button } from "@/components/ui/button";
-import { User } from "@/types/user";
-import UserStatsCard from "../../UserStatsCard";
-import ReviewSuccess from "./ReviewSuccess"; // Importing missing component
+"use client"
+import AdGrid from "@/components/ads/AdGrid"
+import { CardPanel } from "@/components/cardPanel/cardPanel"
+import { SpinnerIcon } from "@/components/svgs"
+import { Button } from "@/components/ui/button"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { ads } from "@/data"
+import { User } from "@/types/user"
+import { Clipboard } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { useState } from "react"
+import UserStatsCard from "../../UserStatsCard"
+import ReviewSuccess from "./ReviewSuccess"
+import WriteReviewForm from "./WriteReviewForm"
 
 interface WriteReviewProps {
-  userDetails: User;
-  rating: number;
-  totalReviews: number;
+  userDetails: User
+  rating: number
+  totalReviews: number
 }
 
 const WriteReview = ({
@@ -26,18 +24,18 @@ const WriteReview = ({
   rating,
   totalReviews,
 }: WriteReviewProps) => {
-  const [isReviewSubmitted, setIsReviewSubmitted] = useState(false);
-  const router = useRouter();
-  const username = userDetails.username;
-  const userId = userDetails.id;
+  const [isReviewSubmitted, setIsReviewSubmitted] = useState(false)
+  const router = useRouter()
+  const username = userDetails.username
+  const userId = userDetails.id
 
   const handleTabChange = (route: string) => {
-    router.push(route);
-  };
+    router.push(route)
+  }
 
   const handleReviewSubmit = () => {
-    setIsReviewSubmitted(true);
-  };
+    setIsReviewSubmitted(true)
+  }
 
   const cards = [
     {
@@ -47,7 +45,7 @@ const WriteReview = ({
       bgColor: "bg-card-blue",
       icon: <Clipboard className="w-6 h-6 text-blue-500" />,
     },
-  ];
+  ]
 
   return (
     <section aria-labelledby="related-heading font-primary">
@@ -97,7 +95,7 @@ const WriteReview = ({
                 </TabsList>
 
                 <TabsContent value="sellers-ads" className="px-2">
-                  <AdGrid products={products} />
+                  <AdGrid products={ads} />
 
                   <div className="flex justify-center items-center py-6">
                     <Button title="load more ads" color="loader">
@@ -174,7 +172,7 @@ const WriteReview = ({
         )}
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default WriteReview;
+export default WriteReview

@@ -1,9 +1,7 @@
 "use client"
 
 import { trendingAds } from "@/data/hotCampus"
-import { AdsType } from "@/types"
 import Link from "next/link"
-import React from "react"
 import ProductCard from "../_components/ProductCard"
 
 const HotOnCampuses = () => {
