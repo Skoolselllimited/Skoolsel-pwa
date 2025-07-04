@@ -1,13 +1,16 @@
 "use client"
 
+import type React from "react"
+
+import BackButton from "@/components/BackButton"
 import BreadcrumbNav from "@/components/breadCrumbs"
 import {
   ClockIcon,
   LightStrikeIcon,
   MapPinIcon,
   Spinner,
-  SpinnerIcon,
 } from "@/components/svgs"
+import SearchIcon from "@/components/svgs/search"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -27,298 +30,23 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
-import { generateBreadcrumbs, getInitials } from "@/lib/utils"
 import {
-  ChevronDown,
-  ChevronRight,
-  Search,
-  SlidersHorizontal,
-  X,
-} from "lucide-react"
+  ads,
+  allSearchTerms,
+  categories,
+  categoryMapping,
+  priceRanges,
+  productSuggestions,
+  schoolTypes,
+} from "@/data"
+import { generateBreadcrumbs, getInitials } from "@/lib/utils"
+import { ChevronRight, SlidersHorizontal, X } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
-import { useEffect, useRef, useState, type FormEvent } from "react"
-import FilterSchoolDialog from "../_components/FilterSchool"
-import BackButton from "@/components/BackButton"
-
-// Sample product data - Updated to match ShopWithCategories structure
-const productResults = [
-  {
-    id: 1,
-    name: "iPhone 13 Pro Max",
-    category: "Mobile",
-    subcategory: "Apple",
-    price: 750000,
-    location: "ABU Zaria",
-    timePosted: "1 week ago",
-    image: "/images/related_ad.webp",
-    vendor: "Aliya Gadget Store",
-    vendorImage: "/images/vendor.jpg",
-    condition: "New",
-    isSponsored: true,
-    school: "Ahmadu Bello University Zaria",
-  },
-  {
-    id: 2,
-    name: "MacBook Pro 16-inch",
-    category: "Computer & Laptop",
-    subcategory: "Apple",
-    price: 1200000,
-    location: "FUT Minna",
-    timePosted: "3 days ago",
-    image: "/images/image1.png",
-    vendor: "Tech Hub",
-    vendorImage: "/images/vendor.jpg",
-    condition: "Used",
-    isSponsored: false,
-    school: "Federal University of Science and Technology Minna",
-  },
-  {
-    id: 3,
-    name: "Samsung Galaxy S22 Ultra",
-    category: "Mobile",
-    subcategory: "Samsung",
-    price: 650000,
-    location: "UniLag",
-    timePosted: "2 weeks ago",
-    image: "/images/image2.png",
-    vendor: "Mobile World",
-    vendorImage: "/images/vendor.jpg",
-    condition: "New",
-    isSponsored: true,
-    school: "Lagos State University",
-  },
-  {
-    id: 4,
-    name: "Wireless Headphones",
-    category: "Phone Accessories",
-    subcategory: "Headphones",
-    price: 180000,
-    location: "COE Zuba",
-    timePosted: "5 days ago",
-    image: "/images/image3.png",
-    vendor: "Sound Masters",
-    vendorImage: "/images/vendor.jpg",
-    condition: "New",
-    isSponsored: false,
-    school: "College of Education zuba",
-  },
-  {
-    id: 5,
-    name: "iPad Pro 12.9-inch",
-    category: "Mobile",
-    subcategory: "Apple",
-    price: 550000,
-    location: "UniAbuja",
-    timePosted: "1 day ago",
-    image: "/images/image4.png",
-    vendor: "Apple Store Nigeria",
-    vendorImage: "/images/vendor.jpg",
-    condition: "New",
-    isSponsored: true,
-    school: "Abuja University",
-  },
-  {
-    id: 6,
-    name: "PlayStation 5 Digital Edition",
-    category: "Gaming",
-    subcategory: "PlayStation",
-    price: 420000,
-    location: "ABU Zaria",
-    timePosted: "4 days ago",
-    image: "/images/image2.png",
-    vendor: "Game World",
-    vendorImage: "/images/vendor.jpg",
-    condition: "New",
-    isSponsored: false,
-    school: "Ahmadu Bello University Zaria",
-  },
-  {
-    id: 7,
-    name: "Dell XPS 15",
-    category: "Computer & Laptop",
-    subcategory: "Dell",
-    price: 950000,
-    location: "FUT Minna",
-    timePosted: "1 week ago",
-    image: "/images/related_ad.webp",
-    vendor: "Computer Village",
-    vendorImage: "/images/vendor.jpg",
-    condition: "Used",
-    isSponsored: false,
-    school: "Federal University of Science and Technology Minna",
-  },
-  {
-    id: 8,
-    name: "Designer Handbag",
-    category: "Fashion & Accessories",
-    subcategory: "Bags",
-    price: 180000,
-    location: "UniLag",
-    timePosted: "2 weeks ago",
-    image: "/images/image4.png",
-    vendor: "Fashion Store",
-    vendorImage: "/images/vendor.jpg",
-    condition: "New",
-    isSponsored: true,
-    school: "Lagos State University",
-  },
-  {
-    id: 9,
-    name: "Smart TV 55 inch",
-    category: "Home & Living",
-    subcategory: "Appliances",
-    price: 850000,
-    location: "UniLag",
-    timePosted: "3 days ago",
-    image: "/images/image1.png",
-    vendor: "Electronics Hub",
-    vendorImage: "/images/vendor.jpg",
-    condition: "New",
-    isSponsored: false,
-    school: "University of Lagos",
-  },
-  {
-    id: 10,
-    name: "Organic Rice 50kg",
-    category: "Food",
-    subcategory: "Organic",
-    price: 45000,
-    location: "ABU Zaria",
-    timePosted: "1 day ago",
-    image: "/images/image3.png",
-    vendor: "Farm Fresh",
-    vendorImage: "/images/vendor.jpg",
-    condition: "New",
-    isSponsored: false,
-    school: "Ahmadu Bello University Zaria",
-  },
-]
-
-// School options
-const schoolTypes = [
-  "Ahmadu Bello University Zaria",
-  "Federal University of Science and Technology Minna",
-  "Lagos State University",
-  "College of Education zuba",
-  "Abuja University",
-  "University of Lagos",
-  "University of Ibadan",
-  "Obafemi Awolowo University",
-  "University of Nigeria, Nsukka",
-  "Federal University of Technology, Akure",
-  "Covenant University",
-  "Babcock University",
-  "Landmark University",
-  "Nnamdi Azikiwe University",
-  "University of Port Harcourt",
-]
-
-// Sample data for suggestions
-const recentSearches = [
-  "iPhone 13 Pro",
-  "MacBook Air M1",
-  "Samsung Galaxy S21",
-  "AirPods Pro",
-]
-const trendingSearches = [
-  "PlayStation 5",
-  "Mechanical Keyboard",
-  "iPad Pro",
-  "Wireless Earbuds",
-]
-
-const productSuggestions = [
-  {
-    id: 1,
-    name: "iPhone 13 Pro Max",
-    category: "Electronics",
-    price: "₦750,000",
-    image: "/images/image1.png",
-  },
-  {
-    id: 2,
-    name: "MacBook Pro 16-inch",
-    category: "Computers",
-    price: "₦1,200,000",
-    image: "/images/image2.png",
-  },
-  {
-    id: 3,
-    name: "Samsung Galaxy S22 Ultra",
-    category: "Electronics",
-    price: "₦650,000",
-    image: "/images/image3.png",
-  },
-  {
-    id: 4,
-    name: "Sony WH-1000XM4 Headphones",
-    category: "Audio",
-    price: "₦180,000",
-    image: "/images/image4.png",
-  },
-]
-
-// Categories mapping with products
-const categoryMapping: Record<string, string> = {
-  // Mobile Phones
-  "iPhone 13 Pro": "Mobile Phones",
-  "iPhone 13 Pro Max": "Mobile Phones",
-  "iPhone 14 Pro": "Mobile Phones",
-  "Samsung Galaxy S21": "Mobile Phones",
-  "Samsung Galaxy S22 Ultra": "Mobile Phones",
-  "Samsung ultra 25S": "Mobile Phones",
-  "Samsung Note 3": "Mobile Phones",
-  "Samsung S25": "Mobile Phones",
-  "Samsung S21 Ultra": "Mobile Phones",
-
-  // Computers
-  "MacBook Air M1": "Computers",
-  "MacBook Pro 16-inch": "Computers",
-  "MacBook Air M2": "Computers",
-  "Dell XPS 13 Laptop": "Computers",
-
-  // Audio
-  "AirPods Pro": "Audio",
-  "AirPods Pro 2": "Audio",
-  "Sony WH-1000XM4 Headphones": "Audio",
-  "Mechanical Keyboard": "Audio",
-
-  // Gaming
-  "PlayStation 5": "Gaming",
-  "PlayStation 5 Console": "Gaming",
-  "Nintendo Switch OLED": "Gaming",
-
-  // Tablets
-  "iPad Pro": "Tablets",
-  "iPad Air 5th Generation": "Tablets",
-  "iPad Pro 12.9": "Tablets",
-
-  // Wearables
-  "Apple Watch Series 8": "Wearables",
-
-  // Electronics (general)
-  "Wireless Earbuds": "Electronics",
-}
-
-// All searchable terms for autocomplete
-const allSearchTerms = [
-  ...recentSearches,
-  ...trendingSearches,
-  ...productSuggestions.map((p) => p.name),
-  // Additional search terms
-  "Samsung ultra 25S",
-  "Samsung Note 3",
-  "Samsung S25",
-  "Samsung S21 Ultra",
-  "iPhone 14 Pro",
-  "MacBook Air M2",
-  "iPad Pro 12.9",
-  "AirPods Pro 2",
-  "PlayStation 5 Console",
-  "Nintendo Switch OLED",
-]
+import { useCallback, useEffect, useRef, useState, type FormEvent } from "react"
+import FiltersDialog from "./_components/Filters"
+import SchoolSelectorDialog from "./_components/SelectSchool"
 
 // Function to get category for a term
 const getCategoryForTerm = (term: string): string => {
@@ -328,7 +56,7 @@ const getCategoryForTerm = (term: string): string => {
   }
 
   // Find from product suggestions
-  const product = productSuggestions.find(
+  const product = productSuggestions?.find(
     (p) =>
       p.name.toLowerCase().includes(term.toLowerCase()) ||
       term.toLowerCase().includes(p.name.toLowerCase())
@@ -377,123 +105,27 @@ const getCategoryForTerm = (term: string): string => {
   return "Electronics" // Default category
 }
 
-// Updated category data structure to match ShopWithCategories
-const categories = [
-  {
-    name: "Computer & Laptop",
-    subcategories: [
-      "Desktop",
-      "Laptop",
-      "Gaming PC",
-      "Workstation",
-      "Mini PC",
-      "All-in-One",
-      "Apple",
-      "Dell",
-      "HP",
-      "Others",
-    ],
-  },
-  {
-    name: "Mobile",
-    subcategories: [
-      "iPhone",
-      "Samsung",
-      "Xiaomi",
-      "Tecno",
-      "Infinix",
-      "Oppo",
-      "Vivo",
-      "Huawei",
-      "Nokia",
-      "Apple",
-      "Others",
-    ],
-  },
-  {
-    name: "Phone Accessories",
-    subcategories: [
-      "Cases & Covers",
-      "Screen Protectors",
-      "Chargers",
-      "Headphones",
-      "Power Banks",
-      "Cables",
-      "Others",
-    ],
-  },
-  {
-    name: "Computer Accessories",
-    subcategories: [
-      "Keyboards",
-      "Mouse",
-      "Monitors",
-      "Speakers",
-      "Webcams",
-      "Storage",
-      "Others",
-    ],
-  },
-  {
-    name: "Fashion & Accessories",
-    subcategories: [
-      "Clothing",
-      "Shoes",
-      "Bags",
-      "Jewelry",
-      "Watches",
-      "Sunglasses",
-      "Others",
-    ],
-  },
-  {
-    name: "Home & Living",
-    subcategories: [
-      "Furniture",
-      "Appliances",
-      "Kitchen",
-      "Decor",
-      "Garden",
-      "Lighting",
-      "Others",
-    ],
-  },
-  {
-    name: "Food",
-    subcategories: [
-      "Fresh Food",
-      "Packaged Food",
-      "Beverages",
-      "Snacks",
-      "Organic",
-      "Local Delicacies",
-      "Others",
-    ],
-  },
-  {
-    name: "Gaming",
-    subcategories: [
-      "PlayStation",
-      "Xbox",
-      "Nintendo",
-      "PC Gaming",
-      "Mobile Gaming",
-      "Accessories",
-      "Others",
-    ],
-  },
-]
+// Helper function to parse time posted into comparable values
+const parseTimePosted = (timePosted: string): number => {
+  const now = Date.now()
+  const timeStr = timePosted.toLowerCase()
 
-// Price ranges
-const priceRanges = [
-  { label: "All Prices", value: "all" },
-  { label: "Under ₦10,000", value: "0-10000" },
-  { label: "₦10,000 - ₦50,000", value: "10000-50000" },
-  { label: "₦50,000 - ₦100,000", value: "50000-100000" },
-  { label: "₦100,000 - ₦500,000", value: "100000-500000" },
-  { label: "₦500,000 - ₦1,000,000", value: "500000-1000000" },
-  { label: "Above ₦1,000,000", value: "1000000-" },
-]
+  if (timeStr.includes("day")) {
+    const days = Number.parseInt(timeStr.match(/\d+/)?.[0] || "0")
+    return now - days * 24 * 60 * 60 * 1000
+  } else if (timeStr.includes("week")) {
+    const weeks = Number.parseInt(timeStr.match(/\d+/)?.[0] || "0")
+    return now - weeks * 7 * 24 * 60 * 60 * 1000
+  } else if (timeStr.includes("hour")) {
+    const hours = Number.parseInt(timeStr.match(/\d+/)?.[0] || "0")
+    return now - hours * 60 * 60 * 1000
+  } else if (timeStr.includes("minute") || timeStr.includes("min")) {
+    const minutes = Number.parseInt(timeStr.match(/\d+/)?.[0] || "0")
+    return now - minutes * 60 * 1000
+  }
+
+  return now // Default to now for unknown formats
+}
 
 export default function AdsPage() {
   const pathname = usePathname()
@@ -512,20 +144,15 @@ export default function AdsPage() {
   )
   const [showSuggestions, setShowSuggestions] = useState(false)
   const [highlightedIndex, setHighlightedIndex] = useState(-1)
-  const [filterSchoolOpen, setFilterSchoolOpen] = useState(false)
+  const [schoolSelectorOpen, setSchoolSelectorOpen] = useState(false)
+  const [filtersOpen, setFiltersOpen] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
   const suggestionsRef = useRef<HTMLDivElement>(null)
 
   const [schoolSearchTerm, setSchoolSearchTerm] = useState("")
-  const [selectedSchoolForMobile, setSelectedSchoolForMobile] =
-    useState<string>(selectedSchool)
 
-  const [expandedSections, setExpandedSections] = useState<string[]>([
-    "price",
-    "category",
-    "condition",
-    "school",
-  ])
+  // Close all filters by default on large devices, keep mobile filters expanded
+  const [expandedSections, setExpandedSections] = useState<string[]>([])
   const [expandedSubcategories, setExpandedSubcategories] = useState<string[]>(
     []
   )
@@ -555,7 +182,7 @@ export default function AdsPage() {
   // Mobile states
   const [isFiltersOpen, setIsFiltersOpen] = useState(false)
 
-  // Filtered suggestions based on search term
+  // Filtered suggestions based on search term (mobile only)
   const [filteredSuggestions, setFilteredSuggestions] = useState<
     Array<{
       text: string
@@ -564,7 +191,76 @@ export default function AdsPage() {
     }>
   >([])
 
-  // Update suggestions when search term changes
+  // Function to get price display text
+  const getPriceDisplayText = () => {
+    if (minPrice || maxPrice) {
+      // Custom price range
+      if (minPrice && maxPrice) {
+        return `${formatPrice(Number(minPrice))} - ${formatPrice(Number(maxPrice))}`
+      } else if (minPrice) {
+        return `From ${formatPrice(Number(minPrice))}`
+      } else if (maxPrice) {
+        return `Up to ${formatPrice(Number(maxPrice))}`
+      }
+    } else if (priceRange !== "all") {
+      // Predefined price range
+      const range = priceRanges.find((r) => r.value === priceRange)
+      return range?.label || "All prices"
+    }
+    return "All prices"
+  }
+
+  // Price input handlers with proper focus management
+  const handleMinPriceChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = e.target.value
+      setMinPrice(value)
+      // Only clear predefined range if there's actually a value
+      if (value && priceRange !== "all") {
+        // Use requestAnimationFrame to avoid immediate re-render
+        requestAnimationFrame(() => {
+          setPriceRange("all")
+        })
+      }
+    },
+    [priceRange]
+  )
+
+  const handleMaxPriceChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = e.target.value
+      setMaxPrice(value)
+      // Only clear predefined range if there's actually a value
+      if (value && priceRange !== "all") {
+        // Use requestAnimationFrame to avoid immediate re-render
+        requestAnimationFrame(() => {
+          setPriceRange("all")
+        })
+      }
+    },
+    [priceRange]
+  )
+
+  // Function to handle min/max price validation and swapping
+  const validateAndSwapPrices = useCallback(() => {
+    if (minPrice && maxPrice) {
+      const minVal = Number(minPrice)
+      const maxVal = Number(maxPrice)
+
+      if (minVal > maxVal) {
+        // Swap the values
+        setMinPrice(maxPrice)
+        setMaxPrice(minPrice)
+      }
+    }
+  }, [minPrice, maxPrice])
+
+  // Handle price input blur
+  const handlePriceBlur = useCallback(() => {
+    validateAndSwapPrices()
+  }, [validateAndSwapPrices])
+
+  // Update suggestions when search term changes (mobile only)
   useEffect(() => {
     if (searchTerm.trim().length > 0) {
       const searchLower = searchTerm.toLowerCase()
@@ -600,7 +296,7 @@ export default function AdsPage() {
     }
   }, [searchTerm])
 
-  // Handle keyboard navigation
+  // Handle keyboard navigation (mobile only)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!showSuggestions) return
@@ -639,15 +335,20 @@ export default function AdsPage() {
     }
   }, [showSuggestions, highlightedIndex, filteredSuggestions])
 
-  // Handle search submission
+  // Handle search submission - includes current school and filters (mobile only)
   const handleSearch = (e?: FormEvent) => {
     if (e) e.preventDefault()
 
-    const params = new URLSearchParams()
+    const params = new URLSearchParams(searchParams.toString())
+
+    // Update search term
     if (searchTerm.trim()) {
       params.set("q", searchTerm)
+    } else {
+      params.delete("q")
     }
 
+    // Keep existing school selection
     if (selectedSchool) {
       params.set("schools", selectedSchool)
     }
@@ -657,55 +358,54 @@ export default function AdsPage() {
     inputRef.current?.blur()
   }
 
-  // Handle suggestion click
+  // Handle suggestion click - includes current school and filters (mobile only)
   const handleSuggestionClick = (suggestion: string) => {
     setSearchTerm(suggestion)
     setShowSuggestions(false)
 
-    // Auto-search after selecting suggestion
+    // Auto-search after selecting suggestion with current filters
     setTimeout(() => {
-      const params = new URLSearchParams()
+      const params = new URLSearchParams(searchParams.toString())
       params.set("q", suggestion)
+
+      // Keep existing school selection
       if (selectedSchool) {
         params.set("schools", selectedSchool)
       }
+
       router.push(`/ads?${params.toString()}`)
     }, 100)
   }
 
-  // Handle category click
+  // Handle category click - includes current school and search (mobile only)
   const handleCategoryClick = (category: string) => {
     setShowSuggestions(false)
 
-    const params = new URLSearchParams()
+    const params = new URLSearchParams(searchParams.toString())
 
     // Create category structure that matches the ads page filter system
     const categoryData = { [category]: ["All"] }
     params.set("categories", encodeURIComponent(JSON.stringify(categoryData)))
 
+    // Keep existing search and school
+    if (searchTerm) {
+      params.set("q", searchTerm)
+    }
     if (selectedSchool) {
       params.set("schools", selectedSchool)
     }
+
     router.push(`/ads?${params.toString()}`)
   }
 
-  // Handle filter application
-  const handleFilterApply = (
-    schools: string,
-    filterParams: URLSearchParams
-  ) => {
-    setSelectedSchool(schools)
-    setFilterSchoolOpen(false)
-  }
-
-  // Handle input focus
+  // Handle input focus (mobile only)
   const handleInputFocus = () => {
     if (searchTerm.trim().length > 0) {
       setShowSuggestions(true)
     }
   }
 
-  // Handle input blur (with delay to allow clicks)
+  // Handle input blur (with delay to allow clicks) (mobile only)
   const handleInputBlur = () => {
     setTimeout(() => {
       setShowSuggestions(false)
@@ -713,29 +413,42 @@ export default function AdsPage() {
     }, 200)
   }
 
-  // Clear search
+  // Clear search (mobile only)
   const clearSearch = () => {
     setSearchTerm("")
     setShowSuggestions(false)
+
+    // Update URL to remove search but keep other filters
+    const params = new URLSearchParams(searchParams.toString())
+    params.delete("q")
+    router.push(`/ads?${params.toString()}`)
+
     inputRef.current?.focus()
   }
 
   // Filter schools based on search term
   const filteredSchools = schoolSearchTerm
-    ? schoolTypes.filter((school) =>
-        school.toLowerCase().includes(schoolSearchTerm.toLowerCase())
-      )
+    ? schoolTypes.filter((school) => {
+        const term = schoolSearchTerm.toLowerCase()
+        return (
+          school.name.toLowerCase().includes(term) ||
+          school.abbreviation.toLowerCase().includes(term)
+        )
+      })
     : schoolTypes
 
-  // Handle school selection
+  // Handle school selection - preserves search and filters
   const handleSchoolSelect = (school: string) => {
     setSelectedSchool(school)
-  }
 
-  // Handle mobile school selection
-  const handleMobileSchoolSelect = (school: string) => {
-    setSelectedSchoolForMobile(school)
-    setSelectedSchool(school)
+    // Update URL with new school selection while preserving other params
+    const params = new URLSearchParams(searchParams.toString())
+    if (school) {
+      params.set("schools", school)
+    } else {
+      params.delete("schools")
+    }
+    router.push(`/ads?${params.toString()}`)
   }
 
   // Handle category selection
@@ -765,7 +478,14 @@ export default function AdsPage() {
     })
   }
 
-  // Apply filters
+  // Apply filters from filters dialog - preserves search and school
+  const handleApplyFilters = (filterParams: URLSearchParams) => {
+    router.push(`/ads?${filterParams.toString()}`)
+    setFiltersOpen(false)
+    setIsFiltersOpen(false)
+  }
+
+  // Apply filters (for desktop) - preserves search and school
   const applyFilters = () => {
     const params = new URLSearchParams()
 
@@ -806,22 +526,15 @@ export default function AdsPage() {
     }
 
     // Add sort option
-    params.set("sort", sortOption)
+    if (sortOption !== "latest") {
+      params.set("sort", sortOption)
+    }
 
     router.push(`/ads?${params.toString()}`)
     setIsFiltersOpen(false)
   }
 
-  const handleApplyFilters = (
-    school: string,
-    filterParams: URLSearchParams
-  ) => {
-    setSelectedSchool(school)
-    router.push(`/ads?${filterParams.toString()}`)
-    setFilterSchoolOpen(false)
-  }
-
-  // Clear all filters
+  // Clear all filters - resets everything
   const clearFilters = () => {
     setSelectedSchool("")
     setSelectedDirectCategory("")
@@ -832,7 +545,6 @@ export default function AdsPage() {
     setMinPrice("")
     setMaxPrice("")
     setSearchTerm("")
-    setSelectedSchoolForMobile("")
     router.push("/ads")
   }
 
@@ -853,55 +565,75 @@ export default function AdsPage() {
       : [0, Number.POSITIVE_INFINITY]
 
   // Enhanced filter logic to support both direct category and detailed filtering
-  const filteredProducts = productResults.filter((product) => {
-    // Match by search query if provided
-    const matchesQuery =
-      !searchTerm ||
-      product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.category.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredProducts =
+    ads
+      ?.filter((product) => {
+        // Match by search query if provided
+        const matchesQuery =
+          !searchTerm ||
+          product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          product.category.toLowerCase().includes(searchTerm.toLowerCase())
 
-    // Match by school if selected
-    const matchesSchool =
-      !selectedSchool ||
-      selectedSchool === "" ||
-      selectedSchool === product.school
+        // Match by school if selected
+        const matchesSchool =
+          !selectedSchool ||
+          selectedSchool === "" ||
+          selectedSchool === product.school
 
-    // Match by price
-    const matchesPrice =
-      product.price >= minPriceValue &&
-      product.price <= maxPriceValue &&
-      product.price >= minRangePrice &&
-      (maxRangePrice === Number.POSITIVE_INFINITY ||
-        product.price <= maxRangePrice)
+        // Match by price
+        const matchesPrice =
+          product.price >= minPriceValue &&
+          product.price <= maxPriceValue &&
+          product.price >= minRangePrice &&
+          (maxRangePrice === Number.POSITIVE_INFINITY ||
+            product.price <= maxRangePrice)
 
-    // Match by condition
-    const matchesCondition =
-      selectedCondition === "all" ||
-      product.condition.toLowerCase() === selectedCondition.toLowerCase()
+        // Match by condition
+        const matchesCondition =
+          selectedCondition === "all" ||
+          product.condition.toLowerCase() === selectedCondition.toLowerCase()
 
-    // Enhanced category matching - support both direct category and detailed category/subcategory
-    const matchesCategory =
-      // If direct category is selected (from ShopWithCategories)
-      (selectedDirectCategory &&
-        product.category.toLowerCase() ===
-          selectedDirectCategory.toLowerCase()) ||
-      // If detailed category/subcategory is selected
-      (selectedCategory &&
-        selectedSubcategory &&
-        product.category.toLowerCase() === selectedCategory.toLowerCase() &&
-        product.subcategory.toLowerCase() ===
-          selectedSubcategory.toLowerCase()) ||
-      // If no category filters are applied
-      (!selectedDirectCategory && !selectedCategory && !selectedSubcategory)
+        // Enhanced category matching - support both direct category and detailed category/subcategory
+        const matchesCategory =
+          // If direct category is selected (from ShopWithCategories)
+          (selectedDirectCategory &&
+            product.category.toLowerCase() ===
+              selectedDirectCategory.toLowerCase()) ||
+          // If detailed category/subcategory is selected
+          (selectedCategory &&
+            selectedSubcategory &&
+            product.category.toLowerCase() === selectedCategory.toLowerCase() &&
+            product.subcategory.toLowerCase() ===
+              selectedSubcategory.toLowerCase()) ||
+          // If no category filters are applied
+          (!selectedDirectCategory && !selectedCategory && !selectedSubcategory)
 
-    return (
-      matchesQuery &&
-      matchesSchool &&
-      matchesPrice &&
-      matchesCondition &&
-      matchesCategory
-    )
-  })
+        return (
+          matchesQuery &&
+          matchesSchool &&
+          matchesPrice &&
+          matchesCondition &&
+          matchesCategory
+        )
+      })
+      .sort((a, b) => {
+        // Sort the filtered products based on selected sort option
+        switch (sortOption) {
+          case "price-low":
+            return a.price - b.price
+          case "price-high":
+            return b.price - a.price
+          case "popular":
+            // Sort by sponsored first, then by latest
+            if (a.isSponsored && !b.isSponsored) return -1
+            if (!a.isSponsored && b.isSponsored) return 1
+            return parseTimePosted(b.timePosted) - parseTimePosted(a.timePosted)
+          case "latest":
+          default:
+            // Sort by time posted (newest first)
+            return parseTimePosted(b.timePosted) - parseTimePosted(a.timePosted)
+        }
+      }) || []
 
   // Format price with Naira symbol
   const formatPrice = (price: number) => {
@@ -910,6 +642,12 @@ export default function AdsPage() {
 
   // Initialize filters from URL params
   useEffect(() => {
+    // Handle sort option from URL
+    const sortParam = searchParams.get("sort")
+    if (sortParam) {
+      setSortOption(sortParam)
+    }
+
     // Handle direct category parameter (from ShopWithCategories)
     const categoryParam = searchParams.get("category")
     if (categoryParam) {
@@ -964,13 +702,13 @@ export default function AdsPage() {
     }
   }, [filteredProducts.length, itemsToShow])
 
-  // Filter content component
+  // Filter content component (for desktop)
   const FilterContent = () => (
     <div className="w-full flex flex-col gap-[14px]">
       {/* Selected School */}
-      <div className="bg-white rounded-[12px] p-4 border border-[#EBEEF7] flex flex-col gap-2">
+      <div className="bg-white rounded-[12px] px-4 py-2 border border-[#EBEEF7] flex flex-col">
         <div
-          className="flex justify-between items-center mb-2 cursor-pointer"
+          className="flex justify-between items-center cursor-pointer"
           onClick={() => {
             if (expandedSections.includes("school")) {
               setExpandedSections(
@@ -995,7 +733,8 @@ export default function AdsPage() {
         </div>
         {expandedSections.includes("school") && (
           <div className="flex flex-col gap-4">
-            <div className="flex items-center border rounded-md px-2">
+            {/* Hide school search on large devices */}
+            <div className="xl:hidden flex items-center border rounded-md px-2">
               <Input
                 placeholder="Search schools..."
                 className="border-0 focus-visible:ring-0 focus-visible:ring-offset-0 h-8 text-sm placeholder:text-sm placeholder:text-[#8B90A0] bg-white"
@@ -1019,17 +758,17 @@ export default function AdsPage() {
                   </Label>
                 </div>
                 {filteredSchools.map((school) => (
-                  <div key={school} className="flex items-center">
+                  <div key={school.name} className="flex items-center">
                     <RadioGroupItem
-                      value={school}
-                      id={`school-${school}`}
+                      value={school.name}
+                      id={`school-${school.name}`}
                       className="mr-2"
                     />
                     <Label
-                      htmlFor={`school-${school}`}
+                      htmlFor={`school-${school.name}`}
                       className="text-sm cursor-pointer"
                     >
-                      {school}
+                      {school.name}
                     </Label>
                   </div>
                 ))}
@@ -1041,9 +780,9 @@ export default function AdsPage() {
 
       <div className="flex flex-col">
         {/* Category */}
-        <div className="bg-white rounded-t-[12px] p-4 border border-[#EBEEF7] flex flex-col gap-2">
+        <div className="bg-white rounded-t-[12px]  px-4 py-2 border border-[#EBEEF7] flex flex-col">
           <div
-            className="flex justify-between items-center mb-2 cursor-pointer"
+            className="flex justify-between items-center cursor-pointer"
             onClick={() => {
               if (expandedSections.includes("category")) {
                 setExpandedSections(
@@ -1096,7 +835,7 @@ export default function AdsPage() {
                       All Categories
                     </Label>
                   </div>
-                  {categories.map((category) => (
+                  {categories?.map((category) => (
                     <div key={category.name} className="flex items-center">
                       <RadioGroupItem
                         value={category.name}
@@ -1191,9 +930,9 @@ export default function AdsPage() {
         </div>
 
         {/* Condition */}
-        <div className="bg-white p-4 border border-[#EBEEF7] flex flex-col gap-2">
+        <div className="bg-white  px-4 py-2 border border-[#EBEEF7] flex flex-col">
           <div
-            className="flex justify-between items-center mb-2 cursor-pointer"
+            className="flex justify-between items-center cursor-pointer"
             onClick={() => {
               if (expandedSections.includes("condition")) {
                 setExpandedSections(
@@ -1261,9 +1000,9 @@ export default function AdsPage() {
         </div>
 
         {/* Price */}
-        <div className="bg-white rounded-b-[12px] p-4 border border-[#EBEEF7] flex flex-col gap-2">
+        <div className="bg-white rounded-b-[12px] px-4 py-2 border border-[#EBEEF7] flex flex-col">
           <div
-            className="flex justify-between items-center mb-2 cursor-pointer"
+            className="flex justify-between items-center cursor-pointer"
             onClick={() => {
               if (expandedSections.includes("price")) {
                 setExpandedSections(
@@ -1274,37 +1013,49 @@ export default function AdsPage() {
               }
             }}
           >
-            <h3 className="text-sm font-medium uppercase">Prices (NGN)</h3>
+            <h3 className="text-[16px]/[24px] font-medium font-circular-std tracking-normal text-foreground">
+              Prices (NGN)
+            </h3>
             <ChevronRight
               className={`h-6 w-6 text-[#636A80] transition-transform ${
                 expandedSections.includes("price") ? "transform rotate-90" : ""
               }`}
             />
           </div>
+          <div className="font-medium font-circular-std text-[16px]/[24px] tracking-normal text-secondary">
+            {getPriceDisplayText()}
+          </div>
           {expandedSections.includes("price") && (
             <>
-              <div className="flex gap-2 mb-4">
+              <div className="flex gap-2 mb-4 mt-2">
                 <Input
                   type="number"
                   placeholder="Min price"
                   className="h-9 text-sm"
                   value={minPrice}
-                  min={1}
-                  onChange={(e) => setMinPrice(e.target.value)}
+                  onChange={handleMinPriceChange}
+                  onBlur={handlePriceBlur}
                 />
                 <Input
                   type="number"
                   placeholder="Max price"
                   className="h-9 text-sm"
                   value={maxPrice}
-                  min={minPrice || 0}
-                  onChange={(e) => setMaxPrice(e.target.value)}
+                  onChange={handleMaxPriceChange}
+                  onBlur={handlePriceBlur}
                 />
               </div>
 
               <RadioGroup
                 value={priceRange}
-                onValueChange={setPriceRange}
+                onValueChange={(value) => {
+                  setPriceRange(value)
+                  // Clear custom inputs when predefined range is selected
+                  if (value !== "all") {
+                    setMinPrice("")
+                    setMaxPrice("")
+                  }
+                }}
                 className="space-y-2"
               >
                 {priceRanges.map((range) => (
@@ -1341,181 +1092,177 @@ export default function AdsPage() {
     </div>
   )
 
+  // Handle sort option change
+  const handleSortChange = (value: string) => {
+    setSortOption(value)
+
+    // Update URL with new sort option
+    const params = new URLSearchParams(searchParams.toString())
+    if (value !== "latest") {
+      params.set("sort", value)
+    } else {
+      params.delete("sort")
+    }
+    router.push(`/ads?${params.toString()}`)
+  }
+
   return (
-    <div className="w-full min-h-screen flex flex-col gap-4 bg-[#F4F6F8]">
-      {/* Mobile Header */}
-      <div className="xl:hidden bg-white px-4 py-3 flex items-center gap-3">
+    <div className="w-full min-h-screen flex flex-col gap-4 bg-white xl:bg-[#F4F6F8]">
+      {/* Mobile Header with Search */}
+      <div className="xl:hidden px-4 py-3 flex items-center gap-3">
         <div className="w-full flex items-center relative gap-3">
           <BackButton onClick={() => router.push("/")} />
-          <form onSubmit={handleSearch} className="flex-1 flex items-center">
-            <div className="relative w-full">
-              <Input
-                ref={inputRef}
-                type="search"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                onFocus={handleInputFocus}
-                onBlur={handleInputBlur}
-                placeholder="Need something? Start typing..."
-                className="bg-white h-12 w-full border border-[#DADDE5] px-4 py-2 pr-20 text-sm rounded-md placeholder:text-[#8B90A0] shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
-                autoComplete="off"
-              />
 
-              {/* Clear button */}
-              {searchTerm && (
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon"
-                  onClick={clearSearch}
-                  className="absolute right-12 top-1/2 -translate-y-1/2 h-6 w-6 text-gray-400 hover:text-gray-600"
-                >
-                  <X className="h-4 w-4" />
-                </Button>
-              )}
-
-              {/* Search button */}
-              <Button
-                type="submit"
-                variant="ghost"
-                size="icon"
-                className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-secondary rounded-full flex justify-center items-center"
-              >
-                <Search className="h-4 w-4 text-white" />
-                <span className="sr-only">Search</span>
-              </Button>
-            </div>
-          </form>
-
-          {/* Mobile Suggestions Dropdown */}
-          {showSuggestions && (
-            <div className="absolute top-full left-0 right-0 z-50 mt-1 bg-white rounded-lg shadow-lg border border-gray-100 overflow-hidden">
-              <div className="py-2">
-                {filteredSuggestions.length > 0 ? (
-                  filteredSuggestions.map((suggestion, index) => (
-                    <div
-                      key={`${suggestion.text}-${index}`}
-                      className={`px-4 py-3 cursor-pointer text-[#6B7280] hover:bg-gray-50 transition-colors text-left ${
-                        index === highlightedIndex ? "bg-gray-50" : ""
-                      }`}
-                      onClick={() => handleSuggestionClick(suggestion.text)}
-                    >
-                      <div className="flex items-center gap-1">
-                        <span className="text-sm">{suggestion.text} in </span>
-                        <span
-                          className="text-[#3B82F6] font-medium cursor-pointer hover:underline text-sm"
-                          onClick={(e) => {
-                            e.stopPropagation()
-                            handleCategoryClick(suggestion.category)
-                          }}
-                        >
-                          {suggestion.category}
-                        </span>
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <div className="px-4 py-6 text-center">
-                    <div className="text-2xl mb-2">🔍</div>
-                    <div className="text-gray-500 text-xs mb-2">
-                      No results found for "{searchTerm}"
-                    </div>
-                    <button
-                      onClick={clearSearch}
-                      className="text-blue-500 text-xs hover:underline"
-                    >
-                      Clear search
-                    </button>
-                  </div>
+          {/* Mobile Search Input with Autocomplete */}
+          <div className="flex-1 relative">
+            <form onSubmit={handleSearch} className="relative">
+              <div className="relative">
+                <Input
+                  ref={inputRef}
+                  type="text"
+                  placeholder="Need something? Start typing..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onFocus={handleInputFocus}
+                  onBlur={handleInputBlur}
+                  className="px-[10px] h-12 text-sm placeholder:text-[#8B90A0] placeholder:font-normal bg-[#F7F8F9] border-[#DADDE5] focus-visible:ring-0 focus-visible:ring-none focus-visible:ring-offset-0 focus-visible:ring-none"
+                />
+                {searchTerm && (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    onClick={clearSearch}
+                    className="absolute right-2 top-1/2 transform -translate-y-1/2 h-6 w-6 p-0 hover:bg-gray-100"
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
                 )}
               </div>
-            </div>
-          )}
+            </form>
+
+            {/* Mobile Search Suggestions */}
+            {showSuggestions && filteredSuggestions.length > 0 && (
+              <div
+                ref={suggestionsRef}
+                className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-md shadow-lg z-50 max-h-80 overflow-y-auto mt-1"
+              >
+                {filteredSuggestions.map((suggestion, index) => (
+                  <div
+                    key={`${suggestion.text}-${index}`}
+                    className={`px-4 py-3 cursor-pointer border-b border-gray-100 last:border-b-0 ${
+                      index === highlightedIndex
+                        ? "bg-gray-50"
+                        : "hover:bg-gray-50"
+                    }`}
+                    onClick={() => handleSuggestionClick(suggestion.text)}
+                  >
+                    <p className="font-circular-std text-sm text-[#191F33]">
+                      {suggestion.text}{" "}
+                      <span
+                        className="text-xs text-[#3B82F6] hover:underline cursor-pointer"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          handleCategoryClick(suggestion.category)
+                        }}
+                      >
+                        in {suggestion.category}
+                      </span>
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
       {/* Mobile School Selector and Filters */}
-      <div className="xl:hidden bg-white px-4 py-3 flex items-center gap-3">
+      <div className="xl:hidden px-4 py-3 flex items-center gap-3">
+        {/* School Selector Button */}
         <Button
           variant="ghost"
-          onClick={() => setFilterSchoolOpen(true)}
-          className="flex-1 h-12 bg-white border-[#EDEFF5] border rounded-md px-4 py-2 text-[14px] font-medium flex items-center text-[#6B7B8A] gap-2 focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-1 focus-visible:ring-offset-white cursor-pointer justify-between"
+          onClick={() => setSchoolSelectorOpen(true)}
+          className="flex-1 h-12 bg-[#F7F8F9] border-[#EDEFF5] border rounded-md px-4 py-2 text-[14px] font-medium flex items-center text-[#6B7B8A] gap-2 focus-visible:ring-0 focus-visible:ring-none focus-visible:ring-offset-1 focus-visible:ring-offset-white cursor-pointer justify-between"
         >
           <div className="flex items-center gap-2">
             <MapPinIcon className="h-4 w-4 text-secondary" />
             <span className="truncate">{selectedSchool || "All Schools"}</span>
           </div>
-          <ChevronDown className="h-4 w-4 text-[#6B7B8A] flex-shrink-0" />
+          <ChevronRight className="h-4 w-4 text-[#6B7B8A] flex-shrink-0" />
         </Button>
-        <Sheet open={isFiltersOpen} onOpenChange={setIsFiltersOpen}>
-          <SheetTrigger asChild>
-            <Button
-              variant="outline"
-              className="h-12 px-4 bg-white border-[#EDEFF5]"
-            >
-              Filters
-              <SlidersHorizontal className="h-4 w-4 mr-2" />
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="bottom" className="h-[80vh] overflow-y-auto">
-            <SheetHeader>
-              <SheetTitle className="flex justify-between items-center">
-                <span>Filters</span>
-                <button
-                  onClick={clearFilters}
-                  className="text-secondary text-sm font-circular-std"
-                >
-                  Reset all
-                </button>
-              </SheetTitle>
-            </SheetHeader>
-            <div className="mt-6">
-              <FilterContent />
-            </div>
-          </SheetContent>
-        </Sheet>
+
+        {/* Filters Button */}
+        <Button
+          variant="outline"
+          onClick={() => setFiltersOpen(true)}
+          className="w-[140px] h-12 px-4 text-[14px]/[24px] font-[450] font-circular-std text-[#4E4E5A] bg-[#F7F8F9] border-[#EDEFF5] flex items-center gap-2"
+        >
+          <SlidersHorizontal className="h-4 w-4" />
+          Filters
+        </Button>
       </div>
 
-      {/* Desktop Breadcrumb */}
-      <div className="hidden xl:flex w-full bg-[#E8EBEE] h-[43px] items-center">
-        <div className="w-full h-full max-w-[1320px] bg-[#E8EBEE] mx-auto">
-          <BreadcrumbNav pathname={pathname} className="h-6" />
-        </div>
-      </div>
+      {/* School Selector Dialog */}
+      <SchoolSelectorDialog
+        open={schoolSelectorOpen}
+        onOpenChange={setSchoolSelectorOpen}
+        selectedSchool={selectedSchool}
+        onSchoolSelect={handleSchoolSelect}
+      />
 
-      {/* Results count and sort */}
-      <div className="w-full max-w-[1320px] mx-auto flex justify-between items-center p-4 shadow-[0px_1px_0px_0px_#E8EBEE]">
-        <h1 className="text-[16px] xl:text-[20px]/[32px] text-[#636A80] font-circular-std font-[450] tracking-normal">
-          <span className="font-bold text-[#191F33]">
-            {filteredProducts.length}
-          </span>{" "}
-          Results Found
-          {selectedDirectCategory && (
-            <span className="text-secondary ml-2">
-              in {selectedDirectCategory}
+      {/* Filters Dialog */}
+      <FiltersDialog
+        open={filtersOpen}
+        onOpenChange={setFiltersOpen}
+        onApplyFilters={handleApplyFilters}
+      />
+
+      <BreadcrumbNav pathname={pathname} />
+
+      {/* Main Content Container */}
+      <div className="w-full max-w-[1320px] mx-auto px-4 xl:px-6">
+        {/* Results Header */}
+        <div className="pb-4 2xl:pb-6 flex items-center justify-between gap-4">
+          <div className="flex flex-col gap-1">
+            <p className="text-[16px] xl:text-[20px]/[32px] text-[#636A80] font-circular-std font-[450] tracking-normal">
+              <span className="font-bold text-[#191F33]">
+                {filteredProducts.length}
+              </span>{" "}
+              Results Found
+              {selectedDirectCategory && (
+                <span className="text-secondary ml-2">
+                  in {selectedDirectCategory}
+                </span>
+              )}
+            </p>
+          </div>
+
+          {/* Sort Options */}
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-gray-600 hidden xl:inline">
+              Sort by:
             </span>
-          )}
-        </h1>
-        <div className="flex items-center">
-          <Select value={sortOption} onValueChange={setSortOption}>
-            <SelectTrigger className="w-[120px] h-9 bg-white">
-              <SelectValue placeholder="Sort by" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="latest">Latest</SelectItem>
-              <SelectItem value="price_low">Price: Low to High</SelectItem>
-              <SelectItem value="price_high">Price: High to Low</SelectItem>
-              <SelectItem value="popular">Most Popular</SelectItem>
-            </SelectContent>
-          </Select>
+            <Select value={sortOption} onValueChange={handleSortChange}>
+              <SelectTrigger className="w-[140px] xl:w-[160px] h-10 bg-white border-[#DADDE5]">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="latest">Latest</SelectItem>
+                <SelectItem value="price-low">Price: Low to High</SelectItem>
+                <SelectItem value="price-high">Price: High to Low</SelectItem>
+                <SelectItem value="popular">Most Popular</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
-      </div>
 
-      <div className="w-full max-w-[1320px] mx-auto px-4 py-6">
-        <div className="flex flex-col xl:flex-row gap-6">
-          {/* Desktop Left sidebar - Filters */}
-          <div className="hidden xl:flex w-full xl:w-[314px] flex-shrink-0 flex-col gap-[9px]">
-            <div className="flex justify-between items-center px-2">
+        {/* Main Layout */}
+        <div className="xl:flex xl:gap-2 2xl:gap-6">
+          {/* Desktop Filters Sidebar */}
+          <div className="hidden xl:block w-80 flex-shrink-0">
+            {/* Filters Header with Reset All Link */}
+            <div className="flex justify-between items-center mb-4 px-2">
               <h2 className="font-medium font-circular-std text-[20px]/[32px] tracking-normal text-foreground">
                 Filters
               </h2>
@@ -1529,11 +1276,44 @@ export default function AdsPage() {
             <FilterContent />
           </div>
 
-          {/* Main content - Product grid */}
-          <div className="flex-1">
-            {filteredProducts.length > 0 ? (
+          {/* Mobile Filters Sheet */}
+          <Sheet open={isFiltersOpen} onOpenChange={setIsFiltersOpen}>
+            <SheetTrigger asChild>
+              <div />
+            </SheetTrigger>
+            <SheetContent side="left" className="w-full p-0">
+              <SheetHeader className="p-4 border-b">
+                <SheetTitle>Filters</SheetTitle>
+              </SheetHeader>
+              <div className="flex-1 overflow-y-auto p-4">
+                <FilterContent />
+              </div>
+            </SheetContent>
+          </Sheet>
+
+          {/* Products Grid */}
+          <div className="w-full xl:flex-1">
+            {filteredProducts.length === 0 ? (
+              <div className="bg-white rounded-[12px] p-8 xl:p-12 text-center">
+                <div className="flex flex-col items-center gap-4">
+                  <SearchIcon />
+                  <div className="space-y-2">
+                    <h3 className="text-lg font-medium text-gray-900">
+                      No Results Found
+                    </h3>
+                    <p className="text-sm text-gray-500">
+                      Try adjusting your search or filter criteria to find what
+                      you're looking for.
+                    </p>
+                  </div>
+                  <Button onClick={clearFilters} className="bg-secondary">
+                    Clear all filters
+                  </Button>
+                </div>
+              </div>
+            ) : (
               <>
-                <div className="grid grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-3 xl:gap-4">
+                <div className="w-full grid grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3 gap-3 xl:gap-4">
                   {filteredProducts.slice(0, itemsToShow).map((ad, idx) => (
                     <Link
                       key={idx}
@@ -1548,13 +1328,11 @@ export default function AdsPage() {
                           height={267}
                           className="w-full h-32 sm:h-[176.86px] lg:h-[267px] object-cover rounded-[8px] bg-[#E3E6EA] hover:scale-[1.01] transition-transform duration-200"
                         />
-
                         {ad.isSponsored && (
                           <span className="w-fit h-8 flex items-center justify-center gap-[10px] rounded-[8px] p-2 absolute top-[130px] lg:top-[226.49px] left-[14.03px] bg-[#131313]/80 text-[#FFCC33] text-[12px]/[16px] font-bold font-circular-std tracking-normal">
                             <LightStrikeIcon /> Sponsored
                           </span>
                         )}
-
                         <span className="w-fit h-6 py-1 px-2 flex justify-center items-center gap-[10px] absolute top-2 left-2 bg-white text-[#384853] text-[12px]/[16px] font-medium font-circular-std rounded-[8px]">
                           {ad.condition}
                         </span>
@@ -1582,7 +1360,6 @@ export default function AdsPage() {
                             </span>
                           </div>
                         </div>
-
                         <div className="w-full py-[6.62px] lg:py-[10px] px-[10.6px] lg:px-4 bg-[#FAFAFA] rounded-[5.3px] lg:rounded-[8px] mt-1 lg:mt-4 flex flex-col gap-[2.65px] lg:gap-1.5">
                           <p className="text-[#6B7B8A] text-[10px]/[10.6px] lg:text-[14px]/[16px] tracking-normal font-circular-std font-medium">
                             Vendor
@@ -1607,67 +1384,24 @@ export default function AdsPage() {
                   ))}
                 </div>
 
-                {/* Load more section */}
-                <div ref={loadMoreRef} className="mt-8 flex justify-center">
-                  {filteredProducts.length > itemsToShow ? (
-                    <button
-                      onClick={() => {
-                        setIsLoading(true)
-                        setTimeout(() => {
-                          setItemsToShow((prev) => prev + 6)
-                          setIsLoading(false)
-                        }, 800)
-                      }}
-                      className="px-5 py-2 bg-[#E8F7FF] text-secondary rounded flex items-center gap-2 hover:bg-[#E8F7FF]/100 transition-colors cursor-pointer font-circular-std font-bold text-[14px] xl:text-[16px]/[50px] capitalize tracking-normal"
-                    >
-                      {isLoading ? (
-                        <>
-                          <Spinner />
-                          Loading...
-                        </>
-                      ) : (
-                        <>
-                          <SpinnerIcon />
-                          Load More
-                        </>
-                      )}
-                    </button>
-                  ) : (
-                    filteredProducts.length > 0 && (
-                      <p className="font-circular-std font-bold text-[14px] xl:text-[16px]/[50px] text-foreground/40">
-                        No more products to load
-                      </p>
-                    )
-                  )}
-                </div>
+                {/* Load More Trigger */}
+                {filteredProducts.length > itemsToShow && (
+                  <div ref={loadMoreRef} className="flex justify-center py-8">
+                    {isLoading ? (
+                      <div className="flex items-center gap-2 text-secondary">
+                        <Spinner />
+                        <span>Loading...</span>
+                      </div>
+                    ) : (
+                      <div className="h-4" />
+                    )}
+                  </div>
+                )}
               </>
-            ) : (
-              <div className="bg-white rounded-md p-8 text-center">
-                <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Search className="h-8 w-8 text-gray-400" />
-                </div>
-                <h2 className="text-xl font-semibold font-circular-std text-[#464D61] mb-2">
-                  No Results Found
-                </h2>
-                <p className="text-[#464D61] font-normal font-circular-std tracking-normal mb-6">
-                  We couldn't find any products matching your search criteria.
-                  Try adjusting your filters or search terms.
-                </p>
-                <Button onClick={clearFilters} className="bg-secondary">
-                  Clear All Filters
-                </Button>
-              </div>
             )}
           </div>
         </div>
       </div>
-      {/* Filter Dialog */}
-      <FilterSchoolDialog
-        open={filterSchoolOpen}
-        onOpenChange={setFilterSchoolOpen}
-        selectedSchool={selectedSchool}
-        onApplyFilters={handleApplyFilters}
-      />
     </div>
   )
 }

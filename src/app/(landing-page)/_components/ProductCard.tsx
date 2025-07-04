@@ -3,13 +3,13 @@
 import { ClockIcon, LightStrikeIcon, MapPinIcon } from "@/components/svgs"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { formatPrice, getInitials } from "@/lib/utils"
-import Product from "@/types/productCardType"
+import { AdsType } from "@/types"
 import Image from "next/image"
 import Link from "next/link"
 import React from "react"
 
 type Props = {
-  ad: Product
+  ad: AdsType
 }
 
 const ProductCard: React.FC<Props> = ({ ad }: Props) => {
@@ -46,19 +46,19 @@ const ProductCard: React.FC<Props> = ({ ad }: Props) => {
           {ad.name}
         </h3>
         <p className="text-secondary font-bold text-[12px]/[15.9px] lg:text-[18px]/[24px] -tracking-[1%] align-middle">
-          {ad.price}
+          {formatPrice(ad.price)}
         </p>
         <div className="w-full flex justify-between gap-1">
           <div className="flex items-center gap-1.5 lg:gap-2">
             <MapPinIcon className="w-4 h-4 text-[#384853]" />
-            <span className="text-[#384853] text-[12px] lg:text-[14px] leading-[1.2] font-medium font-circular-std truncate">
-              {ad.campus}
+            <span className="text-[#384853] text-[12px] lg:text-[14px] leading-[1.2] font-medium font-circular-std truncate capitalize">
+              {ad.abbreviation}
             </span>
           </div>
           <div className="flex items-center justify-end gap-1.5 lg:gap-2">
             <ClockIcon className="w-4 h-4 text-[#384853]" />
             <span className="text-[#384853] text-[12px] lg:text-[14px] leading-[1.2] font-medium font-circular-std truncate">
-              1 week ago
+              {ad.timePosted}
             </span>
           </div>
         </div>

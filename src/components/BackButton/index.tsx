@@ -1,15 +1,24 @@
-import { ChevronLeft } from "lucide-react"
+"use client"
+
+import { ArrowLeft, ChevronLast, ChevronLeft } from "lucide-react"
 import { Button } from "../ui/button"
 
-export default function BackButton({ onClick }: { onClick?: () => void }) {
+interface BackButtonProps {
+  onClick?: () => void
+  className?: string
+}
+
+export default function BackButton({
+  onClick,
+  className = "",
+}: BackButtonProps) {
   return (
-    <Button
-      variant="ghost"
-      size="icon"
+    <button
       onClick={onClick}
-      className="h-10 w-10 border border-[#DADDE5] rounded-full hover:bg-transparent"
+      className={`h-10 w-10 rounded-full border border-[#DADDE5] bg-white cursor-pointer flex justify-center items-center ${className}`}
     >
-      <ChevronLeft className="h-10 w-10" />
-    </Button>
+      <ChevronLeft className="h-6 w-6 text-[#272727]" />
+      <span className="sr-only">Go back</span>
+    </button>
   )
 }

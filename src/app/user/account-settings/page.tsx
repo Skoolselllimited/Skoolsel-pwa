@@ -22,20 +22,7 @@ import { cn } from "@/lib/utils"
 import { Star, Trash2, X } from "lucide-react"
 import { useRef, useState } from "react"
 import DeleteAccountDialog from "./deleteAccount"
-
-// Nigerian universities data
-const nigerianUniversities = [
-  "Federal University of Technology, Minna",
-  "University of Lagos",
-  "University of Ibadan",
-  "Ahmadu Bello University Zaria",
-  "University of Nigeria, Nsukka",
-  "Obafemi Awolowo University",
-  "Federal University of Technology, Akure",
-  "Lagos State University",
-  "Covenant University",
-  "Babcock University",
-]
+import { schoolTypes } from "@/data"
 
 interface UserData {
   fullName: string
@@ -109,7 +96,6 @@ export default function UserProfileManagement() {
 
   const handleUpdatePassword = () => {
     // Handle password update logic
-    console.log("Updating password...")
     setPasswordData({
       currentPassword: "",
       newPassword: "",
@@ -395,9 +381,9 @@ export default function UserProfileManagement() {
                   <FormSelect
                     label="School"
                     value={formData.school}
-                    options={nigerianUniversities.map((university) => ({
-                      label: university,
-                      value: university,
+                    options={schoolTypes.map((university) => ({
+                      label: university.name,
+                      value: university.name,
                     }))}
                     onValueChange={(value) =>
                       setFormData((prev) => ({ ...prev, school: value }))

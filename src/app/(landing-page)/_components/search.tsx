@@ -6,21 +6,7 @@ import { Input } from "@/components/ui/input"
 import { ChevronDown, Search, X } from "lucide-react"
 import FilterSchoolDialog from "@/app/(ads)/_components/FilterSchool"
 import SearchIcon from "@/components/svgs/search"
-
-// Sample data for suggestions
-const recentSearches = [
-  "iPhone 13 Pro",
-  "MacBook Air M1",
-  "Samsung Galaxy S21",
-  "AirPods Pro",
-]
-
-const trendingSearches = [
-  "PlayStation 5",
-  "Mechanical Keyboard",
-  "iPad Pro",
-  "Wireless Earbuds",
-]
+import { allSearchTerms, categoryMapping } from "@/data"
 
 const productSuggestions = [
   {
@@ -79,66 +65,6 @@ const productSuggestions = [
     price: "₦320,000",
     image: "/placeholder.svg?height=40&width=40",
   },
-]
-
-// Categories mapping with products
-const categoryMapping: Record<string, string> = {
-  // Mobile Phones
-  "iPhone 13 Pro": "Mobile Phones",
-  "iPhone 13 Pro Max": "Mobile Phones",
-  "iPhone 14 Pro": "Mobile Phones",
-  "Samsung Galaxy S21": "Mobile Phones",
-  "Samsung Galaxy S22 Ultra": "Mobile Phones",
-  "Samsung ultra 25S": "Mobile Phones",
-  "Samsung Note 3": "Mobile Phones",
-  "Samsung S25": "Mobile Phones",
-  "Samsung S21 Ultra": "Mobile Phones",
-
-  // Computers
-  "MacBook Air M1": "Computers",
-  "MacBook Pro 16-inch": "Computers",
-  "MacBook Air M2": "Computers",
-  "Dell XPS 13 Laptop": "Computers",
-
-  // Audio
-  "AirPods Pro": "Audio",
-  "AirPods Pro 2": "Audio",
-  "Sony WH-1000XM4 Headphones": "Audio",
-  "Mechanical Keyboard": "Audio",
-
-  // Gaming
-  "PlayStation 5": "Gaming",
-  "PlayStation 5 Console": "Gaming",
-  "Nintendo Switch OLED": "Gaming",
-
-  // Tablets
-  "iPad Pro": "Tablets",
-  "iPad Air 5th Generation": "Tablets",
-  "iPad Pro 12.9": "Tablets",
-
-  // Wearables
-  "Apple Watch Series 8": "Wearables",
-
-  // Electronics (general)
-  "Wireless Earbuds": "Electronics",
-}
-
-// All searchable terms for autocomplete
-const allSearchTerms = [
-  ...recentSearches,
-  ...trendingSearches,
-  ...productSuggestions.map((p) => p.name),
-  // Additional search terms
-  "Samsung ultra 25S",
-  "Samsung Note 3",
-  "Samsung S25",
-  "Samsung S21 Ultra",
-  "iPhone 14 Pro",
-  "MacBook Air M2",
-  "iPad Pro 12.9",
-  "AirPods Pro 2",
-  "PlayStation 5 Console",
-  "Nintendo Switch OLED",
 ]
 
 // Function to get category for a term

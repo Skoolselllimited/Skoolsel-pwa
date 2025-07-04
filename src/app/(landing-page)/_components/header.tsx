@@ -45,7 +45,7 @@ export default function Header() {
 
           <Link
             href="/user/post-ads"
-            className="hidden xl:flex items-center justify-center cursor-pointer space-x-2 bg-[#E8B737] hover:bg-[#E8B737]/90 text-white px-4 py-2 rounded text-[14px]/[30px] 2xl:text-[16px]/[50px] tracking-normal capitalize font-bold font-circular-std"
+            className="hidden xl:flex items-center justify-center cursor-pointer space-x-2 bg-[#E8B737] hover:bg-[#E8B737]/90 text-white px-4 rounded h-[50px] text-[14px]/[30px] 2xl:text-[16px]/[50px] tracking-normal capitalize font-bold font-circular-std"
           >
             <CircledPlusIcon />
             <span>Post Ads</span>

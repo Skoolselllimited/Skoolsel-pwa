@@ -1,146 +1,13 @@
 "use client"
 
-import { useState, useEffect, useRef, type FormEvent } from "react"
-import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { allSearchTerms, categoryMapping, productSuggestions } from "@/data"
 import { ChevronDown, Search, X } from "lucide-react"
-import FilterSchoolDialog from "./FilterSchool"
+import { useRouter } from "next/navigation"
+import { useEffect, useRef, useState, type FormEvent } from "react"
+import FilterSchoolDialog from "../../(ads)/_components/FilterSchool"
 import SearchAutocompleteDialog from "./SearchAutocomplete"
-
-// Sample data for suggestions
-const recentSearches = [
-  "iPhone 13 Pro",
-  "MacBook Air M1",
-  "Samsung Galaxy S21",
-  "AirPods Pro",
-]
-
-const trendingSearches = [
-  "PlayStation 5",
-  "Mechanical Keyboard",
-  "iPad Pro",
-  "Wireless Earbuds",
-]
-
-const productSuggestions = [
-  {
-    id: 1,
-    name: "iPhone 13 Pro Max",
-    category: "Electronics",
-    price: "₦750,000",
-    image: "/images/image1.png",
-  },
-  {
-    id: 2,
-    name: "MacBook Pro 16-inch",
-    category: "Computers",
-    price: "₦1,200,000",
-    image: "/images/image2.png",
-  },
-  {
-    id: 3,
-    name: "Samsung Galaxy S22 Ultra",
-    category: "Electronics",
-    price: "₦650,000",
-    image: "/images/image3.png",
-  },
-  {
-    id: 4,
-    name: "Sony WH-1000XM4 Headphones",
-    category: "Audio",
-    price: "₦180,000",
-    image: "/images/image4.png",
-  },
-  {
-    id: 5,
-    name: "iPad Air 5th Generation",
-    category: "Tablets",
-    price: "₦420,000",
-    image: "/placeholder.svg?height=40&width=40",
-  },
-  {
-    id: 6,
-    name: "Dell XPS 13 Laptop",
-    category: "Computers",
-    price: "₦890,000",
-    image: "/placeholder.svg?height=40&width=40",
-  },
-  {
-    id: 7,
-    name: "Nintendo Switch OLED",
-    category: "Gaming",
-    price: "₦280,000",
-    image: "/placeholder.svg?height=40&width=40",
-  },
-  {
-    id: 8,
-    name: "Apple Watch Series 8",
-    category: "Wearables",
-    price: "₦320,000",
-    image: "/placeholder.svg?height=40&width=40",
-  },
-]
-
-// Categories mapping with products
-const categoryMapping: Record<string, string> = {
-  // Mobile Phones
-  "iPhone 13 Pro": "Mobile Phones",
-  "iPhone 13 Pro Max": "Mobile Phones",
-  "iPhone 14 Pro": "Mobile Phones",
-  "Samsung Galaxy S21": "Mobile Phones",
-  "Samsung Galaxy S22 Ultra": "Mobile Phones",
-  "Samsung ultra 25S": "Mobile Phones",
-  "Samsung Note 3": "Mobile Phones",
-  "Samsung S25": "Mobile Phones",
-  "Samsung S21 Ultra": "Mobile Phones",
-
-  // Computers
-  "MacBook Air M1": "Computers",
-  "MacBook Pro 16-inch": "Computers",
-  "MacBook Air M2": "Computers",
-  "Dell XPS 13 Laptop": "Computers",
-
-  // Audio
-  "AirPods Pro": "Audio",
-  "AirPods Pro 2": "Audio",
-  "Sony WH-1000XM4 Headphones": "Audio",
-  "Mechanical Keyboard": "Audio",
-
-  // Gaming
-  "PlayStation 5": "Gaming",
-  "PlayStation 5 Console": "Gaming",
-  "Nintendo Switch OLED": "Gaming",
-
-  // Tablets
-  "iPad Pro": "Tablets",
-  "iPad Air 5th Generation": "Tablets",
-  "iPad Pro 12.9": "Tablets",
-
-  // Wearables
-  "Apple Watch Series 8": "Wearables",
-
-  // Electronics (general)
-  "Wireless Earbuds": "Electronics",
-}
-
-// All searchable terms for autocomplete
-const allSearchTerms = [
-  ...recentSearches,
-  ...trendingSearches,
-  ...productSuggestions.map((p) => p.name),
-  // Additional search terms
-  "Samsung ultra 25S",
-  "Samsung Note 3",
-  "Samsung S25",
-  "Samsung S21 Ultra",
-  "iPhone 14 Pro",
-  "MacBook Air M2",
-  "iPad Pro 12.9",
-  "AirPods Pro 2",
-  "PlayStation 5 Console",
-  "Nintendo Switch OLED",
-]
 
 // Function to get category for a term
 const getCategoryForTerm = (term: string): string => {
@@ -451,7 +318,7 @@ export default function SearchDialog() {
                 variant="ghost"
                 size="icon"
                 onClick={clearSearch}
-                className="absolute right-12 top-1/2 -translate-y-1/2 h-6 w-6 text-gray-400 hover:text-gray-600"
+                className="absolute right-4 top-1/2 -translate-y-1/2 h-6 w-6 text-gray-400 hover:text-gray-600"
               >
                 <X className="h-4 w-4" />
               </Button>
@@ -509,12 +376,7 @@ export default function SearchDialog() {
                   <div className="text-gray-400 text-xs mb-4">
                     Try adjusting your search term or browse categories
                   </div>
-                  <button
-                    onClick={clearSearch}
-                    className="text-blue-500 text-sm hover:underline"
-                  >
-                    Clear search
-                  </button>
+                  <Button onClick={clearSearch}>Clear search</Button>
                 </div>
               )}
             </div>

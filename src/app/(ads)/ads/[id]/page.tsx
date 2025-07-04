@@ -307,7 +307,7 @@ export default function AdsDetails() {
                 <h3 className="font-medium text-[24px]/[32px] text-[#0A243F] tracking-normal">
                   Descriptions
                 </h3>
-                <p className="text-[#767E94] text-[16px]/[24px] font-[450] tracking-normal">
+                <p className="text-[#767E94] text-[16px]/[24px] font-normal tracking-normal">
                   Sed elementum pellentesque nibh, auctor varius felis ornare
                   euismod. Etiam in purus ac ipsum placerat imperdiet eu lacinia
                   quam. Aliquam vel scelerisque quam. In suscipit massa non

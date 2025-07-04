@@ -1,10 +1,12 @@
 "use client"
 
 import BackButton from "@/components/BackButton"
+import SearchIcon from "@/components/svgs/search"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
-import { Search, X } from "lucide-react"
+import { categoryMapping, productSuggestions } from "@/data"
+import { X } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 
@@ -17,53 +19,6 @@ const recentSearches = [
   { text: "iPhone 13 Pro", category: "Mobile Phones" },
   { text: "MacBook Air", category: "Laptop" },
 ]
-
-const productSuggestions = [
-  {
-    id: 1,
-    name: "iPhone 13 Pro Max",
-    category: "Mobile Phones",
-    price: "₦750,000",
-    image: "/images/image1.png",
-  },
-  {
-    id: 2,
-    name: "MacBook Pro 16-inch",
-    category: "Laptop",
-    price: "₦1,200,000",
-    image: "/images/image2.png",
-  },
-  {
-    id: 3,
-    name: "Samsung Galaxy S22 Ultra",
-    category: "Mobile Phones",
-    price: "₦650,000",
-    image: "/images/image3.png",
-  },
-  {
-    id: 4,
-    name: "Sony WH-1000XM4 Headphones",
-    category: "Audio",
-    price: "₦180,000",
-    image: "/images/image4.png",
-  },
-]
-
-// Categories mapping
-const categoryMapping: Record<string, string> = {
-  "iPhone 13 Pro": "Mobile Phones",
-  "iPhone 13 Pro Max": "Mobile Phones",
-  "iPhone 14 Pro": "Mobile Phones",
-  "Samsung Galaxy S21": "Mobile Phones",
-  "Samsung Galaxy S22 Ultra": "Mobile Phones",
-  "MacBook Air M1": "Laptop",
-  "MacBook Pro 16-inch": "Laptop",
-  "AirPods Pro": "Audio",
-  "Sony WH-1000XM4 Headphones": "Audio",
-  "PlayStation 5": "Gaming",
-  "iPad Pro": "Tablets",
-  "Wireless Earbuds": "Electronics",
-}
 
 // All searchable terms
 const allSearchTerms = [
@@ -256,14 +211,6 @@ export default function SearchAutocompleteDialog({
                     autoComplete="off"
                     autoFocus
                   />
-
-                  <Button
-                    onClick={handleSearch}
-                    size="icon"
-                    className="h-6 w-6 rounded-full mr-1 flex-shrink-0 bg-secondary"
-                  >
-                    <Search className="h-4 w-4 text-white" />
-                  </Button>
                 </div>
               </div>
             </div>
@@ -298,10 +245,13 @@ export default function SearchAutocompleteDialog({
                     </div>
                   ))
                 ) : (
-                  <div className="text-center py-12">
-                    <div className="text-[#6B7280] text-base tracking-normal">
-                      No suggestions found
+                  <div className="flex flex-col items-center justify-center py-8 text-center">
+                    <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                      <SearchIcon />
                     </div>
+                    <h3 className="font-medium text-[#191F33] font-circular-std text-base tracking-normal mb-2">
+                      No suggestions found.
+                    </h3>
                   </div>
                 )}
               </div>
@@ -348,12 +298,9 @@ export default function SearchAutocompleteDialog({
                     ))}
 
                     {recentSearchList.length > 0 && (
-                      <button
-                        onClick={clearAllRecentSearches}
-                        className="text-[#6B7280] text-base italic mt-6 hover:text-gray-600 transition-colors cursor-pointer"
-                      >
+                      <Button onClick={clearAllRecentSearches}>
                         Clear all
-                      </button>
+                      </Button>
                     )}
                   </>
                 )}

@@ -3,6 +3,7 @@
 import BackButton from "@/components/BackButton"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { categoryMapping, productSuggestions } from "@/data"
 import { Search } from "lucide-react"
 import { useRouter } from "next/navigation"
 import React, { useEffect, useState } from "react"
@@ -17,53 +18,6 @@ const recentSearches = [
   { text: "MacBook Air", category: "Laptop" },
 ]
 
-const productSuggestions = [
-  {
-    id: 1,
-    name: "iPhone 13 Pro Max",
-    category: "Mobile Phones",
-    price: "₦750,000",
-    image: "/images/image1.png",
-  },
-  {
-    id: 2,
-    name: "MacBook Pro 16-inch",
-    category: "Laptop",
-    price: "₦1,200,000",
-    image: "/images/image2.png",
-  },
-  {
-    id: 3,
-    name: "Samsung Galaxy S22 Ultra",
-    category: "Mobile Phones",
-    price: "₦650,000",
-    image: "/images/image3.png",
-  },
-  {
-    id: 4,
-    name: "Sony WH-1000XM4 Headphones",
-    category: "Audio",
-    price: "₦180,000",
-    image: "/images/image4.png",
-  },
-]
-
-// Categories mapping
-const categoryMapping: Record<string, string> = {
-  "iPhone 13 Pro": "Mobile Phones",
-  "iPhone 13 Pro Max": "Mobile Phones",
-  "iPhone 14 Pro": "Mobile Phones",
-  "Samsung Galaxy S21": "Mobile Phones",
-  "Samsung Galaxy S22 Ultra": "Mobile Phones",
-  "MacBook Air M1": "Laptop",
-  "MacBook Pro 16-inch": "Laptop",
-  "AirPods Pro": "Audio",
-  "Sony WH-1000XM4 Headphones": "Audio",
-  "PlayStation 5": "Gaming",
-  "iPad Pro": "Tablets",
-  "Wireless Earbuds": "Electronics",
-}
-
 // All searchable terms
 const allSearchTerms = [
   ...recentSearches.map((r) => r.text),
@@ -76,7 +30,7 @@ const getCategoryForTerm = (term: string): string => {
     return categoryMapping[term]
   }
 
-  const product = productSuggestions.find(
+  const product = productSuggestions?.find(
     (p) =>
       p.name.toLowerCase().includes(term.toLowerCase()) ||
       term.toLowerCase().includes(p.name.toLowerCase())
@@ -171,10 +125,6 @@ export default function SmallSearch({ onClick }: { onClick: () => void }) {
     setRecentSearchList((prev) => prev.filter((_, i) => i !== index))
   }
 
-  // Clear all recent searches
-  const clearAllRecentSearches = () => {
-    setRecentSearchList([])
-  }
   return (
     <div className="w-full flex items-center gap-3">
       {/* Back Button - Separate */}

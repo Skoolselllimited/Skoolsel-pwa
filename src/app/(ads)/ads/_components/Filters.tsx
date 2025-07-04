@@ -1,108 +1,220 @@
 "use client"
 
 import DialogHead from "@/components/DialogHead"
-import SearchIcon from "@/components/svgs/search"
 import { Button } from "@/components/ui/button"
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogFooter } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { type Category, categories, priceRanges, schoolTypes } from "@/data"
-import { useMediaQuery } from "@/hooks/use-mobile"
-import { ChevronRight, Minus, PlusIcon, X } from "lucide-react"
+import { priceRanges } from "@/data"
+import { ChevronRight, Minus, PlusIcon } from "lucide-react"
 import { useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
+import type { JSX } from "react/jsx-runtime"
 
-interface FilterSchoolDialogProps {
-  open: boolean
-  onOpenChange: (open: boolean) => void
-  selectedSchool: string
-  onApplyFilters: (school: string, filterParams: URLSearchParams) => void
+// Categories with icons
+const categoriesWithIcons = [
+  {
+    name: "Computer & Laptop",
+    icon: () => (
+      <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center">
+        💻
+      </div>
+    ),
+    subcategories: [
+      "Desktop",
+      "Laptop",
+      "Gaming PC",
+      "Workstation",
+      "Mini PC",
+      "All-in-One",
+      "Apple",
+      "Dell",
+      "HP",
+      "Others",
+    ],
+  },
+  {
+    name: "Mobile",
+    icon: () => (
+      <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
+        📱
+      </div>
+    ),
+    subcategories: [
+      "iPhone",
+      "Samsung",
+      "Xiaomi",
+      "Tecno",
+      "Infinix",
+      "Oppo",
+      "Vivo",
+      "Huawei",
+      "Nokia",
+      "Apple",
+      "Others",
+    ],
+  },
+  {
+    name: "Phone Accessories",
+    icon: () => (
+      <div className="w-6 h-6 bg-purple-100 rounded-full flex items-center justify-center">
+        🎧
+      </div>
+    ),
+    subcategories: [
+      "Cases & Covers",
+      "Screen Protectors",
+      "Chargers",
+      "Headphones",
+      "Power Banks",
+      "Cables",
+      "Others",
+    ],
+  },
+  {
+    name: "Computer Accessories",
+    icon: () => (
+      <div className="w-6 h-6 bg-orange-100 rounded-full flex items-center justify-center">
+        ⌨️
+      </div>
+    ),
+    subcategories: [
+      "Keyboards",
+      "Mouse",
+      "Monitors",
+      "Speakers",
+      "Webcams",
+      "Storage",
+      "Others",
+    ],
+  },
+  {
+    name: "Fashion & Accessories",
+    icon: () => (
+      <div className="w-6 h-6 bg-pink-100 rounded-full flex items-center justify-center">
+        👗
+      </div>
+    ),
+    subcategories: [
+      "Clothing",
+      "Shoes",
+      "Bags",
+      "Jewelry",
+      "Watches",
+      "Sunglasses",
+      "Others",
+    ],
+  },
+  {
+    name: "Home & Living",
+    icon: () => (
+      <div className="w-6 h-6 bg-yellow-100 rounded-full flex items-center justify-center">
+        🏠
+      </div>
+    ),
+    subcategories: [
+      "Furniture",
+      "Appliances",
+      "Kitchen",
+      "Decor",
+      "Garden",
+      "Lighting",
+      "Others",
+    ],
+  },
+  {
+    name: "Food",
+    icon: () => (
+      <div className="w-6 h-6 bg-red-100 rounded-full flex items-center justify-center">
+        🍎
+      </div>
+    ),
+    subcategories: [
+      "Fresh Food",
+      "Packaged Food",
+      "Beverages",
+      "Snacks",
+      "Organic",
+      "Local Delicacies",
+      "Others",
+    ],
+  },
+  {
+    name: "Gaming",
+    icon: () => (
+      <div className="w-6 h-6 bg-indigo-100 rounded-full flex items-center justify-center">
+        🎮
+      </div>
+    ),
+    subcategories: [
+      "PlayStation",
+      "Xbox",
+      "Nintendo",
+      "PC Gaming",
+      "Mobile Gaming",
+      "Accessories",
+      "Others",
+    ],
+  },
+]
+
+interface Category {
+  name: string
+  icon: () => JSX.Element
+  subcategories: string[]
 }
 
-export default function FilterSchoolDialog({
+interface FiltersDialogProps {
+  open: boolean
+  onOpenChange: (open: boolean) => void
+  onApplyFilters: (filterParams: URLSearchParams) => void
+}
+
+export default function FiltersDialog({
   open,
   onOpenChange,
-  selectedSchool: initialSelectedSchool,
   onApplyFilters,
-}: FilterSchoolDialogProps) {
+}: FiltersDialogProps) {
   const searchParams = useSearchParams()
-  const isLargeDevice = useMediaQuery("(min-width: 1024px)")
 
-  // Dialog state - always start with school selection
+  // Dialog state
   const [step, setStep] = useState<
-    | "school"
-    | "filter"
-    | "categories"
-    | "subcategories"
-    | "conditions"
-    | "schools"
-    | "prices"
-  >("school")
+    "filter" | "categories" | "subcategories" | "conditions" | "prices"
+  >("filter")
 
-  const [selectedSchool, setSelectedSchool] = useState<string>(
-    initialSelectedSchool || ""
-  )
-  const [schoolSearchTerm, setSchoolSearchTerm] = useState("")
-
-  // Filter states - Changed to single category/subcategory selection
+  // Filter states
   const [selectedCategory, setSelectedCategory] = useState<string>("")
   const [selectedSubcategory, setSelectedSubcategory] = useState<string>("")
   const [selectedCondition, setSelectedCondition] = useState<string>("any")
   const [priceRange, setPriceRange] = useState<string>("all")
   const [minPrice, setMinPrice] = useState<string>("")
   const [maxPrice, setMaxPrice] = useState<string>("")
-  const [selectedTopSchool, setSelectedTopSchool] = useState<string>("")
 
   // Current category for subcategory view
   const [currentCategory, setCurrentCategory] = useState<Category | null>(null)
 
-  // Reset dialog state when opened - always start with school selection
+  // Reset dialog state when opened
   useEffect(() => {
     if (open) {
-      // Always start with school selection regardless of device size
-      setStep("school")
-      setSelectedSchool(initialSelectedSchool || "")
-      setSelectedTopSchool(initialSelectedSchool || "")
+      setStep("filter")
+      // Initialize from URL params
+      const categoryParam = searchParams.get("category")
+      const conditionParam = searchParams.get("condition")
+      const priceRangeParam = searchParams.get("priceRange")
+      const minPriceParam = searchParams.get("minPrice")
+      const maxPriceParam = searchParams.get("maxPrice")
+
+      setSelectedCondition(conditionParam || "any")
+      setPriceRange(priceRangeParam || "all")
+      setMinPrice(minPriceParam || "")
+      setMaxPrice(maxPriceParam || "")
+
+      if (categoryParam) {
+        setSelectedCategory(categoryParam)
+      }
     }
-  }, [open, initialSelectedSchool])
-
-  // Filter schools based on search term
-  const filteredSchools = schoolSearchTerm
-    ? schoolTypes.filter((school) => {
-        const term = schoolSearchTerm.toLowerCase()
-        return (
-          school.name.toLowerCase().includes(term) ||
-          school.abbreviation.toLowerCase().includes(term)
-        )
-        // school.name?.toLowerCase().includes(schoolSearchTerm.toLowerCase())
-      })
-    : schoolTypes
-
-  // Handle school selection (single for large devices, single for small)
-  const handleSchoolSelect = (school: string) => {
-    if (isLargeDevice) {
-      // Large devices: single selection, immediate apply
-      setSelectedSchool(school)
-      onApplyFilters(school, new URLSearchParams())
-      onOpenChange(false)
-      setStep("school")
-    } else {
-      // Small devices: single selection for now
-      setSelectedSchool(school)
-    }
-  }
-
-  // Handle top school selection for mobile
-  const handleTopSchoolSelect = (school: string) => {
-    setSelectedTopSchool(school)
-  }
+  }, [open, searchParams])
 
   // Handle category selection - navigate to subcategories step
   const handleCategoryClick = (category: Category) => {
@@ -110,7 +222,7 @@ export default function FilterSchoolDialog({
     setStep("subcategories")
   }
 
-  // Handle subcategory selection - Updated for single selection
+  // Handle subcategory selection
   const handleSubcategorySelect = (subcategory: string) => {
     if (currentCategory) {
       setSelectedCategory(currentCategory.name)
@@ -122,7 +234,6 @@ export default function FilterSchoolDialog({
   const handlePriceRangeChange = (value: string) => {
     setPriceRange(value)
     if (value !== "all") {
-      // Clear custom min/max when selecting a predefined range
       setMinPrice("")
       setMaxPrice("")
     }
@@ -131,17 +242,21 @@ export default function FilterSchoolDialog({
   // Handle min price change
   const handleMinPriceChange = (value: string) => {
     setMinPrice(value)
-    if (value) {
-      setPriceRange("all") // Clear predefined range when custom value is entered
-    }
+    setTimeout(() => {
+      if (value) {
+        setPriceRange("all")
+      }
+    }, 0)
   }
 
   // Handle max price change
   const handleMaxPriceChange = (value: string) => {
     setMaxPrice(value)
-    if (value) {
-      setPriceRange("all") // Clear predefined range when custom value is entered
-    }
+    setTimeout(() => {
+      if (value) {
+        setPriceRange("all")
+      }
+    }, 0)
   }
 
   // Apply filters
@@ -154,20 +269,17 @@ export default function FilterSchoolDialog({
       params.set("q", query)
     }
 
-    // Add selected school only if one is specifically chosen (not "All schools")
-    const schoolToUse = selectedTopSchool || selectedSchool
-    if (schoolToUse && schoolToUse !== "") {
-      params.set("schools", schoolToUse)
+    // Add school if it exists
+    const school = searchParams.get("schools")
+    if (school) {
+      params.set("schools", school)
     }
 
-    // Add price filters - Updated logic to handle both ranges and custom values
+    // Add price filters
     if (minPrice || maxPrice) {
-      // If custom min/max prices are set, use them and clear predefined range
       if (minPrice) params.set("minPrice", minPrice)
       if (maxPrice) params.set("maxPrice", maxPrice)
-      // Don't set priceRange when using custom values
     } else if (priceRange !== "all") {
-      // Only use predefined range if no custom values are set
       params.set("priceRange", priceRange)
     }
 
@@ -176,13 +288,13 @@ export default function FilterSchoolDialog({
       params.set("condition", selectedCondition)
     }
 
-    // Add category and subcategory - Updated for single selection
+    // Add category and subcategory
     if (selectedCategory && selectedSubcategory) {
       const categoryData = { [selectedCategory]: [selectedSubcategory] }
       params.set("categories", encodeURIComponent(JSON.stringify(categoryData)))
     }
 
-    onApplyFilters(schoolToUse, params)
+    onApplyFilters(params)
   }
 
   // Clear filters for current section
@@ -192,8 +304,6 @@ export default function FilterSchoolDialog({
       setSelectedSubcategory("")
     } else if (step === "conditions") {
       setSelectedCondition("any")
-    } else if (step === "schools") {
-      setSelectedTopSchool("")
     } else if (step === "prices") {
       setPriceRange("all")
       setMinPrice("")
@@ -204,9 +314,6 @@ export default function FilterSchoolDialog({
   // Get total selected filters count
   const getTotalSelectedFilters = () => {
     let count = 0
-    // Count school selection (if not default "All schools")
-    const schoolToUse = selectedTopSchool || selectedSchool
-    if (schoolToUse && schoolToUse !== "") count += 1
     if (selectedCategory && selectedSubcategory) count += 1
     if (priceRange !== "all" || minPrice || maxPrice) count += 1
     if (selectedCondition !== "any") count += 1
@@ -215,119 +322,28 @@ export default function FilterSchoolDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent
-        className={`p-0 overflow-hidden flex flex-col ${
-          isLargeDevice
-            ? "sm:max-w-[800px] max-h-[90vh]"
-            : "w-full h-full max-w-none max-h-none m-0 shadow-none border-0 rounded-none"
-        }`}
-      >
-        {/* School Selection Step */}
-        {step === "school" && (
-          <>
-            <DialogHeader className="p-4">
-              <div className="flex items-center justify-between">
-                <DialogTitle className="text-lg">Select School</DialogTitle>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => onOpenChange(false)}
-                  className="h-8 w-8 bg-white hover:bg-white text-[#0A243F] z-10"
-                >
-                  <X className="h-6 w-6" />
-                </Button>
-              </div>
-            </DialogHeader>
-            <div className="flex-1 overflow-y-auto p-4">
-              <Input
-                type="search"
-                placeholder="Search for school..."
-                value={schoolSearchTerm}
-                onChange={(e) => setSchoolSearchTerm(e.target.value)}
-                className="mb-4 placeholder:text-[#8B90A0] text-[16px]/[160%]"
-              />
-
-              {filteredSchools.length === 0 && schoolSearchTerm ? (
-                <div className="flex flex-col items-center justify-center py-8 text-center gap-[30px]">
-                  <SearchIcon />
-                  <p className="text-sm xl:text-[20px]/[24px] font-medium font-circular-std text-center text-[#464D61]">
-                    Sorry, nothing matched your search. Want to give it another
-                    shot?
-                  </p>
-                  <Button size="sm" onClick={() => setSchoolSearchTerm("")}>
-                    Clear search
-                  </Button>
-                </div>
-              ) : (
-                <RadioGroup
-                  value={selectedSchool}
-                  onValueChange={handleSchoolSelect}
-                  className="space-y-3"
-                >
-                  {filteredSchools.map((school) => (
-                    <div
-                      key={school.id}
-                      className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-md"
-                    >
-                      <RadioGroupItem
-                        value={school.name}
-                        id={`school-${school}`}
-                      />
-                      <Label
-                        htmlFor={`school-${school}`}
-                        className="text-sm text-[#464D61] font-circular-std font-normal cursor-pointer flex-1"
-                      >
-                        {school.name}
-                      </Label>
-                    </div>
-                  ))}
-                </RadioGroup>
-              )}
-            </div>
-            {!isLargeDevice && (
-              <DialogFooter className="p-4">
-                <div className="flex w-full gap-3">
-                  <Button
-                    className="h-[50px] flex-1 py-[17.58px] bg-secondary"
-                    onClick={() => setStep("filter")}
-                  >
-                    Confirm
-                  </Button>
-                </div>
-              </DialogFooter>
-            )}
-          </>
-        )}
-
+      <DialogContent className="w-full h-full max-w-none max-h-none m-0 shadow-none border-0 rounded-none p-0 overflow-hidden flex flex-col">
         {/* Main Filters Step */}
         {step === "filter" && (
           <>
             <DialogHead
-              back={() => setStep("school")}
+              back={() => onOpenChange(false)}
               title="Filters"
               clearText={
                 getTotalSelectedFilters() > 0
                   ? `Clear All (${getTotalSelectedFilters()})`
                   : "Clear All"
               }
+              clear={() => {
+                setSelectedCategory("")
+                setSelectedSubcategory("")
+                setSelectedCondition("any")
+                setPriceRange("all")
+                setMinPrice("")
+                setMaxPrice("")
+              }}
             />
             <div className="flex-1 overflow-y-auto p-4 space-y-4">
-              {/* TOP SCHOOLS */}
-              <div className="flex flex-col gap-1 border-b border-[#EBEEF7] pb-2">
-                <div
-                  className="flex items-center justify-between cursor-pointer"
-                  onClick={() => setStep("schools")}
-                >
-                  <h3 className="text-[#191F33] font-circular-std font-medium text-base tracking-normal">
-                    TOP SCHOOLS
-                  </h3>
-                  <ChevronRight className="h-6 w-6 text-gray-400" />
-                </div>
-                <div className="text-secondary font-normal font-circular-std text-base tracking-normal">
-                  {selectedTopSchool || selectedSchool || "All schools"}
-                </div>
-              </div>
-
               {/* PRICES (NGN) */}
               <div className="flex flex-col gap-1 border-b border-[#EBEEF7] pb-2">
                 <div
@@ -351,7 +367,7 @@ export default function FilterSchoolDialog({
               {/* CATEGORY */}
               <div className="flex flex-col gap-1 border-b border-[#EBEEF7] pb-2">
                 <div
-                  className="flex items-center justify-between cursor-pointer"
+                  className="flex items-center justify-between py-3 cursor-pointer"
                   onClick={() => setStep("categories")}
                 >
                   <h3 className="text-[#191F33] font-circular-std font-medium text-base tracking-normal">
@@ -369,7 +385,7 @@ export default function FilterSchoolDialog({
               {/* CONDITIONS */}
               <div className="flex flex-col gap-1 border-b border-[#EBEEF7] pb-2">
                 <div
-                  className="flex items-center justify-between cursor-pointer"
+                  className="flex items-center justify-between py-3 cursor-pointer"
                   onClick={() => setStep("conditions")}
                 >
                   <h3 className="text-[#191F33] font-circular-std font-medium text-base tracking-normal">
@@ -393,17 +409,17 @@ export default function FilterSchoolDialog({
           </>
         )}
 
-        {/* Categories Step - Only shows main categories */}
+        {/* Categories Step */}
         {step === "categories" && (
           <>
             <DialogHead
-              back={() => onOpenChange(false)}
+              back={() => setStep("filter")}
               title="Categories"
               clearText="Clear All"
               clear={clearCurrentFilters}
             />
             <div className="flex-1 overflow-y-auto p-4 space-y-4">
-              {categories.map((category: Category) => (
+              {categoriesWithIcons.map((category: Category) => (
                 <div
                   key={category.name}
                   className="flex items-center justify-between py-2 cursor-pointer hover:bg-gray-50 rounded-md px-2"
@@ -436,7 +452,7 @@ export default function FilterSchoolDialog({
           </>
         )}
 
-        {/* Subcategories Step - Shows subcategories for selected category */}
+        {/* Subcategories Step */}
         {step === "subcategories" && currentCategory && (
           <>
             <DialogHead
@@ -540,74 +556,6 @@ export default function FilterSchoolDialog({
                   </Label>
                 </div>
               </RadioGroup>
-            </div>
-            <DialogFooter className="p-4">
-              <Button
-                onClick={() => setStep("filter")}
-                className="w-full h-[50px] rounded-[3.3px] px-[17.58px] bg-[#54ABDB] hover:bg-[#54ABDB]/60"
-              >
-                Confirm
-              </Button>
-            </DialogFooter>
-          </>
-        )}
-
-        {/* Top Schools Step */}
-        {step === "schools" && (
-          <>
-            <DialogHead
-              back={() => setStep("filter")}
-              title="All Schools"
-              clearText="Clear All"
-              clear={clearCurrentFilters}
-            />
-            <div className="flex-1 overflow-y-auto p-4">
-              <Input
-                type="search"
-                placeholder="Search for school..."
-                value={schoolSearchTerm}
-                onChange={(e) => setSchoolSearchTerm(e.target.value)}
-                className="mb-4"
-              />
-
-              {filteredSchools.length === 0 && schoolSearchTerm ? (
-                <div className="flex flex-col items-center justify-center py-8 text-center">
-                  <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                    <SearchIcon />
-                  </div>
-                  <h3 className="font-medium text-[#191F33] font-circular-std text-base tracking-normal mb-2">
-                    No schools found
-                  </h3>
-                  <p className="text-secondary font-normal font-circular-std text-base tracking-normal">
-                    We couldn't find any schools matching "{schoolSearchTerm}".
-                    Try adjusting your search term.
-                  </p>
-                  <Button size="sm" onClick={() => setSchoolSearchTerm("")}>
-                    Clear search
-                  </Button>
-                </div>
-              ) : (
-                <RadioGroup
-                  value={selectedTopSchool}
-                  onValueChange={handleTopSchoolSelect}
-                  className="space-y-3"
-                >
-                  {schoolTypes.map((school) => (
-                    <div key={school.id} className="flex items-center gap-3">
-                      <RadioGroupItem
-                        value={school.name}
-                        id={`school-radio-${school}`}
-                      />
-                      <Label
-                        htmlFor={`school-radio-${school}`}
-                        className="text-sm flex-1 cursor-pointer"
-                      >
-                        {school.name}
-                      </Label>
-                    </div>
-                  ))}
-                </RadioGroup>
-              )}
             </div>
             <DialogFooter className="p-4">
               <Button

@@ -1,18 +1,10 @@
 "use client"
 import Image from "next/image"
-import { useEffect, useRef, useState } from "react"
+import { useRef } from "react"
 import SearchBar from "../../(ads)/_components/Searchbar"
 
 export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null)
-  const [isMobile, setIsMobile] = useState(false)
-
-  useEffect(() => {
-    const checkIfMobile = () => setIsMobile(window.innerWidth < 1024)
-    checkIfMobile()
-    window.addEventListener("resize", checkIfMobile)
-    return () => window.removeEventListener("resize", checkIfMobile)
-  }, [])
 
   return (
     <section className="w-full h-full xl:h-[524px] bg-primary flex justify-center items-center relative text-white">

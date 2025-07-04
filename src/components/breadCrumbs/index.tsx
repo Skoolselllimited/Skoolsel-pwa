@@ -1,6 +1,6 @@
-"use client";
+"use client"
 
-import Link from "next/link";
+import Link from "next/link"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -8,31 +8,33 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import React from "react";
-import { generateBreadcrumbs } from "@/lib/utils";
+} from "@/components/ui/breadcrumb"
+import React from "react"
+import { generateBreadcrumbs } from "@/lib/utils"
 
 type Crumb = {
-  label: string;
-  href?: string;
-  current?: boolean;
-};
+  label: string
+  href?: string
+  current?: boolean
+}
 
 interface BreadcrumbNavProps {
-  pathname: string;
-  className?: string;
+  pathname: string
+  className?: string
 }
 
 export default function BreadcrumbNav({
   pathname,
   className = "",
 }: BreadcrumbNavProps) {
-  const items = generateBreadcrumbs(pathname);
+  const items = generateBreadcrumbs(pathname)
 
   return (
     <div className="hidden xl:flex w-full bg-[#E8EBEE] h-[43px] items-center">
       <div className="w-full h-full max-w-[1320px] bg-[#E8EBEE] mx-auto">
-        <div className={`hidden w-full xl:flex gap-2 py-3.5 px-4 ${className}`}>
+        <div
+          className={`hidden w-full xl:flex gap-2 py-3.5 px-4 xl:px-6 ${className}`}
+        >
           <Breadcrumb>
             <BreadcrumbList>
               {items.map((item, index) => (
@@ -56,5 +58,5 @@ export default function BreadcrumbNav({
         </div>
       </div>
     </div>
-  );
+  )
 }
