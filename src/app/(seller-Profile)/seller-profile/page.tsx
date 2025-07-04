@@ -1,16 +1,13 @@
-"use client";
+"use client"
 
-import React from "react";
-import { generateBreadcrumbs, BreadcrumbItem } from "@/lib/utils";
-import { PublicProfile } from "../components/PublicProfile";
-import PublicProfileSidebar from "../components/PublicProfileSidebar";
-import { dummyProps } from "../data";
-import BreadcrumbNav from "@/components/breadCrumbs";
+import BreadcrumbNav from "@/components/breadCrumbs"
+import { PublicProfile } from "../components/PublicProfile"
+import PublicProfileSidebar from "../components/PublicProfileSidebar"
+import { dummyProps } from "../data"
 // zawardo
 export default function PublicProfilePage() {
-  const userDetails = dummyProps.userDetails;
-  const mockPath = "/ad-list/mobile/samsung/jones-profile";
-  const breadcrumbs: BreadcrumbItem[] = generateBreadcrumbs(mockPath);
+  const userDetails = dummyProps.userDetails
+  const mockPath = "/ad-list/mobile/samsung/jones-profile"
 
   return (
     <>
@@ -29,12 +26,12 @@ export default function PublicProfilePage() {
               <PublicProfileSidebar user={userDetails} />
             </div>
             {/* Main content takes the remaining space, flexing to fill */}
-            <div className="w-full   md:mt-0 md:flex-grow ">
+            <div className="w-full md:mt-0 md:flex-grow ">
               <PublicProfile {...dummyProps} />
             </div>
           </section>
         </section>
       </section>
     </>
-  );
+  )
 }

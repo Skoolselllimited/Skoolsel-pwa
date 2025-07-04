@@ -1,14 +1,14 @@
-"use client";
+"use client"
 
-import React from "react";
-import { FaMapMarkerAlt } from "react-icons/fa";
-import Product from "@/types/productCardType";
-import { HiOutlineBolt } from "react-icons/hi2";
-import { GoClock } from "react-icons/go";
+import { AdsType } from "@/types"
+import React from "react"
+import { FaMapMarkerAlt } from "react-icons/fa"
+import { GoClock } from "react-icons/go"
+import { HiOutlineBolt } from "react-icons/hi2"
 
 type Props = {
-  product: Product;
-};
+  product: AdsType
+}
 
 const ProductCard: React.FC<Props> = ({ product }) => {
   return (
@@ -46,7 +46,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
         <div className="flex items-center text-[#384853] text-xs mt-1 gap-20">
           <div className="flex items-center gap-1">
             <FaMapMarkerAlt className="text-[#384853] text-sm" />
-            <span>{product.campus}</span>
+            <span>{product.abbreviation}</span>
           </div>
           <div className="flex items-center gap-1">
             <GoClock className="text-[#384853] text-sm" />
@@ -63,9 +63,9 @@ const ProductCard: React.FC<Props> = ({ product }) => {
               alt={product.vendor}
               className="w-5 h-5 rounded-full object-cover"
               onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                target.onerror = null;
-                target.src = "/default-avatar.png";
+                const target = e.target as HTMLImageElement
+                target.onerror = null
+                target.src = "/default-avatar.png"
               }}
             />
             <p className="font-semibold text-gray-800 text-xs truncate">
@@ -75,7 +75,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ProductCard;
+export default ProductCard

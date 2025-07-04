@@ -2,12 +2,12 @@
 
 import ProductCard from "@/app/(landing-page)/_components/ProductCard"
 import { cn } from "@/lib/utils"
-import Product from "@/types/productCardType"
+import { AdsType } from "@/types"
 import { motion } from "framer-motion"
 import React from "react"
 
 type Props = {
-  products: Product[]
+  products: AdsType[]
   className?: string
 }
 

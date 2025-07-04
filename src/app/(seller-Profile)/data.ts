@@ -1,8 +1,6 @@
-import { AdListing } from "@/types/adListing";
-import { UserReview } from "@/types/user";
-import { User } from "@/types/user";
-
-import ads from "@/data/mockdata";
+import { ads } from "@/data"
+import { User, UserReview } from "@/types/user"
+// import ads from "@/data/mockdata"
 
 export const products = [
   {
@@ -127,7 +125,7 @@ export const products = [
   //   isTopSeller: true,
   //   vendorImage: "/images/vendor.jpg",
   // },
-];
+]
 
 const userDetails: User = {
   id: 1,
@@ -142,11 +140,11 @@ const userDetails: User = {
   school: null,
   account_verified: true,
   created_at: "2025-06-01T12:00:00Z",
-};
+}
 
-const averageRating: number | null = 4.5;
+const averageRating: number | null = 4.5
 
-const totalReviews: number | null = 644300;
+const totalReviews: number | null = 644300
 
 // const ads: AdListing[] = [
 //   {
@@ -224,18 +222,18 @@ const reviews: UserReview[] = [
       "Smooth transaction, but the delivery was slightly delayed. While the delay was a minor inconvenience, the itemarrived in perfect condition and the overall communication was good. I understand that sometimes delays happen, and I appreciate the quality of the product.",
     created_at: "2025-06-10",
   },
-];
+]
 
 // --- Corrected refreshProfileData function type ---
 const refreshProfileData = async (): Promise<void> => {
-  console.log("Refreshing profile data...");
+  console.log("Refreshing profile data...")
   // Simulate an API call delay
   return new Promise((resolve) =>
     setTimeout(() => {
-      resolve(); // Explicitly resolve with no value (void)
+      resolve() // Explicitly resolve with no value (void)
     }, 1000)
-  );
-};
+  )
+}
 
 export const dummyProps = {
   userDetails,
@@ -244,4 +242,4 @@ export const dummyProps = {
   ads,
   reviews,
   refreshProfileData,
-};
+}

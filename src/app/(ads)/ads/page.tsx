@@ -1350,7 +1350,7 @@ export default function AdsPage() {
                           <div className="flex items-center gap-1 xl:gap-1.5 lg:gap-2">
                             <MapPinIcon className="w-3 h-3 xl:w-4 xl:h-4 text-[#384853]" />
                             <span className="text-[#384853] text-[10px] xl:text-[12px] lg:text-[14px] leading-[1.2] font-medium font-circular-std truncate">
-                              {ad.location}
+                              {ad.abbreviation}
                             </span>
                           </div>
                           <div className="hidden xl:flex items-center justify-end gap-1.5 lg:gap-2">
