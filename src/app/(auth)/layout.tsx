@@ -1,17 +1,29 @@
-import React from "react"
-import Header from "../(landing-page)/_components/header"
+"use client";
+
+import React from "react";
+import { usePathname } from "next/navigation";
+import Header from "../(landing-page)/_components/header";
 
 export default function AuthLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
+  const pathname = usePathname();
+  const isLoginPage = pathname === "/login";
+
   return (
-    <div>
+    <div
+      className={
+        isLoginPage
+          ? "h-screen overflow-hidden flex flex-col"
+          : "flex flex-col min-h-[calc(100vh)]"
+      }
+    >
       <Header />
-      <div className="min-h-[calc(100vh-100px)]">
-        {children} {/* This is where your page.tsx content will be rendered */}
+      <div className={isLoginPage ? "flex-1 overflow-hidden" : "flex-1"}>
+        {children}
       </div>
     </div>
-  )
+  );
 }

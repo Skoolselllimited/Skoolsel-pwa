@@ -25,10 +25,9 @@ export default function PublicProfilePage() {
             className="flex flex-col justify-center bg-[#f4f6f8] md:px-20  md:pb-20 md:pt-10 md:flex-row gap-x-8 lg:gap-x-12 lg:px-16 "
           >
             {/* Sidebar takes its intrinsic width, or a specified fixed width */}
-            <div className="w-full hidden lg:flex md md:w-auto md:shrink-0">
+            <div className="w-full hidden lg:flex md md:w-auto md:shrink-0 self-start">
               <PublicProfileSidebar user={userDetails} />
             </div>
-
             {/* Main content takes the remaining space, flexing to fill */}
             <div className="w-full   md:mt-0 md:flex-grow ">
               <PublicProfile {...dummyProps} />
