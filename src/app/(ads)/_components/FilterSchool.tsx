@@ -3,20 +3,14 @@
 import DialogHead from "@/components/DialogHead"
 import SearchIcon from "@/components/svgs/search"
 import { Button } from "@/components/ui/button"
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogFooter } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { type Category, categories, priceRanges, schoolTypes } from "@/data"
 import { useMediaQuery } from "@/hooks/use-mobile"
-import { ChevronRight, Minus, PlusIcon, X } from "lucide-react"
-import { useSearchParams } from "next/navigation"
+import { ChevronRight, Minus, PlusIcon } from "lucide-react"
+import { useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
 
 interface FilterSchoolDialogProps {
@@ -32,9 +26,9 @@ export default function FilterSchoolDialog({
   selectedSchool: initialSelectedSchool,
   onApplyFilters,
 }: FilterSchoolDialogProps) {
+  const router = useRouter()
   const searchParams = useSearchParams()
   const isLargeDevice = useMediaQuery("(min-width: 1024px)")
-
   // Dialog state - always start with school selection
   const [step, setStep] = useState<
     | "school"
@@ -50,7 +44,6 @@ export default function FilterSchoolDialog({
     initialSelectedSchool || ""
   )
   const [schoolSearchTerm, setSchoolSearchTerm] = useState("")
-
   // Filter states - Changed to single category/subcategory selection
   const [selectedCategory, setSelectedCategory] = useState<string>("")
   const [selectedSubcategory, setSelectedSubcategory] = useState<string>("")
@@ -225,20 +218,17 @@ export default function FilterSchoolDialog({
         {/* School Selection Step */}
         {step === "school" && (
           <>
-            <DialogHeader className="p-4">
-              <div className="flex items-center justify-between">
-                <DialogTitle className="text-lg">Select School</DialogTitle>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => onOpenChange(false)}
-                  className="h-8 w-8 bg-white hover:bg-white text-[#0A243F] z-10"
-                >
-                  <X className="h-6 w-6" />
-                </Button>
-              </div>
-            </DialogHeader>
-            <div className="flex-1 overflow-y-auto p-4">
+            <DialogHead
+              back={() => router.push("/")}
+              title="Select school"
+              clearText={
+                getTotalSelectedFilters() > 0
+                  ? `Clear All (${getTotalSelectedFilters()})`
+                  : "Clear All"
+              }
+              clear={clearCurrentFilters}
+            />
+            <div className="flex flex-col gap-2 overflow-y-auto px-4">
               <Input
                 type="search"
                 placeholder="Search for school..."
@@ -262,12 +252,11 @@ export default function FilterSchoolDialog({
                 <RadioGroup
                   value={selectedSchool}
                   onValueChange={handleSchoolSelect}
-                  className="space-y-3"
                 >
                   {filteredSchools.map((school) => (
                     <div
                       key={school.id}
-                      className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-md"
+                      className="flex items-center gap-3 px-2 hover:bg-gray-50 rounded-md"
                     >
                       <RadioGroupItem
                         value={school.name}
@@ -310,10 +299,11 @@ export default function FilterSchoolDialog({
                   ? `Clear All (${getTotalSelectedFilters()})`
                   : "Clear All"
               }
+              clear={clearCurrentFilters}
             />
-            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+            <div className="flex flex-col gap-2 overflow-y-auto px-4">
               {/* TOP SCHOOLS */}
-              <div className="flex flex-col border-b border-[#EBEEF7] pb-2">
+              <div className="flex flex-col border-b border-[#EBEEF7]">
                 <div
                   className="flex items-center justify-between cursor-pointer"
                   onClick={() => setStep("schools")}
@@ -329,7 +319,7 @@ export default function FilterSchoolDialog({
               </div>
 
               {/* PRICES (NGN) */}
-              <div className="flex flex-col border-b border-[#EBEEF7] pb-2">
+              <div className="flex flex-col border-b border-[#EBEEF7]">
                 <div
                   className="flex items-center justify-between cursor-pointer"
                   onClick={() => setStep("prices")}
@@ -349,7 +339,7 @@ export default function FilterSchoolDialog({
               </div>
 
               {/* CATEGORY */}
-              <div className="flex flex-col border-b border-[#EBEEF7] pb-2">
+              <div className="flex flex-col border-b border-[#EBEEF7]">
                 <div
                   className="flex items-center justify-between cursor-pointer"
                   onClick={() => setStep("categories")}
@@ -367,7 +357,7 @@ export default function FilterSchoolDialog({
               </div>
 
               {/* CONDITIONS */}
-              <div className="flex flex-col border-b border-[#EBEEF7] pb-2">
+              <div className="flex flex-col border-b border-[#EBEEF7]">
                 <div
                   className="flex items-center justify-between cursor-pointer"
                   onClick={() => setStep("conditions")}
@@ -385,7 +375,7 @@ export default function FilterSchoolDialog({
             <DialogFooter className="p-4">
               <Button
                 onClick={applyFilters}
-                className="py-[17.58px] w-full bg-[#54ABDB] hover:bg-[#54ABDB]/60"
+                className="h-[50px] flex-1 py-[17.58px] w-full bg-[#54ABDB] hover:bg-[#54ABDB]/60"
               >
                 Apply Filter
               </Button>
@@ -402,7 +392,7 @@ export default function FilterSchoolDialog({
               clearText="Clear All"
               clear={clearCurrentFilters}
             />
-            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+            <div className="w-full flex flex-col overflow-y-auto px-4 gap-2">
               {categories.map((category: Category) => (
                 <div
                   key={category.name}
@@ -445,7 +435,7 @@ export default function FilterSchoolDialog({
               clearText="Clear All"
               clear={clearCurrentFilters}
             />
-            <div className="flex-1 overflow-y-auto p-4">
+            <div className="w-full flex flex-col gap-2 overflow-y-auto px-4">
               <div className="flex items-center gap-3 mb-4">
                 <currentCategory.icon />
                 <span className="font-medium">{currentCategory.name}</span>
@@ -457,14 +447,13 @@ export default function FilterSchoolDialog({
                     : ""
                 }
                 onValueChange={handleSubcategorySelect}
-                className="space-y-3"
               >
                 {currentCategory.subcategories.map((subcategory) => (
                   <div
                     key={subcategory}
                     className="flex items-center justify-between"
                   >
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2">
                       <RadioGroupItem
                         value={subcategory}
                         id={`sub-${subcategory}`}
@@ -506,11 +495,10 @@ export default function FilterSchoolDialog({
               clearText="Clear All"
               clear={clearCurrentFilters}
             />
-            <div className="flex-1 overflow-y-auto p-4">
+            <div className="w-full flex flex-col gap-2 overflow-y-auto px-4">
               <RadioGroup
                 value={selectedCondition}
                 onValueChange={setSelectedCondition}
-                className="space-y-4"
               >
                 <div className="flex items-center gap-3">
                   <RadioGroupItem value="any" id="condition-any" />
@@ -590,7 +578,6 @@ export default function FilterSchoolDialog({
                 <RadioGroup
                   value={selectedTopSchool}
                   onValueChange={handleTopSchoolSelect}
-                  className="space-y-3"
                 >
                   {schoolTypes.map((school) => (
                     <div key={school.id} className="flex items-center gap-3">
@@ -655,7 +642,6 @@ export default function FilterSchoolDialog({
               <RadioGroup
                 value={priceRange}
                 onValueChange={handlePriceRangeChange}
-                className="space-y-3"
               >
                 {priceRanges.map((range) => (
                   <div key={range.value} className="flex items-center gap-3">

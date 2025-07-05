@@ -97,7 +97,7 @@ export default function SchoolSelectorDialog({
             <RadioGroup
               value={selectedSchool}
               onValueChange={handleSchoolSelect}
-              className="space-y-3"
+              className="flex flex-col gap-2"
             >
               <div className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-md">
                 <RadioGroupItem value="" id="school-all" />
@@ -111,7 +111,7 @@ export default function SchoolSelectorDialog({
               {filteredSchools.map((school) => (
                 <div
                   key={school.name}
-                  className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-md"
+                  className="flex items-center gap-3 px-2 hover:bg-gray-50 rounded-md"
                 >
                   <RadioGroupItem
                     value={school.name}

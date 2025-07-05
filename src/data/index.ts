@@ -9,7 +9,6 @@ import {
   Wrench,
 } from "@/components/svgs"
 import { School } from "@/types"
-import { GamepadIcon } from "lucide-react"
 
 export const schoolTypes: School[] = [
   { id: 1, name: "Abubakar Tafawa Balewa University", abbreviation: "ATBU" },
@@ -341,7 +340,7 @@ export const categories: Category[] = [
   },
   {
     name: "Gaming",
-    icon: GamepadIcon,
+    icon: ElectronicsIcon,
     subcategories: ["Nintendo Switch OLED", "Consoles"],
   },
 ]

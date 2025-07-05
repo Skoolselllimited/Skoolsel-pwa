@@ -266,7 +266,7 @@ export default function SearchAutocompleteDialog({
                     {recentSearchList.map((search, index) => (
                       <div
                         key={index}
-                        className="flex items-center justify-between py-4 cursor-pointer"
+                        className="flex items-center justify-between py-1 cursor-pointer"
                         onClick={() => handleRecentSearchClick(search)}
                       >
                         <div className="flex items-center gap-1">
@@ -298,9 +298,12 @@ export default function SearchAutocompleteDialog({
                     ))}
 
                     {recentSearchList.length > 0 && (
-                      <Button onClick={clearAllRecentSearches}>
+                      <span
+                        onClick={clearAllRecentSearches}
+                        className="font-circular-std italic text-[#6B7280] cursor-pointer"
+                      >
                         Clear all
-                      </Button>
+                      </span>
                     )}
                   </>
                 )}

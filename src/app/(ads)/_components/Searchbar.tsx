@@ -318,9 +318,9 @@ export default function SearchDialog() {
                 variant="ghost"
                 size="icon"
                 onClick={clearSearch}
-                className="absolute right-4 top-1/2 -translate-y-1/2 h-6 w-6 text-gray-400 hover:text-gray-600"
+                className="absolute right-8 top-1/2 -translate-y-1/2 h-6 w-6 text-gray-400 hover:text-gray-600"
               >
-                <X className="h-4 w-4" />
+                <X className="h-6 w-6" />
               </Button>
             )}
 
@@ -331,7 +331,7 @@ export default function SearchDialog() {
               size="icon"
               className="absolute right-1 top-1/2 -translate-y-1/2 text-secondary hover:bg-[#E3E6EA]/30 rounded-full h-8 w-8 sm:h-9 sm:w-9 flex-shrink-0"
             >
-              <Search className="h-5 w-5 sm:h-5 sm:w-5" />
+              <Search className="h-5 w-5" />
               <span className="sr-only">Search</span>
             </Button>
           </div>
