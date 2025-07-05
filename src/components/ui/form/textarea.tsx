@@ -1,15 +1,15 @@
 "use client"
 
-import type React from "react"
-
-import { useState, forwardRef } from "react"
-import { Textarea } from "@/components/ui/textarea"
 import { CautionIcon } from "@/components/svgs"
+import { Textarea } from "@/components/ui/textarea"
+import type React from "react"
+import { forwardRef, useState } from "react"
 
 interface TextareaInputProps {
   label: string
   value: string
   onChange: (value: string) => void
+  onBlur?: () => void
   error?: string
   hasError?: boolean
   className?: string
@@ -28,6 +28,7 @@ export const TextareaInput = forwardRef<
       label,
       value,
       onChange,
+      onBlur,
       error,
       hasError = false,
       className = "",
@@ -53,6 +54,11 @@ export const TextareaInput = forwardRef<
       onChange(newValue)
     }
 
+    const handleBlur = () => {
+      setIsFocused(false)
+      if (onBlur) onBlur()
+    }
+
     return (
       <div className={className}>
         <div className="space-y-1">
@@ -75,7 +81,7 @@ export const TextareaInput = forwardRef<
                   value={value}
                   onChange={handleChange}
                   onFocus={() => setIsFocused(true)}
-                  onBlur={() => setIsFocused(false)}
+                  onBlur={handleBlur}
                   placeholder={isLabelActive ? placeholder : ""}
                   rows={rows}
                   maxLength={maxLength}
@@ -88,7 +94,7 @@ export const TextareaInput = forwardRef<
             </div>
           </div>
           {error && (
-            <div className="flex items-center gap-2 text-[#FF4F4F] text-[12px]/[18px] tracking-normal pt-1 pl-3">
+            <div className="flex items-center gap-2 text-[#FF4F4F] text-[12px]/[18px] tracking-normal pt-1 pl-2">
               <CautionIcon />
               <span>{error}</span>
             </div>

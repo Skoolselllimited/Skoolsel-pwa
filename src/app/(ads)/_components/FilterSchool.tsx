@@ -313,7 +313,7 @@ export default function FilterSchoolDialog({
             />
             <div className="flex-1 overflow-y-auto p-4 space-y-4">
               {/* TOP SCHOOLS */}
-              <div className="flex flex-col gap-1 border-b border-[#EBEEF7] pb-2">
+              <div className="flex flex-col border-b border-[#EBEEF7] pb-2">
                 <div
                   className="flex items-center justify-between cursor-pointer"
                   onClick={() => setStep("schools")}
@@ -329,7 +329,7 @@ export default function FilterSchoolDialog({
               </div>
 
               {/* PRICES (NGN) */}
-              <div className="flex flex-col gap-1 border-b border-[#EBEEF7] pb-2">
+              <div className="flex flex-col border-b border-[#EBEEF7] pb-2">
                 <div
                   className="flex items-center justify-between cursor-pointer"
                   onClick={() => setStep("prices")}
@@ -349,7 +349,7 @@ export default function FilterSchoolDialog({
               </div>
 
               {/* CATEGORY */}
-              <div className="flex flex-col gap-1 border-b border-[#EBEEF7] pb-2">
+              <div className="flex flex-col border-b border-[#EBEEF7] pb-2">
                 <div
                   className="flex items-center justify-between cursor-pointer"
                   onClick={() => setStep("categories")}
@@ -367,7 +367,7 @@ export default function FilterSchoolDialog({
               </div>
 
               {/* CONDITIONS */}
-              <div className="flex flex-col gap-1 border-b border-[#EBEEF7] pb-2">
+              <div className="flex flex-col border-b border-[#EBEEF7] pb-2">
                 <div
                   className="flex items-center justify-between cursor-pointer"
                   onClick={() => setStep("conditions")}

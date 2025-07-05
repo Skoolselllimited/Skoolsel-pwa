@@ -1,8 +1,8 @@
-"use client";
+"use client"
 
-import { ImageGallery } from "@/app/(landing-page)/_components/image-gallery";
-import BackButton from "@/components/BackButton";
-import BreadcrumbNav from "@/components/breadCrumbs";
+import { ImageGallery } from "@/app/(landing-page)/_components/image-gallery"
+import BackButton from "@/components/BackButton"
+import BreadcrumbNav from "@/components/breadCrumbs"
 import {
   AnchorLink,
   ClockIcon,
@@ -15,37 +15,37 @@ import {
   Spinner,
   SpinnerIcon,
   VerifiedIcon,
-} from "@/components/svgs";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { getInitials } from "@/lib/utils";
+} from "@/components/svgs"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
+import { getInitials } from "@/lib/utils"
 import {
   ChevronLeft,
   ChevronRight,
   CopyIcon,
   Share2,
   TriangleAlert,
-} from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
-import { FaFacebookF, FaLinkedinIn, FaWhatsapp } from "react-icons/fa";
-import { RiTwitterXLine } from "react-icons/ri";
-import { toast } from "sonner";
+} from "lucide-react"
+import Image from "next/image"
+import Link from "next/link"
+import { usePathname, useRouter } from "next/navigation"
+import { useState } from "react"
+import { FaFacebookF, FaLinkedinIn, FaWhatsapp } from "react-icons/fa"
+import { RiTwitterXLine } from "react-icons/ri"
+import { toast } from "sonner"
 
 export default function AdsDetails() {
-  const router = useRouter();
-  const pathname = usePathname();
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [isGalleryOpen, setIsGalleryOpen] = useState(false);
-  const [isPhoneRevealed, setIsPhoneRevealed] = useState(false);
+  const router = useRouter()
+  const pathname = usePathname()
+  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const [isGalleryOpen, setIsGalleryOpen] = useState(false)
+  const [isPhoneRevealed, setIsPhoneRevealed] = useState(false)
 
   // Add load more functionality states
-  const [visibleAds, setVisibleAds] = useState(12);
-  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [visibleAds, setVisibleAds] = useState(12)
+  const [isLoadingMore, setIsLoadingMore] = useState(false)
 
   const images = [
     "/images/main_image.webp",
@@ -54,7 +54,7 @@ export default function AdsDetails() {
     "/images/thumbnail_3.webp",
     "/images/thumbnail_4.webp",
     "/images/thumbnail_5.webp",
-  ];
+  ]
 
   // Create related ads data
   const relatedAdsData = Array.from({ length: 24 }, (_, idx) => ({
@@ -67,36 +67,36 @@ export default function AdsDetails() {
     vendor: "Aliya Gadget Store",
     condition: "New",
     isSponsored: idx % 3 === 0,
-  }));
+  }))
 
   const nextImage = () => {
-    setCurrentImageIndex((prev) => (prev + 1) % images.length);
-  };
+    setCurrentImageIndex((prev) => (prev + 1) % images.length)
+  }
 
   const prevImage = () => {
-    setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
-  };
+    setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length)
+  }
 
   const handleCopyPhone = () => {
-    const phone = isPhoneRevealed ? "(+234) 5735 8764" : "(+234) 5•••• ••••";
+    const phone = isPhoneRevealed ? "(+234) 5735 8764" : "(+234) 5•••• ••••"
     navigator.clipboard
       .writeText(phone)
       .then(() => {
-        toast.success("Phone number copied to clipboard!");
+        toast.success("Phone number copied to clipboard!")
       })
       .catch(() => {
-        toast.error("Failed to copy phone number");
-      });
-  };
+        toast.error("Failed to copy phone number")
+      })
+  }
 
   // Add load more functionality
   const handleLoadMore = async () => {
-    setIsLoadingMore(true);
+    setIsLoadingMore(true)
     // Simulate API call delay
-    await new Promise((resolve) => setTimeout(resolve, 800));
-    setVisibleAds((prev) => Math.min(prev + 6, relatedAdsData.length));
-    setIsLoadingMore(false);
-  };
+    await new Promise((resolve) => setTimeout(resolve, 800))
+    setVisibleAds((prev) => Math.min(prev + 6, relatedAdsData.length))
+    setIsLoadingMore(false)
+  }
 
   return (
     <div className="w-full flex flex-col gap-4 bg-[#F4F6F8]">
@@ -159,8 +159,8 @@ export default function AdsDetails() {
                 <span
                   className="hidden w-12 h-12 absolute top-4 right-4 bg-[#0A243F] hover:bg-[#0A243F]/90 hover:scale-[0.98] transition-all duration-200 cursor-pointer xl:flex justify-center items-center rounded-md z-10"
                   onClick={(e) => {
-                    e.stopPropagation();
-                    setIsGalleryOpen(true);
+                    e.stopPropagation()
+                    setIsGalleryOpen(true)
                   }}
                 >
                   <ExpandIcon />
@@ -391,13 +391,13 @@ export default function AdsDetails() {
                     </div>
                   </div>
 
-                  <Button
-                    variant="link"
-                    className="text-secondary font-semibold font-circular-std text-[14px]/[20px] tracking-normal p-0 h-auto"
-                    onClick={() => router.push("/seller-profile")}
+                  <Link
+                    // variant="link"
+                    className="text-secondary font-semibold font-circular-std text-[14px]/[20px] tracking-normal p-0 h-auto hover:underline cursor-pointer"
+                    href="/seller-profile"
                   >
                     View Profile
-                  </Button>
+                  </Link>
                 </div>
 
                 <div className="font-circular-std font-[450] text-[14px]/[20px] flex items-center gap-2 text-[#636A80] tracking-normal">
@@ -472,7 +472,7 @@ export default function AdsDetails() {
           </div>
         </div>
         {/* Related Ads Section */}
-        <div className="mt-12 space-y-[50px] bg-[#F4F6F8] shadow-[0px_1px_0px_0px_#EBEEF7_inset] pt-10 pb-[150px] px-2 lg:px-4">
+        <div className="mt-12 flex flex-col gap-[30px] bg-white xl:bg-[#F4F6F8] shadow-[0px_1px_0px_0px_#EBEEF7_inset] pt-10 pb-[150px] px-2 lg:px-4">
           <h2 className="font-circular-std font-medium text-[24px]/[32px] xl:text-[40px]/[48px] tracking-normal text-[#191F33]">
             Related Ads
           </h2>
@@ -593,5 +593,5 @@ export default function AdsDetails() {
         </div>
       </div>
     </div>
-  );
+  )
 }

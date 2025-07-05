@@ -1,6 +1,6 @@
 "use client"
 
-import { forwardRef, useState, useEffect, useRef } from "react"
+import { useState, forwardRef, useEffect, useRef } from "react"
 import { Input } from "@/components/ui/input"
 import { CautionIcon } from "@/components/svgs"
 
@@ -8,10 +8,13 @@ interface FormInputProps {
   label: string
   value: string
   onChange: (value: string) => void
+  onBlur?: () => void
   type?: string
   error?: string
   hasError?: boolean
   className?: string
+  placeholder?: string
+  required?: boolean
 }
 
 export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
@@ -20,10 +23,13 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
       label,
       value,
       onChange,
+      onBlur,
       type = "text",
       error,
       hasError = false,
       className = "",
+      placeholder = "",
+      required = false,
       ...props
     },
     ref
@@ -52,11 +58,10 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
         const bgColor = computedStyle.backgroundColor
 
         // Different browsers use different colors for autofill
-        // This is a simplified check that works in most cases
         const isAutofilledNow =
           bgColor.includes("rgb(232, 240, 254)") || // Chrome
           bgColor.includes("rgb(250, 255, 189)") || // Firefox
-          inputRef.current.matches(":-webkit-autofill") // Another way to check
+          inputRef.current.matches(":-webkit-autofill") // Webkit browsers
 
         if (isAutofilledNow !== isAutofilled) {
           setIsAutofilled(isAutofilledNow)
@@ -66,6 +71,7 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
       // Check immediately and then periodically
       checkAutofill()
       const interval = setInterval(checkAutofill, 1000)
+
       return () => clearInterval(interval)
     }, [isAutofilled])
 
@@ -75,22 +81,28 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
     // Determine if label should be in "active" state (small and positioned as label)
     const isLabelActive = isFocused || value.length > 0 || isAutofilled
 
+    const handleBlur = () => {
+      setIsFocused(false)
+      if (onBlur) onBlur()
+    }
+
     return (
       <div className={className}>
         <div className="space-y-1">
           <div className="relative">
             <div
-              className={`${containerBgClass} rounded-[8px] overflow-hidden h-[46px] md:h-[53px]`}
+              className={`${containerBgClass} rounded-[8px] overflow-hidden h-[53px]`}
             >
-              <div className="relative h-full pl-[12px] pr-[10px]">
+              <div className="relative h-full">
                 <label
-                  className={`absolute left-[12px] text-[12px]/[12px] font-[50] transition-all duration-200 ease-in-out pointer-events-none z-10 ${labelColorClass} ${
+                  className={`absolute left-[12px] text-[12px]/[12px] font-[450] transition-all duration-200 ease-in-out pointer-events-none z-10 ${labelColorClass} ${
                     isLabelActive
                       ? "top-3"
-                      : "top-1/2 -translate-y-1/2 text-xs md:text-base font-normal"
+                      : "top-1/2 -translate-y-1/2 text-base font-normal"
                   }`}
                 >
                   {label}
+                  {required && <span className="text-red-500 ml-1">*</span>}
                 </label>
                 <Input
                   ref={handleRef}
@@ -98,17 +110,18 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
                   value={value}
                   onChange={(e) => onChange(e.target.value)}
                   onFocus={() => setIsFocused(true)}
-                  onBlur={() => setIsFocused(false)}
+                  onBlur={handleBlur}
+                  placeholder={isLabelActive ? placeholder : ""}
                   className={`w-full h-full bg-transparent text-[#0A243F] font-circular-std font-[450] text-[14px]/[100%] tracking-normal border-0 focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-[#919EAB] ${
                     isLabelActive ? "pt-7 pb-1.5" : "pt-0 pb-0 opacity-0"
-                  } px-0`}
+                  } px-3`}
                   {...props}
                 />
               </div>
             </div>
           </div>
           {error && (
-            <div className="flex items-center gap-2 text-[#FF4F4F] text-[12px]/[18px] tracking-normal pt-1 pl-3">
+            <div className="flex items-center gap-2 text-[#FF4F4F] text-[12px]/[18px] tracking-normal pt-1 pl-2">
               <CautionIcon />
               <span>{error}</span>
             </div>

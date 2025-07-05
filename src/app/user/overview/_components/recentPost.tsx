@@ -11,10 +11,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { formatPrice } from "@/lib/utils"
+import { AdsType } from "@/types"
 import {
   ArrowRight,
   CheckCircle,
-  Edit3Icon,
   Eye,
   MoreHorizontal,
   Trash2Icon,
@@ -23,15 +23,7 @@ import Image from "next/image"
 import Link from "next/link"
 
 interface recentPostProps {
-  recentAds: {
-    id: number
-    name: string
-    price: number
-    location: string
-    image: string
-    vendor: string
-    timePosted: string
-  }[]
+  recentAds: AdsType[]
 }
 
 export default function RecentPost({ recentAds }: recentPostProps) {
@@ -49,10 +41,11 @@ export default function RecentPost({ recentAds }: recentPostProps) {
         </Link>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {recentAds.map((ad) => (
-          <div
-            key={ad.id}
+      <div className="w-full grid grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3 gap-3 xl:gap-4">
+        {recentAds.map((ad, idx) => (
+          <Link
+            key={idx}
+            href={`/ads/${ad.id}?name=${ad.name}`}
             className="flex flex-col gap-[2.65px] bg-white p-1 lg:p-2 rounded-[10.6px] lg:rounded-[16px] hover:shadow-sm overflow-hidden border border-[#F1F2F4] cursor-pointer relative"
           >
             <div className="absolute top-4 right-4 z-10">
@@ -89,7 +82,6 @@ export default function RecentPost({ recentAds }: recentPostProps) {
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
-
             <div className="relative">
               <Image
                 src={ad.image || "/placeholder.svg"}
@@ -100,6 +92,7 @@ export default function RecentPost({ recentAds }: recentPostProps) {
               />
             </div>
 
+            {/* Content */}
             <div className="pt-1 lg:pt-2 pb-0 flex flex-col gap-[2.65px] lg:gap-1">
               <h3 className="text-[12px]/[11.92px] lg:text-[16px]/[18px] font-medium font-circular-std text-[#384853] truncate">
                 {ad.name}
@@ -111,7 +104,7 @@ export default function RecentPost({ recentAds }: recentPostProps) {
                 <div className="flex items-center gap-1.5 lg:gap-2">
                   <MapPinIcon className="w-5 h-5 text-[#384853]" />
                   <span className="text-[#384853] text-[12px] lg:text-[16px]/[18px] font-[450] font-circular-std tracking-normal truncate">
-                    {ad.location}{" "}
+                    {ad.abbreviation}{" "}
                   </span>
                 </div>
                 <div className="flex items-center justify-end gap-1.5 lg:gap-2">
@@ -122,7 +115,7 @@ export default function RecentPost({ recentAds }: recentPostProps) {
                 </div>
               </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>

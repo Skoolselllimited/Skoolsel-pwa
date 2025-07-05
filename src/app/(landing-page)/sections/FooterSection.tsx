@@ -165,7 +165,7 @@ export default function FooterSection() {
                     Boost Ads
                   </Link>
                   <Link
-                    href="/ads/post"
+                    href="/user/post-ads"
                     className="font-circular-std font-[450] text-[16px]/[24px] tracking-normal text-[#767E94] hover:underline underline-offset-4 decoration-secondary"
                   >
                     Post a Ads

@@ -3,4 +3,17 @@ import { PasswordInput } from "./password"
 import { FormSelect } from "./select"
 import { PhoneInput } from "./phone"
 import { TextareaInput } from "./textarea"
-export { FormInput, PasswordInput, PhoneInput, TextareaInput, FormSelect }
+import {
+  CustomSearchableDropdown,
+  type DropdownOption,
+} from "./searchableDropdown"
+
+export {
+  FormInput,
+  PasswordInput,
+  PhoneInput,
+  TextareaInput,
+  FormSelect,
+  CustomSearchableDropdown,
+  DropdownOption,
+}

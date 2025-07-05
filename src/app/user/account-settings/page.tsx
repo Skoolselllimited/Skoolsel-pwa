@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import {
   ArrowRightIcon,
   CameraIcon,
@@ -13,16 +12,27 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
   FormInput,
-  FormSelect,
   PasswordInput,
   PhoneInput,
   TextareaInput,
+  CustomSearchableDropdown,
+  type DropdownOption,
 } from "@/components/ui/form"
-import { cn } from "@/lib/utils"
+import { cn, getInitials } from "@/lib/utils"
 import { Star, Trash2, X } from "lucide-react"
 import { useRef, useState } from "react"
 import DeleteAccountDialog from "./deleteAccount"
 import { schoolTypes } from "@/data"
+import {
+  profileSchema,
+  passwordChangeSchema,
+  validateForm,
+  validateField,
+  validatePasswordField,
+  type ProfileFormData,
+  type PasswordChangeData,
+} from "./validation"
+import Link from "next/link"
 
 interface UserData {
   fullName: string
@@ -47,10 +57,10 @@ export default function UserProfileManagement() {
 
   // User data state
   const [userData, setUserData] = useState<UserData>({
-    fullName: "auwalsada@gmail.com",
+    fullName: "Auwal Sada",
     username: "auwalsada",
     email: "sample@gmail.com",
-    phoneNumber: "0365768468",
+    phoneNumber: "08152556789",
     countryCode: "+234",
     school: "Federal University of Technology, Minna",
     bio: "",
@@ -70,19 +80,41 @@ export default function UserProfileManagement() {
     confirmPassword: "",
   })
 
+  // Validation errors
+  const [profileErrors, setProfileErrors] = useState<Record<string, string>>({})
+  const [passwordErrors, setPasswordErrors] = useState<Record<string, string>>(
+    {}
+  )
+
+  // Convert school data to dropdown options
+  const schoolOptions: DropdownOption[] = schoolTypes.map((school) => ({
+    value: school.name,
+    label: school.name,
+    description: school.abbreviation,
+  }))
+
   const handleEdit = () => {
     setIsEditing(true)
     setFormData(userData)
+    setProfileErrors({})
   }
 
   const handleCancel = () => {
     setIsEditing(false)
     setFormData(userData)
+    setProfileErrors({})
   }
 
   const handleSaveChanges = () => {
-    setUserData(formData)
-    setIsEditing(false)
+    const validation = validateForm(profileSchema, formData)
+
+    if (validation.isValid) {
+      setUserData(formData)
+      setIsEditing(false)
+      setProfileErrors({})
+    } else {
+      setProfileErrors(validation.errors)
+    }
   }
 
   const handleVerifyID = () => {
@@ -95,19 +127,26 @@ export default function UserProfileManagement() {
   }
 
   const handleUpdatePassword = () => {
-    // Handle password update logic
-    setPasswordData({
-      currentPassword: "",
-      newPassword: "",
-      confirmPassword: "",
-    })
+    const validation = validateForm(passwordChangeSchema, passwordData)
+
+    if (validation.isValid) {
+      // Handle password update logic
+      console.log("Updating password...")
+      setPasswordData({
+        currentPassword: "",
+        newPassword: "",
+        confirmPassword: "",
+      })
+      setPasswordErrors({})
+      alert("Password updated successfully!")
+    } else {
+      setPasswordErrors(validation.errors)
+    }
   }
 
   // Photo upload handlers
   const handlePhotoClick = () => {
     fileInputRef.current?.click()
-    // if (isEditing) {
-    // }
   }
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -147,6 +186,41 @@ export default function UserProfileManagement() {
 
   const currentProfileImage = photoPreview || userData.profileImage
 
+  // Field validation handlers - Fixed TypeScript error
+  const handleFieldBlur = (field: keyof ProfileFormData) => {
+    const value = formData[field]
+    const fieldSchema = profileSchema.shape[field]
+    const error = validateField(fieldSchema, value)
+
+    setProfileErrors((prev) => ({
+      ...prev,
+      [field]: error,
+    }))
+  }
+
+  const handlePasswordFieldBlur = (field: keyof PasswordChangeData) => {
+    const error = validatePasswordField(field, passwordData[field])
+    setPasswordErrors((prev) => ({
+      ...prev,
+      [field]: error,
+    }))
+  }
+
+  // Fixed TypeScript error by properly typing the field parameter
+  const clearFieldError = (field: keyof ProfileFormData) => {
+    setProfileErrors((prev) => ({
+      ...prev,
+      [field]: "",
+    }))
+  }
+
+  const clearPasswordError = (field: keyof PasswordChangeData) => {
+    setPasswordErrors((prev) => ({
+      ...prev,
+      [field]: "",
+    }))
+  }
+
   return (
     <div className="min-h-screen bg-white rounded">
       <div className="max-w-[1054px] mx-auto px-4 relative">
@@ -154,23 +228,25 @@ export default function UserProfileManagement() {
           className="absolute top-0 left-0 right-0 w-full h-[163px]"
           style={{ backgroundImage: `url('/images/profile-dots.png')` }}
         ></div>
+
         <div className="max-w-[647px] mx-auto flex flex-col gap-[36px] pt-20">
           {/* Profile Header */}
           <div className="w-full flex flex-col justify-center items-center">
             <div className="relative inline-block mb-[15px]">
-              <Avatar className="w-50 h-50">
+              <Avatar className="w-45 h-45">
                 <AvatarImage
                   src={currentProfileImage || "/placeholder.svg"}
                   alt="Profile"
                 />
-                <AvatarFallback className="text-2xl">
-                  {userData.fullName.charAt(0)}
+                <AvatarFallback className="text-2xl capitalize text-white">
+                  {getInitials(userData.fullName)}
                 </AvatarFallback>
               </Avatar>
+
               <button
                 onClick={handlePhotoClick}
                 disabled={isPhotoUploading}
-                className="absolute bottom-0 right-0 w-[58px] h-[58px] rounded-full border-[1.98px] border-white shadow-[0px_5.27px_105.45px_0px_#A7AEC14D] bg-secondary  cursor-pointer flex justify-center items-center"
+                className="absolute bottom-0 right-0 w-[58px] h-[58px] rounded-full border-[1.98px] border-white shadow-[0px_5.27px_105.45px_0px_#A7AEC14D] bg-secondary cursor-pointer flex justify-center items-center"
               >
                 {isPhotoUploading ? (
                   <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -187,11 +263,18 @@ export default function UserProfileManagement() {
                 className="hidden"
               />
             </div>
-            {/* Photo upload instructions - only show in edit mode */}
 
-            <p className="text-[#767e94] font-circular-std font-[450] italic text-center text-xs mb-2">
-              Supported formats: JPG, JPEG, PNG, GIF (Max 5MB)
-            </p>
+            {/* Photo upload instructions - only show in edit mode */}
+            {isEditing && (
+              <div className="mb-4 text-foreground font-circular-std font-[450]">
+                <p className="text-sm mb-2">
+                  Click the camera icon to change your profile photo
+                </p>
+                <p className="text-xs text-gray-500">
+                  Supported formats: JPG, PNG, GIF (Max 5MB)
+                </p>
+              </div>
+            )}
 
             <div className="w-full flex items-center justify-center">
               <div className="max-w-[262px] flex flex-col gap-1">
@@ -205,7 +288,7 @@ export default function UserProfileManagement() {
                       "text-[15px]/[14px] tracking-normal font-circular-std font-medium flex justify-center items-[5px] py-1 pl-1 pr-[10px]",
                       userData.isVerified
                         ? "bg-[#E4F9E0] w-fit h-6 text-[#104E00] hover:bg-transparent"
-                        : "bg-[#EBEEF7] w-fit h-[22px] rounded-[100px] flex gap-[5px]  text-[#464D61] hover:bg-transparent"
+                        : "bg-[#EBEEF7] w-fit h-[22px] rounded-[100px] flex gap-[5px] text-[#464D61] hover:bg-transparent"
                     )}
                   >
                     {userData.isVerified && (
@@ -214,22 +297,18 @@ export default function UserProfileManagement() {
                     {userData.isVerified ? "Verified Seller" : "Not Verified"}
                   </Badge>
                 </div>
-
                 <p className="py-[10px] text-[#767E94] text-[16px]/[20px] font-circular-std font-[450] tracking-normal align-middle text-center">
                   Joined - {userData.joinDate}
                 </p>
-
                 <div className="flex items-center justify-center gap-1">
                   <div className="bg-[#FFF8E0] h-[20px] w-fit flex items-center gap-[4.05px] p-1">
                     <span className="font-bold font-circular-std text-[15px]/[16.19px] tracking-normal text-center text-foreground">
                       {userData.rating}
                     </span>
-
                     <Star
                       className={cn("w-4 h-4 fill-[#FFBF00] text-[#FFBF00]")}
                     />
                   </div>
-
                   <button className="text-foreground font-circular-std tracking-normal text-[16px]/[20px] align-center hover:underline flex gap-[2px] items-center">
                     View Reviews{" "}
                     <ArrowRightIcon className="text-foreground w-4 h-4" />
@@ -264,7 +343,7 @@ export default function UserProfileManagement() {
           )}
 
           {/* Account Information */}
-          <div className="flex flex-col gap-[20px]">
+          <div className="flex flex-col gap-[20px] border-b border-[#EBEEF7] pb-[20px]">
             <div className="flex flex-row items-center justify-between">
               <h2 className="text-[20px]/[32px] tracking-normal font-medium font-circular-std text-[#191F33]">
                 Account Information
@@ -281,13 +360,14 @@ export default function UserProfileManagement() {
                 <Button
                   variant="ghost"
                   onClick={handleEdit}
-                  className="min-w-16 w-fit h-10 rounded-md px-[10px] gap-2 bg-[#1890FF14] hover:bg-[#1890FF14] text-secondary hover:text-secondary text-[16px]/[26px] tracking-normal font-bold "
+                  className="min-w-16 w-fit h-10 rounded-md px-[10px] gap-2 bg-[#1890FF14] hover:bg-[#1890FF14] text-secondary hover:text-secondary text-[16px]/[26px] tracking-normal font-bold"
                 >
                   <EditIcon />
                   Edit
                 </Button>
               )}
             </div>
+
             <div className="flex flex-col gap-[18px]">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 <div className="space-y-2">
@@ -295,9 +375,13 @@ export default function UserProfileManagement() {
                     <FormInput
                       label="Full Name"
                       value={formData.fullName}
-                      onChange={(value) =>
+                      onChange={(value) => {
                         setFormData((prev) => ({ ...prev, fullName: value }))
-                      }
+                        clearFieldError("fullName")
+                      }}
+                      onBlur={() => handleFieldBlur("fullName")}
+                      error={profileErrors.fullName}
+                      hasError={!!profileErrors.fullName}
                     />
                   ) : (
                     <>
@@ -314,9 +398,13 @@ export default function UserProfileManagement() {
                     <FormInput
                       label="Username"
                       value={formData.username}
-                      onChange={(value) =>
+                      onChange={(value) => {
                         setFormData((prev) => ({ ...prev, username: value }))
-                      }
+                        clearFieldError("username")
+                      }}
+                      onBlur={() => handleFieldBlur("username")}
+                      error={profileErrors.username}
+                      hasError={!!profileErrors.username}
                     />
                   ) : (
                     <>
@@ -336,9 +424,13 @@ export default function UserProfileManagement() {
                       label="Email Address"
                       type="email"
                       value={formData.email}
-                      onChange={(value) =>
+                      onChange={(value) => {
                         setFormData((prev) => ({ ...prev, email: value }))
-                      }
+                        clearFieldError("email")
+                      }}
+                      onBlur={() => handleFieldBlur("email")}
+                      error={profileErrors.email}
+                      hasError={!!profileErrors.email}
                     />
                   ) : (
                     <>
@@ -355,9 +447,10 @@ export default function UserProfileManagement() {
                     <PhoneInput
                       label="Phone Number"
                       value={formData.phoneNumber}
-                      onChange={(value) =>
+                      onChange={(value) => {
                         setFormData((prev) => ({ ...prev, phoneNumber: value }))
-                      }
+                        clearFieldError("phoneNumber")
+                      }}
                       countryCode={formData.countryCode}
                       onCountryCodeChange={(code) =>
                         setFormData((prev) => ({ ...prev, countryCode: code }))
@@ -378,22 +471,26 @@ export default function UserProfileManagement() {
 
               <div className="space-y-2">
                 {isEditing ? (
-                  <FormSelect
+                  <CustomSearchableDropdown
                     label="School"
                     value={formData.school}
-                    options={schoolTypes.map((university) => ({
-                      label: university.name,
-                      value: university.name,
-                    }))}
-                    onValueChange={(value) =>
+                    onChange={(value) => {
                       setFormData((prev) => ({ ...prev, school: value }))
-                    }
+                      clearFieldError("school")
+                    }}
+                    onBlur={() => handleFieldBlur("school")}
+                    options={schoolOptions}
+                    error={profileErrors.school}
+                    required={true}
+                    placeholder="Search for your school..."
+                    emptyMessage="No schools found matching your search"
+                    clearable={true}
                   />
                 ) : (
                   <>
                     <div className="text-sm text-gray-600">School</div>
                     <div className="p-3 bg-gray-50 rounded-md text-sm">
-                      {userData.school}
+                      {userData.school || "No school selected"}
                     </div>
                   </>
                 )}
@@ -404,9 +501,10 @@ export default function UserProfileManagement() {
                   <TextareaInput
                     label="Bio"
                     value={formData.bio}
-                    onChange={(value) =>
+                    onChange={(value) => {
                       setFormData((prev) => ({ ...prev, bio: value }))
-                    }
+                      clearFieldError("bio")
+                    }}
                     placeholder="Tell us about yourself..."
                     rows={4}
                     maxLength={500}
@@ -447,32 +545,39 @@ export default function UserProfileManagement() {
             <h2 className="text-[20px]/[32px] tracking-normal font-medium font-circular-std text-[#191F33]">
               Change Password
             </h2>
-
             <div className="space-y-4">
               <div className="space-y-2">
                 <PasswordInput
                   label="Current Password"
                   value={passwordData.currentPassword}
-                  onChange={(value) =>
+                  onChange={(value) => {
                     setPasswordData((prev) => ({
                       ...prev,
                       currentPassword: value,
                     }))
-                  }
+                    clearPasswordError("currentPassword")
+                  }}
+                  onBlur={() => handlePasswordFieldBlur("currentPassword")}
+                  error={passwordErrors.currentPassword}
+                  hasError={!!passwordErrors.currentPassword}
                 />
               </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <PasswordInput
-                    label="Password"
+                    label="New Password"
                     value={passwordData.newPassword}
-                    onChange={(value) =>
+                    onChange={(value) => {
                       setPasswordData((prev) => ({
                         ...prev,
                         newPassword: value,
                       }))
-                    }
+                      clearPasswordError("newPassword")
+                    }}
+                    onBlur={() => handlePasswordFieldBlur("newPassword")}
+                    error={passwordErrors.newPassword}
+                    hasError={!!passwordErrors.newPassword}
                   />
                 </div>
 
@@ -480,19 +585,23 @@ export default function UserProfileManagement() {
                   <PasswordInput
                     label="Confirm Password"
                     value={passwordData.confirmPassword}
-                    onChange={(value) =>
+                    onChange={(value) => {
                       setPasswordData((prev) => ({
                         ...prev,
                         confirmPassword: value,
                       }))
-                    }
+                      clearPasswordError("confirmPassword")
+                    }}
+                    onBlur={() => handlePasswordFieldBlur("confirmPassword")}
+                    error={passwordErrors.confirmPassword}
+                    hasError={!!passwordErrors.confirmPassword}
                   />
                 </div>
               </div>
 
               <Button
                 onClick={handleUpdatePassword}
-                className="h-[50px] w-fit px-5 rounded-[6px]  bg-[#54ABDB] hover:bg-[#54ABDB] mt-4"
+                className="h-[50px] w-fit px-5 rounded-[6px] bg-[#54ABDB] hover:bg-[#54ABDB] mt-4"
               >
                 Update Password
               </Button>
@@ -500,22 +609,20 @@ export default function UserProfileManagement() {
           </div>
 
           {/* Leave Skoolsel */}
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 pb-3">
             <h3 className="font-circular-std font-medium text-[20px]/[32px] text-[#191F33] tracking-normal">
               Leave Skoolsel
             </h3>
             <p className="font-circular-std font-[450] text-[#636A80] text-[16px]/[24px] tracking-normal">
               Deactivate or delete your account
             </p>
-            <DeleteAccountDialog>
-              <Button
-                variant="destructive"
-                className="w-fit gap-2 bg-transparent font-bold text-[#FF4F4F] hover:bg-[#FF4F4F]/10 border-0 text-[16px/[100%] px-0 mb-4"
-              >
-                <Trash2 className="w-4 h-4" />
-                Delete Account
-              </Button>
-            </DeleteAccountDialog>
+            <Link
+              href="/user/delete-account"
+              className="w-fit h-6 flex items-center gap-2 bg-transparent font-bold text-[#FF4F4F] hover:bg-[#FF4F4F]/5 border-0 text-[16px]/[100%] cursor-pointer"
+            >
+              <Trash2 className="w-4 h-4" />
+              Delete Account
+            </Link>
           </div>
         </div>
       </div>

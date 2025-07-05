@@ -24,6 +24,7 @@ interface PhoneInputProps {
   onChange?: (value: string) => void
   onValueChange?: (value: string) => void
   onCountryCodeChange: (code: string) => void
+  onBlur?: () => void
   error?: string
   hasError?: boolean
   className?: string
@@ -48,6 +49,7 @@ export const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
       onChange,
       onValueChange,
       onCountryCodeChange,
+      onBlur,
       error,
       hasError = false,
       className = "",
@@ -70,6 +72,11 @@ export const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
       onValueChange?.(newValue)
     }
 
+    const handleBlur = () => {
+      setIsFocused(false)
+      if (onBlur) onBlur()
+    }
+
     return (
       <div className={className}>
         <div className="space-y-1">
@@ -77,7 +84,7 @@ export const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
             <div
               className={`${containerBgClass} rounded-[8px] overflow-hidden h-[53px]`}
             >
-              <div className="relative h-full flex">
+              <div className="relative h-full flex items-center">
                 <label
                   className={`absolute left-[12px] text-[12px]/[12px] font-[450] transition-all duration-200 ease-in-out pointer-events-none z-10 ${labelColorClass} ${
                     isLabelActive
@@ -98,8 +105,8 @@ export const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
                     }
                   >
                     <SelectTrigger
-                      className={`h-full bg-transparent text-[#0A243F] font-circular-std font-[450] border-0 focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 shadow-none w-[80px] ${
-                        isLabelActive ? "pt-9 pb-1.5" : "pt-0 pb-0"
+                      className={`w-auto h-full bg-transparent text-[#0A243F] font-circular-std font-[450] border-0 focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 shadow-none ${
+                        isLabelActive ? "pt-7 pb-1.5" : "pt-0 pb-0"
                       } pl-3 pr-1`}
                     >
                       <SelectValue />
@@ -124,10 +131,10 @@ export const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
                   value={value}
                   onChange={(e) => handleValueChange(e.target.value)}
                   onFocus={() => setIsFocused(true)}
-                  onBlur={() => setIsFocused(false)}
+                  onBlur={handleBlur}
                   placeholder={isLabelActive ? placeholder : ""}
                   className={`flex-1 h-full bg-transparent text-[#0A243F] font-circular-std font-[450] text-[14px]/[100%] border-0 focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 shadow-none ${
-                    isLabelActive ? "pt-9 pb-1.5" : "pt-0 pb-0"
+                    isLabelActive ? "pt-7 pb-1.5" : "pt-0 pb-0"
                   } px-2`}
                   {...props}
                 />
@@ -135,7 +142,7 @@ export const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
             </div>
           </div>
           {error && (
-            <div className="flex items-center gap-2 text-[#FF4F4F] text-[12px]/[18px] tracking-normal pt-1 pl-3">
+            <div className="flex items-center gap-2 text-[#FF4F4F] text-[12px]/[18px] tracking-normal pt-1 pl-2">
               <CautionIcon />
               <span>{error}</span>
             </div>

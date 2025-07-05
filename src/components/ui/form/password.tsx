@@ -8,6 +8,7 @@ interface PasswordInputProps {
   label: string
   value: string
   onChange: (value: string) => void
+  onBlur?: () => void
   error?: string
   hasError?: boolean
   className?: string
@@ -19,6 +20,7 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
       label,
       value,
       onChange,
+      onBlur,
       error,
       hasError = false,
       className = "",
@@ -65,6 +67,7 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
       // Check immediately and then periodically
       checkAutofill()
       const interval = setInterval(checkAutofill, 1000)
+
       return () => clearInterval(interval)
     }, [isAutofilled])
 
@@ -73,6 +76,11 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
 
     // Determine if label should be in "active" state (small and positioned as label)
     const isLabelActive = isFocused || value.length > 0 || isAutofilled
+
+    const handleBlur = () => {
+      setIsFocused(false)
+      if (onBlur) onBlur()
+    }
 
     return (
       <div className={className}>
@@ -86,7 +94,7 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
                   className={`absolute left-[12px] text-[12px]/[12px] font-[450] transition-all duration-200 ease-in-out pointer-events-none z-10 ${labelColorClass} ${
                     isLabelActive
                       ? "top-3"
-                      : "top-1/2 -translate-y-1/2 text-xs  md:text-base font-normal"
+                      : "top-1/2 -translate-y-1/2 text-xs md:text-base font-normal"
                   }`}
                 >
                   {label}
@@ -97,7 +105,7 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
                   value={value}
                   onChange={(e) => onChange(e.target.value)}
                   onFocus={() => setIsFocused(true)}
-                  onBlur={() => setIsFocused(false)}
+                  onBlur={handleBlur}
                   className={`w-full h-full bg-transparent text-[#0A243F] font-circular-std font-[450] text-[14px]/[100%] tracking-normal border-0 focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-[#919EAB] ${
                     isLabelActive ? "pt-7 pb-1.5" : "pt-0 pb-0 opacity-0"
                   } px-0 pr-8`}
@@ -109,16 +117,12 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-[#637381] hover:text-[#212B36] transition-colors cursor-pointer"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? (
-                  <EyeIcon className="w-5 h-5" />
-                ) : (
-                  <EyeCloseIcon className="w-8 h-8" />
-                )}
+                {showPassword ? <EyeCloseIcon /> : <EyeIcon />}
               </button>
             </div>
           </div>
           {error && (
-            <div className="flex items-center gap-2 text-[#FF4F4F] text-[12px]/[18px] tracking-normal pt-1 pl-3">
+            <div className="flex items-center gap-2 text-[#FF4F4F] text-[12px]/[18px] tracking-normal pt-1 pl-2">
               <CautionIcon />
               <span>{error}</span>
             </div>

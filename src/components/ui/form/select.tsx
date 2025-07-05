@@ -21,6 +21,7 @@ interface FormSelectProps {
   options: SelectOption[]
   onChange?: (value: string) => void
   onValueChange?: (value: string) => void
+  onBlur?: () => void
   error?: string
   hasError?: boolean
   className?: string
@@ -35,6 +36,7 @@ export const FormSelect = forwardRef<HTMLButtonElement, FormSelectProps>(
       options,
       onChange,
       onValueChange,
+      onBlur,
       error,
       hasError = false,
       className = "",
@@ -48,6 +50,13 @@ export const FormSelect = forwardRef<HTMLButtonElement, FormSelectProps>(
     const handleValueChange = (newValue: string) => {
       if (onChange) onChange(newValue)
       if (onValueChange) onValueChange(newValue)
+    }
+
+    const handleOpenChange = (open: boolean) => {
+      setIsFocused(open)
+      if (!open && onBlur) {
+        onBlur()
+      }
     }
 
     const containerBgClass = hasError ? "bg-[#FF4F4F14]" : "bg-[#919EAB14]"
@@ -76,7 +85,7 @@ export const FormSelect = forwardRef<HTMLButtonElement, FormSelectProps>(
                 <Select
                   value={value}
                   onValueChange={handleValueChange}
-                  onOpenChange={(open) => setIsFocused(open)}
+                  onOpenChange={handleOpenChange}
                 >
                   <SelectTrigger
                     ref={ref}
@@ -102,7 +111,7 @@ export const FormSelect = forwardRef<HTMLButtonElement, FormSelectProps>(
             </div>
           </div>
           {error && (
-            <div className="flex items-center gap-2 text-[#FF4F4F] text-[12px]/[18px] tracking-normal pt-1 pl-3">
+            <div className="flex items-center gap-2 text-[#FF4F4F] text-[12px]/[18px] tracking-normal pt-1 pl-2">
               <CautionIcon />
               <span>{error}</span>
             </div>
