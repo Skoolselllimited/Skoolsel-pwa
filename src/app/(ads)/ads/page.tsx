@@ -1196,7 +1196,7 @@ export default function AdsPage() {
         <Button
           variant="outline"
           onClick={() => setFiltersOpen(true)}
-          className="w-[140px] h-12 px-4 text-[14px]/[24px] font-[450] font-circular-std text-[#4E4E5A] bg-[#F7F8F9] border-[#EDEFF5] flex items-center gap-2"
+          className="w-fit h-12 px-4 text-[14px]/[24px] font-[450] font-circular-std text-[#4E4E5A] bg-[#F7F8F9] border-[#EDEFF5] flex items-center gap-2"
         >
           <SlidersHorizontal className="h-4 w-4" />
           Filters

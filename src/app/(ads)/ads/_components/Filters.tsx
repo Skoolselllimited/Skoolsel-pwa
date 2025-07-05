@@ -6,11 +6,10 @@ import { Dialog, DialogContent, DialogFooter } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { priceRanges } from "@/data"
+import { categories, Category, priceRanges } from "@/data"
 import { ChevronRight, Minus, PlusIcon } from "lucide-react"
 import { useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
-import type { JSX } from "react/jsx-runtime"
 
 // Categories with icons
 const categoriesWithIcons = [
@@ -158,12 +157,6 @@ const categoriesWithIcons = [
     ],
   },
 ]
-
-interface Category {
-  name: string
-  icon: () => JSX.Element
-  subcategories: string[]
-}
 
 interface FiltersDialogProps {
   open: boolean
@@ -343,9 +336,9 @@ export default function FiltersDialog({
                 setMaxPrice("")
               }}
             />
-            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+            <div className="flex-1 overflow-y-auto px-4 flex flex-col gap-2">
               {/* PRICES (NGN) */}
-              <div className="flex flex-col gap-1 border-b border-[#EBEEF7] pb-2">
+              <div className="flex flex-col border-b border-[#EBEEF7]">
                 <div
                   className="flex items-center justify-between cursor-pointer"
                   onClick={() => setStep("prices")}
@@ -365,9 +358,9 @@ export default function FiltersDialog({
               </div>
 
               {/* CATEGORY */}
-              <div className="flex flex-col gap-1 border-b border-[#EBEEF7] pb-2">
+              <div className="flex flex-col border-b border-[#EBEEF7]">
                 <div
-                  className="flex items-center justify-between py-3 cursor-pointer"
+                  className="flex items-center justify-between py-2 cursor-pointer"
                   onClick={() => setStep("categories")}
                 >
                   <h3 className="text-[#191F33] font-circular-std font-medium text-base tracking-normal">
@@ -383,9 +376,9 @@ export default function FiltersDialog({
               </div>
 
               {/* CONDITIONS */}
-              <div className="flex flex-col gap-1 border-b border-[#EBEEF7] pb-2">
+              <div className="flex flex-col border-b border-[#EBEEF7]">
                 <div
-                  className="flex items-center justify-between py-3 cursor-pointer"
+                  className="flex items-center justify-between py-2 cursor-pointer"
                   onClick={() => setStep("conditions")}
                 >
                   <h3 className="text-[#191F33] font-circular-std font-medium text-base tracking-normal">
@@ -401,7 +394,7 @@ export default function FiltersDialog({
             <DialogFooter className="p-4">
               <Button
                 onClick={applyFilters}
-                className="py-[17.58px] w-full bg-[#54ABDB] hover:bg-[#54ABDB]/60"
+                className="w-full h-[50px] rounded-[3.3px] px-[17.58px] bg-[#54ABDB] hover:bg-[#54ABDB]/60"
               >
                 Apply Filter
               </Button>
@@ -419,7 +412,7 @@ export default function FiltersDialog({
               clear={clearCurrentFilters}
             />
             <div className="flex-1 overflow-y-auto p-4 space-y-4">
-              {categoriesWithIcons.map((category: Category) => (
+              {categories.map((category: Category) => (
                 <div
                   key={category.name}
                   className="flex items-center justify-between py-2 cursor-pointer hover:bg-gray-50 rounded-md px-2"
@@ -461,7 +454,7 @@ export default function FiltersDialog({
               clearText="Clear All"
               clear={clearCurrentFilters}
             />
-            <div className="flex-1 overflow-y-auto p-4">
+            <div className="w-full flex flex-col gap-2 overflow-y-auto px-4">
               <div className="flex items-center gap-3 mb-4">
                 <currentCategory.icon />
                 <span className="font-medium">{currentCategory.name}</span>

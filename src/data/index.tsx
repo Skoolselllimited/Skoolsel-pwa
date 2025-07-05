@@ -1,14 +1,15 @@
-import {
-  EducationCap,
-  ElectronicsIcon,
-  HandShakeIcon,
-  HomeIcon,
-  MobilePhone,
-  ShopIcon,
-  Vehicle,
-  Wrench,
-} from "@/components/svgs"
+// import {
+//   EducationCap,
+//   ElectronicsIcon,
+//   HandShakeIcon,
+//   HomeIcon,
+//   MobilePhone,
+//   ShopIcon,
+//   Vehicle,
+//   Wrench,
+// } from "@/components/svgs"
 import { School } from "@/types"
+import { ReactNode, ComponentType } from "react"
 
 export const schoolTypes: School[] = [
   { id: 1, name: "Abubakar Tafawa Balewa University", abbreviation: "ATBU" },
@@ -240,17 +241,144 @@ export const priceRanges = [
 // Category type definition
 export interface Category {
   name: string
-  icon: React.ComponentType
+  icon: ComponentType | (() => ReactNode)
   subcategories: string[]
 }
 
 // Category data structure
+// export const categories: Category[] = [
+//   {
+//     name: "Mobile",
+//     icon: () => (
+//       <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
+//         📱
+//       </div>
+//     ),
+//     subcategories: [
+//       "Apple",
+//       "Samsung",
+//       "Xiaomi",
+//       "Tecno",
+//       "Infinix",
+//       "Oppo",
+//       "Vivo",
+//       "Huawei",
+//       "Nokia",
+//       "Others",
+//     ],
+//   },
+//   {
+//     name: "Vehicle",
+//     icon: Vehicle,
+//     subcategories: [
+//       "Toyota",
+//       "Honda",
+//       "Mercedes-Benz",
+//       "BMW",
+//       "Ford",
+//       "Hyundai",
+//       "Kia",
+//       "Nissan",
+//       "Lexus",
+//       "Others",
+//     ],
+//   },
+//   {
+//     name: "Properties",
+//     icon: ShopIcon,
+//     subcategories: [
+//       "Apartments",
+//       "Houses",
+//       "Land",
+//       "Commercial",
+//       "Short Lets",
+//       "Event Centers",
+//       "Others",
+//     ],
+//   },
+//   {
+//     name: "Essentials",
+//     icon: Wrench,
+//     subcategories: [
+//       "Clothing",
+//       "Shoes",
+//       "Bags",
+//       "Jewelry",
+//       "Watches",
+//       "Cosmetics",
+//       "Others",
+//     ],
+//   },
+//   {
+//     name: "Home & Living",
+//     icon: HomeIcon,
+//     subcategories: [
+//       "Furniture",
+//       "Appliances",
+//       "Kitchen",
+//       "Decor",
+//       "Garden",
+//       "Others",
+//     ],
+//   },
+//   {
+//     name: "Business & Industry",
+//     icon: HandShakeIcon,
+//     subcategories: [
+//       "Equipment",
+//       "Tools",
+//       "Office",
+//       "Medical",
+//       "Construction",
+//       "Others",
+//     ],
+//   },
+//   {
+//     name: "Education",
+//     icon: EducationCap,
+//     subcategories: ["Books", "Courses", "Tutoring", "Stationery", "Others"],
+//   },
+//   {
+//     name: "Electronis",
+//     icon: ElectronicsIcon,
+//     subcategories: ["Books", "Courses", "Tutoring", "Stationery", "Others"],
+//   },
+//   {
+//     name: "Gaming",
+//     icon: ElectronicsIcon,
+//     subcategories: ["Nintendo Switch OLED", "Consoles"],
+//   },
+// ]
 export const categories: Category[] = [
   {
-    name: "Mobile",
-    icon: MobilePhone,
+    name: "Computer & Laptop",
+    icon: () => (
+      <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center">
+        💻
+      </div>
+    ),
     subcategories: [
+      "Desktop",
+      "Laptop",
+      "Gaming PC",
+      "Workstation",
+      "Mini PC",
+      "All-in-One",
       "Apple",
+      "Dell",
+      "HP",
+      "Others",
+    ],
+  },
+  {
+    name: "Mobile",
+    icon: () => (
+      <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
+        📱
+      </div>
+    ),
+    subcategories: [
+      "iPhone",
       "Samsung",
       "Xiaomi",
       "Tecno",
@@ -259,89 +387,111 @@ export const categories: Category[] = [
       "Vivo",
       "Huawei",
       "Nokia",
+      "Apple",
       "Others",
     ],
   },
   {
-    name: "Vehicle",
-    icon: Vehicle,
+    name: "Phone Accessories",
+    icon: () => (
+      <div className="w-6 h-6 bg-purple-100 rounded-full flex items-center justify-center">
+        🎧
+      </div>
+    ),
     subcategories: [
-      "Toyota",
-      "Honda",
-      "Mercedes-Benz",
-      "BMW",
-      "Ford",
-      "Hyundai",
-      "Kia",
-      "Nissan",
-      "Lexus",
+      "Cases & Covers",
+      "Screen Protectors",
+      "Chargers",
+      "Headphones",
+      "Power Banks",
+      "Cables",
       "Others",
     ],
   },
   {
-    name: "Properties",
-    icon: ShopIcon,
+    name: "Computer Accessories",
+    icon: () => (
+      <div className="w-6 h-6 bg-orange-100 rounded-full flex items-center justify-center">
+        ⌨️
+      </div>
+    ),
     subcategories: [
-      "Apartments",
-      "Houses",
-      "Land",
-      "Commercial",
-      "Short Lets",
-      "Event Centers",
+      "Keyboards",
+      "Mouse",
+      "Monitors",
+      "Speakers",
+      "Webcams",
+      "Storage",
       "Others",
     ],
   },
   {
-    name: "Essentials",
-    icon: Wrench,
+    name: "Fashion & Accessories",
+    icon: () => (
+      <div className="w-6 h-6 bg-pink-100 rounded-full flex items-center justify-center">
+        👗
+      </div>
+    ),
     subcategories: [
       "Clothing",
       "Shoes",
       "Bags",
       "Jewelry",
       "Watches",
-      "Cosmetics",
+      "Sunglasses",
       "Others",
     ],
   },
   {
     name: "Home & Living",
-    icon: HomeIcon,
+    icon: () => (
+      <div className="w-6 h-6 bg-yellow-100 rounded-full flex items-center justify-center">
+        🏠
+      </div>
+    ),
     subcategories: [
       "Furniture",
       "Appliances",
       "Kitchen",
       "Decor",
       "Garden",
+      "Lighting",
       "Others",
     ],
   },
   {
-    name: "Business & Industry",
-    icon: HandShakeIcon,
+    name: "Food",
+    icon: () => (
+      <div className="w-6 h-6 bg-red-100 rounded-full flex items-center justify-center">
+        🍎
+      </div>
+    ),
     subcategories: [
-      "Equipment",
-      "Tools",
-      "Office",
-      "Medical",
-      "Construction",
+      "Fresh Food",
+      "Packaged Food",
+      "Beverages",
+      "Snacks",
+      "Organic",
+      "Local Delicacies",
       "Others",
     ],
-  },
-  {
-    name: "Education",
-    icon: EducationCap,
-    subcategories: ["Books", "Courses", "Tutoring", "Stationery", "Others"],
-  },
-  {
-    name: "Electronis",
-    icon: ElectronicsIcon,
-    subcategories: ["Books", "Courses", "Tutoring", "Stationery", "Others"],
   },
   {
     name: "Gaming",
-    icon: ElectronicsIcon,
-    subcategories: ["Nintendo Switch OLED", "Consoles"],
+    icon: () => (
+      <div className="w-6 h-6 bg-indigo-100 rounded-full flex items-center justify-center">
+        🎮
+      </div>
+    ),
+    subcategories: [
+      "PlayStation",
+      "Xbox",
+      "Nintendo",
+      "PC Gaming",
+      "Mobile Gaming",
+      "Accessories",
+      "Others",
+    ],
   },
 ]
 export const ads = [

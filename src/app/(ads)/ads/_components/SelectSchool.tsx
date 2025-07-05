@@ -132,7 +132,7 @@ export default function SchoolSelectorDialog({
         <DialogFooter className="p-4">
           <Button
             onClick={applySchoolSelection}
-            className="py-[17.58px] w-full bg-[#54ABDB] hover:bg-[#54ABDB]/60"
+            className="h-[50px] py-[17.58px] w-full bg-[#54ABDB] hover:bg-[#54ABDB]/60"
           >
             Apply Filter
           </Button>
