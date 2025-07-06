@@ -4,12 +4,14 @@ import { useState } from "react";
 import StepOne from "./components/StepOne";
 import StepTwo from "./components/StepTwo";
 import StepThree from "./components/StepThree";
+import { useRouter } from "next/navigation";
 
 export default function DeleteAccountModal({
   onClose,
 }: {
   onClose: () => void;
 }) {
+  const router = useRouter();
   const [step, setStep] = useState(1);
   const [reason, setReason] = useState("");
   const [details, setDetails] = useState("");
@@ -21,30 +23,40 @@ export default function DeleteAccountModal({
   const handleSubmit = () => {
     // API call here to delete account
     console.log({ reason, details });
-    alert("Account deleted!");
+    router.push("/account-deleted");
   };
 
   return (
-    <div className="p-6 max-w-xl mx-auto bg-white rounded shadow">
-      {step === 1 && (
-        <StepOne reason={reason} setReason={setReason} onNext={handleNext} />
-      )}
-      {step === 2 && (
-        <StepTwo
-          details={details}
-          setDetails={setDetails}
-          onNext={handleNext}
-          onBack={handleBack}
-        />
-      )}
-      {step === 3 && (
-        <StepThree
-          confirmDelete={confirmDelete}
-          setConfirmDelete={setConfirmDelete}
-          onBack={handleBack}
-          onDelete={handleSubmit}
-        />
-      )}
+    <div className="max-w-4xl mx-auto">
+      <h2 className="text-3xl font-bold mb-4">Delete/Deactivate Account</h2>
+      <div className="  bg-white flex items-center rounded-md justify-center">
+        <div className="p-6 max-w-xl mx-auto bg-white ">
+          {step === 1 && (
+            <StepOne
+              reason={reason}
+              setReason={setReason}
+              onNext={handleNext}
+              onCancel={onClose}
+            />
+          )}
+          {step === 2 && (
+            <StepTwo
+              details={details}
+              setDetails={setDetails}
+              onNext={handleNext}
+              onBack={handleBack}
+            />
+          )}
+          {step === 3 && (
+            <StepThree
+              confirmDelete={confirmDelete}
+              setConfirmDelete={setConfirmDelete}
+              onBack={handleBack}
+              onDelete={handleSubmit}
+            />
+          )}
+        </div>
+      </div>
     </div>
   );
 }

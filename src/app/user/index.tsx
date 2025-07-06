@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import type React from "react"
-import BreadcrumbNav from "@/components/breadCrumbs"
+import type React from "react";
+import BreadcrumbNav from "@/components/breadCrumbs";
 import {
   ClipboardText,
   CreditCardIcon,
@@ -12,17 +12,17 @@ import {
   PlusCircle,
   SignOutIcon,
   UserCircle,
-} from "@/components/svgs"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
-import { cn, generateBreadcrumbs, getInitials } from "@/lib/utils"
-import type { BreadcrumbItem, NavItem } from "@/types"
-import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react"
-import Link from "next/link"
-import { usePathname, useRouter } from "next/navigation"
-import { useState } from "react"
-import Header from "../(landing-page)/_components/header"
-import BackButton from "@/components/BackButton"
+} from "@/components/svgs";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { cn, generateBreadcrumbs, getInitials } from "@/lib/utils";
+import type { BreadcrumbItem, NavItem } from "@/types";
+import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
+import Header from "../(landing-page)/_components/header";
+import BackButton from "@/components/BackButton";
 
 export const navItems: NavItem[] = [
   { title: "Overview", href: "/user/overview", icon: DashboardIcon },
@@ -37,28 +37,28 @@ export const navItems: NavItem[] = [
   { title: "Draft", href: "/user/draft", icon: Folder },
   { title: "Billing", href: "/user/billing", icon: CreditCardIcon },
   { title: "Account Settings", href: "/user/account-settings", icon: GearIcon },
-]
+];
 
 export default function UserWrapper({
   children,
   breadcrumbItems,
 }: {
-  breadcrumbItems?: BreadcrumbItem[]
-  children: React.ReactNode
+  breadcrumbItems?: BreadcrumbItem[];
+  children: React.ReactNode;
 }) {
-  const router = useRouter()
-  const pathname = usePathname()
-  const breadcrumbs = breadcrumbItems ?? generateBreadcrumbs(pathname)
-  const [open, setOpen] = useState(false)
+  const router = useRouter();
+  const pathname = usePathname();
+  const breadcrumbs = breadcrumbItems ?? generateBreadcrumbs(pathname);
+  const [open, setOpen] = useState(false);
 
   const user = {
     name: "Jenny Wilson",
     photo: "/images/profile.jpg",
     joinedAt: "2024-11-19",
-  }
+  };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#f4f6f8]">
       {/* Global Header */}
       <Header />
 
@@ -113,7 +113,7 @@ export default function UserWrapper({
                     {navItems.map((item, idx) => {
                       const isActive =
                         pathname === item.href ||
-                        pathname?.startsWith(item.href + "/")
+                        pathname?.startsWith(item.href + "/");
 
                       return (
                         <Link
@@ -133,12 +133,12 @@ export default function UserWrapper({
                           </div>
                           <ChevronRight className="w-5 h-5" />
                         </Link>
-                      )
+                      );
                     })}
 
                     <button
                       onClick={() => {
-                        setOpen(false)
+                        setOpen(false);
                       }}
                       className="flex items-center justify-between gap-4 px-6 py-2 text-destructive hover:bg-destructive/10 cursor-pointer"
                     >
@@ -180,7 +180,7 @@ export default function UserWrapper({
               {navItems?.map((item, idx) => {
                 const isActive =
                   pathname === item.href ||
-                  pathname?.startsWith(item.href + "/")
+                  pathname?.startsWith(item.href + "/");
 
                 return (
                   <Link
@@ -196,7 +196,7 @@ export default function UserWrapper({
                     <item.icon className="w-5 h-5" />
                     {item.title}
                   </Link>
-                )
+                );
               })}
               <button className="w-full flex items-center gap-4 px-8 py-2 text-destructive hover:bg-destructive/10 cursor-pointer">
                 <SignOutIcon className="w-5 h-5" />
@@ -210,5 +210,5 @@ export default function UserWrapper({
         <main className="flex-1">{children}</main>
       </div>
     </div>
-  )
+  );
 }

@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 type Props = {
   confirmDelete: boolean;
   setConfirmDelete: (val: boolean) => void;
@@ -24,21 +25,25 @@ export default function StepThree({
           type="checkbox"
           checked={confirmDelete}
           onChange={() => setConfirmDelete(!confirmDelete)}
-          className="accent-red-600"
+          className="accent-[#54abdb]"
         />
         I understand the consequences of deleting my account.
       </label>
-      <div className="flex justify-between">
-        <button onClick={onBack} className="text-blue-600 hover:underline">
+      <div className="flex justify-between mt-10 gap-4">
+        <Button
+          className="w-full sm:flex-1 bg-white border-2 border-[#54abdb] text-[#54abdb] hover:bg-blue-50 px-4 py-5 text-sm sm:text-base"
+          onClick={onBack}
+        >
           Cancel
-        </button>
-        <button
+        </Button>
+
+        <Button
+          className="w-full sm:flex-1 bg-[#54abdb] border-2 border-[#54abdb] text-white hover:bg-[#4a90d2] px-4 py-5 text-sm sm:text-base"
           disabled={!confirmDelete}
           onClick={onDelete}
-          className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 disabled:opacity-50"
         >
-          Delete Account
-        </button>
+          Deactivate Account
+        </Button>
       </div>
     </div>
   );
