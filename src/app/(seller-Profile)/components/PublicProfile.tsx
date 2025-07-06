@@ -157,7 +157,6 @@ export const PublicProfile = ({
                 value={activeTab}
                 onValueChange={(value) => {
                   setActiveTab(value)
-                  router.push(`?tab=${value}`)
                 }}
                 defaultValue="write-review"
                 className="w-full h-full"
@@ -272,7 +271,6 @@ export const PublicProfile = ({
               value={activeTab}
               onValueChange={(value) => {
                 setActiveTab(value)
-                router.push(`?tab=${value}`)
               }}
               defaultValue="write-review"
               className="w-full h-full px-1.5"

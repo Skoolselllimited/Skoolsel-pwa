@@ -1,6 +1,5 @@
 "use client"
 
-import type React from "react"
 import {
   ArrowRightIcon,
   CameraIcon,
@@ -11,28 +10,28 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
+  CustomSearchableDropdown,
   FormInput,
   PasswordInput,
   PhoneInput,
   TextareaInput,
-  CustomSearchableDropdown,
   type DropdownOption,
 } from "@/components/ui/form"
-import { cn, getInitials } from "@/lib/utils"
-import { Star, Trash2, X } from "lucide-react"
-import { useRef, useState } from "react"
-import DeleteAccountDialog from "./deleteAccount"
 import { schoolTypes } from "@/data"
-import {
-  profileSchema,
-  passwordChangeSchema,
-  validateForm,
-  validateField,
-  validatePasswordField,
-  type ProfileFormData,
-  type PasswordChangeData,
-} from "./validation"
+import { cn, getInitials } from "@/lib/utils"
+import { Star, Trash2 } from "lucide-react"
 import Link from "next/link"
+import type React from "react"
+import { useRef, useState } from "react"
+import {
+  passwordChangeSchema,
+  profileSchema,
+  validateField,
+  validateForm,
+  validatePasswordField,
+  type PasswordChangeData,
+  type ProfileFormData,
+} from "./validation"
 
 interface UserData {
   fullName: string

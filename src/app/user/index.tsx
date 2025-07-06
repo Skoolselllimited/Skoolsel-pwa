@@ -1,6 +1,6 @@
 "use client"
 
-import type React from "react"
+import BackButton from "@/components/BackButton"
 import BreadcrumbNav from "@/components/breadCrumbs"
 import {
   ClipboardText,
@@ -15,14 +15,14 @@ import {
 } from "@/components/svgs"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
-import { cn, generateBreadcrumbs, getInitials } from "@/lib/utils"
+import { cn, getInitials } from "@/lib/utils"
 import type { BreadcrumbItem, NavItem } from "@/types"
 import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
+import type React from "react"
 import { useState } from "react"
 import Header from "../(landing-page)/_components/header"
-import BackButton from "@/components/BackButton"
 
 export const navItems: NavItem[] = [
   { title: "Overview", href: "/user/overview", icon: DashboardIcon },
