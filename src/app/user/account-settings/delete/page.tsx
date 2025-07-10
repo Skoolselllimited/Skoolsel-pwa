@@ -6,11 +6,7 @@ import StepTwo from "./components/StepTwo"
 import StepThree from "./components/StepThree"
 import { useRouter } from "next/navigation"
 
-export default function DeleteAccountModal({
-  onClose,
-}: {
-  onClose: () => void
-}) {
+export default function DeleteUserAccount() {
   const router = useRouter()
   const [step, setStep] = useState(1)
   const [reason, setReason] = useState("")
@@ -36,7 +32,7 @@ export default function DeleteAccountModal({
               reason={reason}
               setReason={setReason}
               onNext={handleNext}
-              onCancel={onClose}
+              onCancel={() => router.push("/user/account-settings")}
             />
           )}
           {step === 2 && (

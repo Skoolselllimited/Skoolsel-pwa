@@ -62,7 +62,7 @@ export const PublicProfile = ({
     rating: 4.5,
     reviewsCount: 644653, // Renamed to avoid conflict with `reviews` tab count
     activeAdsCount: 2345, // Renamed to avoid conflict with `adverts` tab count
-    bio: "Hi there! I'm a Stanford student selling quality second-hand textbooks, electronics, and dorm essentials. All items are in great condition and priced fairly for fellow students.",
+    bio: "Hi there! I'm a FUTMinna student selling quality second-hand textbooks, electronics, and dorm essentials. All items are in great condition and priced fairly for fellow students.",
     phoneNumber: "+234 8128448575",
     location: "Federal University of Technology, Minna",
   }

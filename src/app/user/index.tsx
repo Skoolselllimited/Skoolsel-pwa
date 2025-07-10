@@ -65,7 +65,7 @@ export default function UserWrapper({
       <div className="xl:hidden  flex flex-col px-4">
         <div className="w-full h-[72px] flex justify-between items-center py-4">
           <div
-            onClick={() => router.back()}
+            onClick={() => router.push("/user/overview")}
             className="cursor-pointer h-10 w-10 rounded-full border border-[#DADDE5] flex justify-center items-center"
           >
             <ChevronLeft className="w-6 h-6 text-[#272727]" />
@@ -87,7 +87,7 @@ export default function UserWrapper({
               </div>
             </DialogTrigger>
 
-            <DialogContent className="bg-white w-full h-full max-w-none px-0 m-0 rounded-none border-0 shadow-none [&_[aria-label='Close']]:hidden">
+            <DialogContent className="bg-white w-full h-full max-w-none px-0 m-0 rounded-none border-0 shadow-none [&_[aria-label='Close']]:hidden overflow-y-scroll">
               <div className="flex flex-col gap-10 h-full bg-white">
                 <div className="flex flex-col gap-4 px-4">
                   <BackButton onClick={() => setOpen(false)} />

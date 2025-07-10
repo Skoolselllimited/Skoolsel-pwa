@@ -228,7 +228,7 @@ export default function UserProfileManagement() {
           style={{ backgroundImage: `url('/images/profile-dots.png')` }}
         ></div>
 
-        <div className="max-w-[647px] mx-auto flex flex-col gap-[36px] pt-20">
+        <div className="max-w-[647px] mx-auto flex flex-col gap-[36px] pt-20 pb-10">
           {/* Profile Header */}
           <div className="w-full flex flex-col justify-center items-center">
             <div className="relative inline-block mb-[15px]">
@@ -609,14 +609,16 @@ export default function UserProfileManagement() {
 
           {/* Leave Skoolsel */}
           <div className="flex flex-col gap-4 pb-3">
-            <h3 className="font-circular-std font-medium text-[20px]/[32px] text-[#191F33] tracking-normal">
-              Leave Skoolsel
-            </h3>
-            <p className="font-circular-std font-[450] text-[#636A80] text-[16px]/[24px] tracking-normal">
-              Deactivate or delete your account
-            </p>
+            <div>
+              <h3 className="font-circular-std font-medium text-[20px]/[32px] text-[#191F33] tracking-normal">
+                Leave Skoolsel
+              </h3>
+              <p className="font-circular-std font-[450] text-[#636A80] text-[16px]/[24px] tracking-normal">
+                Deactivate or delete your account
+              </p>
+            </div>
             <Link
-              href="/user/delete-account"
+              href="/user/account-settings/delete"
               className="w-fit h-6 flex items-center gap-2 bg-transparent font-bold text-[#FF4F4F] hover:bg-[#FF4F4F]/5 border-0 text-[16px]/[100%] cursor-pointer"
             >
               <Trash2 className="w-4 h-4" />
