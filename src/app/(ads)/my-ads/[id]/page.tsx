@@ -85,19 +85,6 @@ export default function AdsDetails() {
     setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
   };
 
-  function Card2({ className, ...props }: React.ComponentProps<"div">) {
-    return (
-      <div
-        data-slot="card"
-        className={cn(
-          "bg-card text-card-foreground flex flex-col gap-6 py-4 lg:py-8 ",
-          className
-        )}
-        {...props}
-      />
-    );
-  }
-
   const handleDeleteConfirm = () => {
     console.log("Ad deleted!");
     // Implement your actual delete logic here
@@ -572,44 +559,43 @@ export default function AdsDetails() {
               />
 
               {/* Seller Info */}
-              <Card2 className="w-full max-w-md lg:h-[168px]  flex flex-col gap-6 p-2">
+              <Card className="w-full lg:h-[168px] flex flex-col gap-6">
                 <div className="flex h-[56px] items-center justify-between">
                   <div className="flex items-center gap-4">
                     <Avatar className="w-[56px] h-[56px]">
                       <AvatarImage
                         src="/images/ad_poster.webp"
                         className="w-full h-full object-cover object-top"
-                        alt="Ad Poster"
                       />
                       <AvatarFallback>KG</AvatarFallback>
                     </Avatar>
-
-                    <div className="flex flex-col justify-center">
-                      <p className="font-light text-gray-400 text-[13px] leading-tight">
-                        Added by:
-                      </p>
-                      <div className="flex items-center">
-                        <span className="font-semibold text-[#0A243F] text-[14px] leading-tight">
+                    <div className="flex h-[50px] flex-col gap-[6px]">
+                      <span className="text-[14px]/[20px] font-[450] font-circular-std tracking-normal text-[#767E94]">
+                        Add by:
+                      </span>
+                      <div className="flex items-center gap-1">
+                        <span className="font-medium font-circular-std text-[#0A243F] text-[16px]/[24px] tracking-normal">
                           Kevin Gilbert
-                          <VerifiedIcon className="w-4 h-4 text-[#2DD54B]" />
                         </span>
+                        <VerifiedIcon />
                       </div>
                     </div>
                   </div>
 
                   <Link
-                    className="text-[#54abdb] font-semibold text-[13px] tracking-normal p-0 h-auto hover:underline cursor-pointer flex-shrink-0 self-center" // Added self-center for vertical alignment
+                    // variant="link"
+                    className="text-secondary font-semibold font-circular-std text-[14px]/[20px] tracking-normal p-0 h-auto hover:underline cursor-pointer"
                     href="/seller-profile"
                   >
                     View Profile
                   </Link>
                 </div>
-                {/* Adjusted font size and color for the location text to prevent wrapping */}
-                <div className="font-normal text-[13.5px] flex items-center gap-1 text-[#636A80] tracking-normal">
-                  <MapPinIcon className="text-[#54abdb] w-5 h-5" />{" "}
+
+                <div className="font-circular-std font-[450] text-[14px]/[20px] flex items-center gap-2 text-[#636A80] tracking-normal">
+                  <MapPinIcon className="text-secondary w-6 h-6" />
                   <span>Federal University of Technology, Minna</span>
                 </div>
-              </Card2>
+              </Card>
             </div>
             <div className="w-full flex flex-col gap-[1px] border rounded px-0">
               {/* Safety Tips */}

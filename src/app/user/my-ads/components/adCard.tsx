@@ -28,7 +28,7 @@ type Props = {
 export default function AdCard({ ad }: Props) {
   return (
     <Link
-      href={`/user/my-ads/${ad.id}?name=${ad.name}`}
+      href={`/my-ads/${ad.id}?name=${ad.name}`}
       className="flex flex-col gap-[2.65px] bg-white p-1 lg:p-2 rounded-[10.6px] lg:rounded-[16px] hover:shadow-sm overflow-hidden border border-[#F1F2F4] cursor-pointer relative"
     >
       {/* Dropdown */}
