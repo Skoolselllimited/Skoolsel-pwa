@@ -167,14 +167,6 @@ export const CustomSearchableDropdown = forwardRef<
       setIsFocused(false)
     }
 
-    const handleClear = (event: React.MouseEvent) => {
-      event.stopPropagation()
-      onChange("")
-      setSearchTerm("")
-      setIsOpen(false)
-      setIsFocused(false)
-    }
-
     const handleInputClick = () => {
       if (disabled) return
       setIsOpen(!isOpen)
@@ -185,6 +177,12 @@ export const CustomSearchableDropdown = forwardRef<
     const handleInputFocus = () => {
       if (disabled) return
       setIsFocused(true)
+    }
+
+    const handleClear = (e: React.MouseEvent) => {
+      e.stopPropagation()
+      onChange("")
+      setSearchTerm("")
     }
 
     const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -217,6 +215,7 @@ export const CustomSearchableDropdown = forwardRef<
                   }`}
                 >
                   {label}
+                  {required && <span className="text-red-500 ml-1">*</span>}
                 </label>
 
                 {/* Input/Display Area */}
@@ -235,7 +234,7 @@ export const CustomSearchableDropdown = forwardRef<
                         placeholder={isLabelActive ? placeholder : ""}
                         className={`w-full h-full bg-transparent text-[#0A243F] font-circular-std font-[450] text-[14px]/[100%] border-0 focus:outline-none placeholder:text-[#919EAB] ${
                           isLabelActive ? "pt-7 pb-1.5" : "pt-0 pb-0"
-                        } px-3.5`}
+                        } px-3 pr-10`}
                         disabled={disabled}
                         autoFocus
                       />
@@ -244,28 +243,46 @@ export const CustomSearchableDropdown = forwardRef<
                     <div
                       className={`w-full h-full flex items-center text-[#0A243F] font-circular-std font-[450] text-[14px]/[100%] ${
                         isLabelActive ? "pt-7 pb-1.5" : "pt-0 pb-0"
-                      } px-3`}
+                      } px-3 pr-10`}
                     >
                       {selectedOption ? (
-                        <div className="flex flex-col">
+                        <div className="flex flex-col flex-1">
                           <span className="truncate">
                             {selectedOption.label}
                           </span>
                         </div>
                       ) : (
-                        <span className="text-[#919EAB]">
+                        <span className="text-[#919EAB] flex-1">
                           {isLabelActive ? placeholder : ""}
                         </span>
                       )}
                     </div>
                   )}
+
+                  {/* Right side icons */}
+                  <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
+                    {clearable && value && !disabled && (
+                      <button
+                        type="button"
+                        onClick={handleClear}
+                        className="p-1 hover:bg-gray-100 rounded-full transition-colors"
+                      >
+                        <X className="w-3 h-3 text-gray-400" />
+                      </button>
+                    )}
+                    <ChevronDown
+                      className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${
+                        isOpen ? "rotate-180" : ""
+                      }`}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
 
             {/* Dropdown List */}
             {isOpen && (
-              <div className="absolute top-full left-0 right-0 z-50 mt-1 bg-white border border-gray-200 rounded-md shadow-none">
+              <div className="absolute top-full left-0 right-0 z-50 mt-1 bg-white border border-gray-200 rounded-md shadow-lg">
                 <ul
                   ref={listRef}
                   className="py-1"
@@ -279,7 +296,7 @@ export const CustomSearchableDropdown = forwardRef<
                           option.disabled
                             ? "opacity-50 cursor-not-allowed"
                             : index === highlightedIndex
-                              ? "bg-blue-50 text-secondary"
+                              ? "bg-blue-50 text-blue-600"
                               : "hover:bg-gray-50"
                         }`}
                         onClick={() => handleOptionSelect(option)}
@@ -303,7 +320,6 @@ export const CustomSearchableDropdown = forwardRef<
               </div>
             )}
           </div>
-
           {error && (
             <div className="flex items-center gap-2 text-[#FF4F4F] text-[12px]/[18px] tracking-normal pt-1 pl-2">
               <CautionIcon />

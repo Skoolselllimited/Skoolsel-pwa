@@ -58,7 +58,7 @@ export default function Navbar() {
             href="/user/post-ads"
             className="flex items-center space-x-2 bg-[#E8B737] hover:bg-[#E8B737]/90 text-white font-normal px-4 py-2 rounded"
           >
-            <CircledPlusIcon />
+            <CircledPlusIcon className="text-white" />
             <span>Post Ads</span>
           </Link>
         </div>

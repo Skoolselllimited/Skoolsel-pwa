@@ -62,7 +62,7 @@ export default function UserWrapper({
       <Header />
 
       {/* Mobile Header */}
-      <div className="xl:hidden  flex flex-col px-4">
+      <div className="2xl:hidden flex flex-col px-4">
         <div className="w-full h-[72px] flex justify-between items-center py-4">
           <div
             onClick={() => router.push("/user/overview")}
@@ -159,7 +159,7 @@ export default function UserWrapper({
       <BreadcrumbNav pathname={pathname} />
 
       {/* Main Layout */}
-      <div className="max-w-[1320px] mx-auto py-4 px-3 lg:p-6 flex gap-6">
+      <div className="3xl:w-[1320px] mx-auto py-4 px-3 3xl:p-6 flex gap-6">
         {/* Sidebar (Desktop Only) */}
         <aside className="hidden 2xl:flex flex-col w-[296px]">
           <div className="w-full bg-white border border-[#EBEEF7] rounded-[12px] py-8 flex flex-col gap-6">
@@ -205,7 +205,7 @@ export default function UserWrapper({
         </aside>
 
         {/* Page Content */}
-        <main className="flex-1 max-w-[984px]">{children}</main>
+        <main className="flex-1 3xl:w-[984px]">{children}</main>
       </div>
     </div>
   )

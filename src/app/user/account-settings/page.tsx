@@ -205,7 +205,6 @@ export default function UserProfileManagement() {
     }))
   }
 
-  // Fixed TypeScript error by properly typing the field parameter
   const clearFieldError = (field: keyof ProfileFormData) => {
     setProfileErrors((prev) => ({
       ...prev,

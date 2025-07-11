@@ -26,7 +26,7 @@ export default function SavedAds({ savedAds }: saveAdsProps) {
         </Link>
       </div>
 
-      <div className="w-full grid grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3 gap-3 xl:gap-4">
+      <div className="w-full grid grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-3 xl:gap-4">
         {savedAds.map((ad, idx) => (
           <Link
             key={idx}

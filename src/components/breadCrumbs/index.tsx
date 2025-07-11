@@ -30,7 +30,7 @@ export default function BreadcrumbNav({
   const items = generateBreadcrumbs(pathname)
 
   return (
-    <div className="hidden xl:flex w-full bg-[#E8EBEE] h-[43px] items-center">
+    <div className="hidden 2xl:flex w-full bg-[#E8EBEE] h-[43px] items-center">
       <div className="w-full h-full max-w-[1320px] bg-[#E8EBEE] mx-auto">
         <div
           className={`hidden w-full xl:flex gap-2 py-3.5 px-4 xl:px-6 ${className}`}

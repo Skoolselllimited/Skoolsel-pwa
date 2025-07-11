@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, forwardRef, useEffect, useRef } from "react"
+import { useState, forwardRef, useEffect, useRef, ReactNode } from "react"
 import { Input } from "@/components/ui/input"
 import { CautionIcon } from "@/components/svgs"
 
@@ -15,6 +15,7 @@ interface FormInputProps {
   className?: string
   placeholder?: string
   required?: boolean
+  icon?: ReactNode
 }
 
 export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
@@ -30,6 +31,7 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
       className = "",
       placeholder = "",
       required = false,
+      icon,
       ...props
     },
     ref
@@ -119,6 +121,11 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
                 />
               </div>
             </div>
+            {icon && (
+              <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm font-medium pointer-events-none">
+                {icon}
+              </div>
+            )}
           </div>
           {error && (
             <div className="flex items-center gap-2 text-[#FF4F4F] text-[12px]/[18px] tracking-normal pt-1 pl-2">

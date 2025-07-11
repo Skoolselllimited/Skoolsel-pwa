@@ -1,7 +1,5 @@
 "use client"
 
-import type React from "react"
-
 import BackButton from "@/components/BackButton"
 import BreadcrumbNav from "@/components/breadCrumbs"
 import {
@@ -14,8 +12,6 @@ import SearchIcon from "@/components/svgs/search"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import {
   Select,
   SelectContent,
@@ -33,7 +29,6 @@ import {
 import {
   ads,
   allSearchTerms,
-  categories,
   categoryMapping,
   priceRanges,
   productSuggestions,
@@ -44,9 +39,18 @@ import { ChevronRight, SlidersHorizontal, X } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
-import { useCallback, useEffect, useRef, useState, type FormEvent } from "react"
+import type React from "react"
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type FormEvent,
+} from "react"
 import FiltersDialog from "./_components/Filters"
 import SchoolSelectorDialog from "./_components/SelectSchool"
+import DesktopFilters from "./_components/deskFilters"
 
 // Function to get category for a term
 const getCategoryForTerm = (term: string): string => {
@@ -191,8 +195,20 @@ export default function AdsPage() {
     }>
   >([])
 
+  // Memoize filtered schools to prevent re-creation on every render
+  const filteredSchools = useMemo(() => {
+    if (!schoolSearchTerm) return schoolTypes
+
+    const term = schoolSearchTerm.toLowerCase()
+    return schoolTypes.filter(
+      (school) =>
+        school.name.toLowerCase().includes(term) ||
+        school.abbreviation.toLowerCase().includes(term)
+    )
+  }, [schoolSearchTerm])
+
   // Function to get price display text
-  const getPriceDisplayText = () => {
+  const getPriceDisplayText = useCallback(() => {
     if (minPrice || maxPrice) {
       // Custom price range
       if (minPrice && maxPrice) {
@@ -208,7 +224,7 @@ export default function AdsPage() {
       return range?.label || "All prices"
     }
     return "All prices"
-  }
+  }, [minPrice, maxPrice, priceRange])
 
   // Price input handlers with proper focus management
   const handleMinPriceChange = useCallback(
@@ -336,37 +352,18 @@ export default function AdsPage() {
   }, [showSuggestions, highlightedIndex, filteredSuggestions])
 
   // Handle search submission - includes current school and filters (mobile only)
-  const handleSearch = (e?: FormEvent) => {
-    if (e) e.preventDefault()
+  const handleSearch = useCallback(
+    (e?: FormEvent) => {
+      if (e) e.preventDefault()
 
-    const params = new URLSearchParams(searchParams.toString())
-
-    // Update search term
-    if (searchTerm.trim()) {
-      params.set("q", searchTerm)
-    } else {
-      params.delete("q")
-    }
-
-    // Keep existing school selection
-    if (selectedSchool) {
-      params.set("schools", selectedSchool)
-    }
-
-    router.push(`/ads?${params.toString()}`)
-    setShowSuggestions(false)
-    inputRef.current?.blur()
-  }
-
-  // Handle suggestion click - includes current school and filters (mobile only)
-  const handleSuggestionClick = (suggestion: string) => {
-    setSearchTerm(suggestion)
-    setShowSuggestions(false)
-
-    // Auto-search after selecting suggestion with current filters
-    setTimeout(() => {
       const params = new URLSearchParams(searchParams.toString())
-      params.set("q", suggestion)
+
+      // Update search term
+      if (searchTerm.trim()) {
+        params.set("q", searchTerm)
+      } else {
+        params.delete("q")
+      }
 
       // Keep existing school selection
       if (selectedSchool) {
@@ -374,47 +371,75 @@ export default function AdsPage() {
       }
 
       router.push(`/ads?${params.toString()}`)
-    }, 100)
-  }
+      setShowSuggestions(false)
+      inputRef.current?.blur()
+    },
+    [searchTerm, selectedSchool, searchParams, router]
+  )
+
+  // Handle suggestion click - includes current school and filters (mobile only)
+  const handleSuggestionClick = useCallback(
+    (suggestion: string) => {
+      setSearchTerm(suggestion)
+      setShowSuggestions(false)
+
+      // Auto-search after selecting suggestion with current filters
+      setTimeout(() => {
+        const params = new URLSearchParams(searchParams.toString())
+        params.set("q", suggestion)
+
+        // Keep existing school selection
+        if (selectedSchool) {
+          params.set("schools", selectedSchool)
+        }
+
+        router.push(`/ads?${params.toString()}`)
+      }, 100)
+    },
+    [selectedSchool, searchParams, router]
+  )
 
   // Handle category click - includes current school and search (mobile only)
-  const handleCategoryClick = (category: string) => {
-    setShowSuggestions(false)
+  const handleCategoryClick = useCallback(
+    (category: string) => {
+      setShowSuggestions(false)
 
-    const params = new URLSearchParams(searchParams.toString())
+      const params = new URLSearchParams(searchParams.toString())
 
-    // Create category structure that matches the ads page filter system
-    const categoryData = { [category]: ["All"] }
-    params.set("categories", encodeURIComponent(JSON.stringify(categoryData)))
+      // Create category structure that matches the ads page filter system
+      const categoryData = { [category]: ["All"] }
+      params.set("categories", encodeURIComponent(JSON.stringify(categoryData)))
 
-    // Keep existing search and school
-    if (searchTerm) {
-      params.set("q", searchTerm)
-    }
-    if (selectedSchool) {
-      params.set("schools", selectedSchool)
-    }
+      // Keep existing search and school
+      if (searchTerm) {
+        params.set("q", searchTerm)
+      }
+      if (selectedSchool) {
+        params.set("schools", selectedSchool)
+      }
 
-    router.push(`/ads?${params.toString()}`)
-  }
+      router.push(`/ads?${params.toString()}`)
+    },
+    [searchTerm, selectedSchool, searchParams, router]
+  )
 
   // Handle input focus (mobile only)
-  const handleInputFocus = () => {
+  const handleInputFocus = useCallback(() => {
     if (searchTerm.trim().length > 0) {
       setShowSuggestions(true)
     }
-  }
+  }, [searchTerm])
 
   // Handle input blur (with delay to allow clicks) (mobile only)
-  const handleInputBlur = () => {
+  const handleInputBlur = useCallback(() => {
     setTimeout(() => {
       setShowSuggestions(false)
       setHighlightedIndex(-1)
     }, 200)
-  }
+  }, [])
 
   // Clear search (mobile only)
-  const clearSearch = () => {
+  const clearSearch = useCallback(() => {
     setSearchTerm("")
     setShowSuggestions(false)
 
@@ -424,51 +449,46 @@ export default function AdsPage() {
     router.push(`/ads?${params.toString()}`)
 
     inputRef.current?.focus()
-  }
-
-  // Filter schools based on search term
-  const filteredSchools = schoolSearchTerm
-    ? schoolTypes.filter((school) => {
-        const term = schoolSearchTerm.toLowerCase()
-        return (
-          school.name.toLowerCase().includes(term) ||
-          school.abbreviation.toLowerCase().includes(term)
-        )
-      })
-    : schoolTypes
+  }, [searchParams, router])
 
   // Handle school selection - preserves search and filters
-  const handleSchoolSelect = (school: string) => {
-    setSelectedSchool(school)
+  const handleSchoolSelect = useCallback(
+    (school: string) => {
+      setSelectedSchool(school)
 
-    // Update URL with new school selection while preserving other params
-    const params = new URLSearchParams(searchParams.toString())
-    if (school) {
-      params.set("schools", school)
-    } else {
-      params.delete("schools")
-    }
-    router.push(`/ads?${params.toString()}`)
-  }
+      // Update URL with new school selection while preserving other params
+      const params = new URLSearchParams(searchParams.toString())
+      if (school) {
+        params.set("schools", school)
+      } else {
+        params.delete("schools")
+      }
+      router.push(`/ads?${params.toString()}`)
+    },
+    [searchParams, router]
+  )
 
   // Handle category selection
-  const handleCategorySelection = (category: string, subcategory: string) => {
-    setSelectedCategory(category)
-    setSelectedSubcategory(subcategory)
-    // Clear direct category when using detailed filtering
-    setSelectedDirectCategory("")
-  }
+  const handleCategorySelection = useCallback(
+    (category: string, subcategory: string) => {
+      setSelectedCategory(category)
+      setSelectedSubcategory(subcategory)
+      // Clear direct category when using detailed filtering
+      setSelectedDirectCategory("")
+    },
+    []
+  )
 
   // Handle direct category selection (from URL or filter reset)
-  const handleDirectCategorySelection = (category: string) => {
+  const handleDirectCategorySelection = useCallback((category: string) => {
     setSelectedDirectCategory(category)
     // Clear detailed category selection when using direct category
     setSelectedCategory("")
     setSelectedSubcategory("")
-  }
+  }, [])
 
   // Toggle category expansion
-  const toggleCategoryExpansion = (category: string) => {
+  const toggleCategoryExpansion = useCallback((category: string) => {
     setExpandedSections((prev) => {
       if (prev.includes(category)) {
         return prev.filter((c) => c !== category)
@@ -476,17 +496,20 @@ export default function AdsPage() {
         return [...prev, category]
       }
     })
-  }
+  }, [])
 
   // Apply filters from filters dialog - preserves search and school
-  const handleApplyFilters = (filterParams: URLSearchParams) => {
-    router.push(`/ads?${filterParams.toString()}`)
-    setFiltersOpen(false)
-    setIsFiltersOpen(false)
-  }
+  const handleApplyFilters = useCallback(
+    (filterParams: URLSearchParams) => {
+      router.push(`/ads?${filterParams.toString()}`)
+      setFiltersOpen(false)
+      setIsFiltersOpen(false)
+    },
+    [router]
+  )
 
   // Apply filters (for desktop) - preserves search and school
-  const applyFilters = () => {
+  const applyFilters = useCallback(() => {
     const params = new URLSearchParams()
 
     // Add search query if it exists
@@ -532,10 +555,22 @@ export default function AdsPage() {
 
     router.push(`/ads?${params.toString()}`)
     setIsFiltersOpen(false)
-  }
+  }, [
+    searchTerm,
+    selectedSchool,
+    priceRange,
+    minPrice,
+    maxPrice,
+    selectedCondition,
+    selectedDirectCategory,
+    selectedCategory,
+    selectedSubcategory,
+    sortOption,
+    router,
+  ])
 
   // Clear all filters - resets everything
-  const clearFilters = () => {
+  const clearFilters = useCallback(() => {
     setSelectedSchool("")
     setSelectedDirectCategory("")
     setSelectedCategory("")
@@ -546,7 +581,7 @@ export default function AdsPage() {
     setMaxPrice("")
     setSearchTerm("")
     router.push("/ads")
-  }
+  }, [router])
 
   // Parse min and max price
   const minPriceValue = minPrice ? Number.parseInt(minPrice) : 0
@@ -555,90 +590,114 @@ export default function AdsPage() {
     : Number.POSITIVE_INFINITY
 
   // Parse price range
-  const [minRangePrice, maxRangePrice] =
-    priceRange !== "all"
-      ? priceRange
-          .split("-")
-          .map((p) =>
-            p ? Number.parseInt(p) : p === "" ? Number.POSITIVE_INFINITY : 0
-          )
-      : [0, Number.POSITIVE_INFINITY]
+  const [minRangePrice, maxRangePrice] = useMemo(() => {
+    if (priceRange !== "all") {
+      return priceRange
+        .split("-")
+        .map((p) =>
+          p ? Number.parseInt(p) : p === "" ? Number.POSITIVE_INFINITY : 0
+        )
+    }
+    return [0, Number.POSITIVE_INFINITY]
+  }, [priceRange])
 
   // Enhanced filter logic to support both direct category and detailed filtering
-  const filteredProducts =
-    ads
-      ?.filter((product) => {
-        // Match by search query if provided
-        const matchesQuery =
-          !searchTerm ||
-          product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          product.category.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredProducts = useMemo(() => {
+    return (
+      ads
+        ?.filter((product) => {
+          // Match by search query if provided
+          const matchesQuery =
+            !searchTerm ||
+            product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            product.category.toLowerCase().includes(searchTerm.toLowerCase())
 
-        // Match by school if selected
-        const matchesSchool =
-          !selectedSchool ||
-          selectedSchool === "" ||
-          selectedSchool === product.school
+          // Match by school if selected
+          const matchesSchool =
+            !selectedSchool ||
+            selectedSchool === "" ||
+            selectedSchool === product.school
 
-        // Match by price
-        const matchesPrice =
-          product.price >= minPriceValue &&
-          product.price <= maxPriceValue &&
-          product.price >= minRangePrice &&
-          (maxRangePrice === Number.POSITIVE_INFINITY ||
-            product.price <= maxRangePrice)
+          // Match by price
+          const matchesPrice =
+            product.price >= minPriceValue &&
+            product.price <= maxPriceValue &&
+            product.price >= minRangePrice &&
+            (maxRangePrice === Number.POSITIVE_INFINITY ||
+              product.price <= maxRangePrice)
 
-        // Match by condition
-        const matchesCondition =
-          selectedCondition === "all" ||
-          product.condition.toLowerCase() === selectedCondition.toLowerCase()
+          // Match by condition
+          const matchesCondition =
+            selectedCondition === "all" ||
+            product.condition.toLowerCase() === selectedCondition.toLowerCase()
 
-        // Enhanced category matching - support both direct category and detailed category/subcategory
-        const matchesCategory =
-          // If direct category is selected (from ShopWithCategories)
-          (selectedDirectCategory &&
-            product.category.toLowerCase() ===
-              selectedDirectCategory.toLowerCase()) ||
-          // If detailed category/subcategory is selected
-          (selectedCategory &&
-            selectedSubcategory &&
-            product.category.toLowerCase() === selectedCategory.toLowerCase() &&
-            product.subcategory.toLowerCase() ===
-              selectedSubcategory.toLowerCase()) ||
-          // If no category filters are applied
-          (!selectedDirectCategory && !selectedCategory && !selectedSubcategory)
+          // Enhanced category matching - support both direct category and detailed category/subcategory
+          const matchesCategory =
+            // If direct category is selected (from ShopWithCategories)
+            (selectedDirectCategory &&
+              product.category.toLowerCase() ===
+                selectedDirectCategory.toLowerCase()) ||
+            // If detailed category/subcategory is selected
+            (selectedCategory &&
+              selectedSubcategory &&
+              product.category.toLowerCase() ===
+                selectedCategory.toLowerCase() &&
+              product.subcategory.toLowerCase() ===
+                selectedSubcategory.toLowerCase()) ||
+            // If no category filters are applied
+            (!selectedDirectCategory &&
+              !selectedCategory &&
+              !selectedSubcategory)
 
-        return (
-          matchesQuery &&
-          matchesSchool &&
-          matchesPrice &&
-          matchesCondition &&
-          matchesCategory
-        )
-      })
-      .sort((a, b) => {
-        // Sort the filtered products based on selected sort option
-        switch (sortOption) {
-          case "price-low":
-            return a.price - b.price
-          case "price-high":
-            return b.price - a.price
-          case "popular":
-            // Sort by sponsored first, then by latest
-            if (a.isSponsored && !b.isSponsored) return -1
-            if (!a.isSponsored && b.isSponsored) return 1
-            return parseTimePosted(b.timePosted) - parseTimePosted(a.timePosted)
-          case "latest":
-          default:
-            // Sort by time posted (newest first)
-            return parseTimePosted(b.timePosted) - parseTimePosted(a.timePosted)
-        }
-      }) || []
+          return (
+            matchesQuery &&
+            matchesSchool &&
+            matchesPrice &&
+            matchesCondition &&
+            matchesCategory
+          )
+        })
+        .sort((a, b) => {
+          // Sort the filtered products based on selected sort option
+          switch (sortOption) {
+            case "price-low":
+              return a.price - b.price
+            case "price-high":
+              return b.price - a.price
+            case "popular":
+              // Sort by sponsored first, then by latest
+              if (a.isSponsored && !b.isSponsored) return -1
+              if (!a.isSponsored && b.isSponsored) return 1
+              return (
+                parseTimePosted(b.timePosted) - parseTimePosted(a.timePosted)
+              )
+            case "latest":
+            default:
+              // Sort by time posted (newest first)
+              return (
+                parseTimePosted(b.timePosted) - parseTimePosted(a.timePosted)
+              )
+          }
+        }) || []
+    )
+  }, [
+    searchTerm,
+    selectedSchool,
+    minPriceValue,
+    maxPriceValue,
+    minRangePrice,
+    maxRangePrice,
+    selectedCondition,
+    selectedDirectCategory,
+    selectedCategory,
+    selectedSubcategory,
+    sortOption,
+  ])
 
   // Format price with Naira symbol
-  const formatPrice = (price: number) => {
+  const formatPrice = useCallback((price: number) => {
     return `₦${price.toLocaleString()}`
-  }
+  }, [])
 
   // Initialize filters from URL params
   useEffect(() => {
@@ -702,409 +761,22 @@ export default function AdsPage() {
     }
   }, [filteredProducts.length, itemsToShow])
 
-  // Filter content component (for desktop)
-  const FilterContent = () => (
-    <div className="w-full flex flex-col gap-[14px]">
-      {/* Selected School */}
-      <div className="bg-white rounded-[12px] px-4 py-2 border border-[#EBEEF7] flex flex-col">
-        <div
-          className="flex justify-between items-center cursor-pointer"
-          onClick={() => {
-            if (expandedSections.includes("school")) {
-              setExpandedSections(
-                expandedSections.filter((c) => c !== "school")
-              )
-            } else {
-              setExpandedSections([...expandedSections, "school"])
-            }
-          }}
-        >
-          <h3 className="text-[16px]/[24px] font-medium font-circular-std tracking-normal text-foreground">
-            Selected School
-          </h3>
-          <ChevronRight
-            className={`h-6 w-6 text-[#636A80] transition-transform ${
-              expandedSections.includes("school") ? "transform rotate-90" : ""
-            }`}
-          />
-        </div>
-        <div className="font-medium font-circular-std text-[16px]/[24px] tracking-normal text-secondary">
-          {selectedSchool || "All schools"}
-        </div>
-        {expandedSections.includes("school") && (
-          <div className="flex flex-col gap-4">
-            {/* Hide school search on large devices */}
-            <div className="xl:hidden flex items-center border rounded-md px-2">
-              <Input
-                placeholder="Search schools..."
-                className="border-0 focus-visible:ring-0 focus-visible:ring-offset-0 h-8 text-sm placeholder:text-sm placeholder:text-[#8B90A0] bg-white"
-                value={schoolSearchTerm}
-                onChange={(e) => setSchoolSearchTerm(e.target.value)}
-              />
-            </div>
-            <div className="max-h-40 overflow-y-auto space-y-1">
-              <RadioGroup
-                value={selectedSchool}
-                onValueChange={handleSchoolSelect}
-                className="space-y-1"
-              >
-                <div className="flex items-center">
-                  <RadioGroupItem value="" id="school-all" className="mr-2" />
-                  <Label
-                    htmlFor="school-all"
-                    className="text-sm cursor-pointer"
-                  >
-                    All schools
-                  </Label>
-                </div>
-                {filteredSchools.map((school) => (
-                  <div key={school.name} className="flex items-center">
-                    <RadioGroupItem
-                      value={school.name}
-                      id={`school-${school.name}`}
-                      className="mr-2"
-                    />
-                    <Label
-                      htmlFor={`school-${school.name}`}
-                      className="text-sm cursor-pointer"
-                    >
-                      {school.name}
-                    </Label>
-                  </div>
-                ))}
-              </RadioGroup>
-            </div>
-          </div>
-        )}
-      </div>
-
-      <div className="flex flex-col">
-        {/* Category */}
-        <div className="bg-white rounded-t-[12px]  px-4 py-2 border border-[#EBEEF7] flex flex-col">
-          <div
-            className="flex justify-between items-center cursor-pointer"
-            onClick={() => {
-              if (expandedSections.includes("category")) {
-                setExpandedSections(
-                  expandedSections.filter((c) => c !== "category")
-                )
-              } else {
-                setExpandedSections([...expandedSections, "category"])
-              }
-            }}
-          >
-            <h3 className="text-[16px]/[24px] font-medium font-circular-std tracking-normal text-foreground">
-              Category
-            </h3>
-            <ChevronRight
-              className={`h-6 w-6 text-[#636A80] transition-transform ${
-                expandedSections.includes("category")
-                  ? "transform rotate-90"
-                  : ""
-              }`}
-            />
-          </div>
-          <div className="font-medium font-circular-std text-[16px]/[24px] tracking-normal text-secondary">
-            {selectedDirectCategory ||
-              (selectedCategory && selectedSubcategory
-                ? `${selectedCategory} - ${selectedSubcategory}`
-                : "All")}
-          </div>
-          {expandedSections.includes("category") && (
-            <div className="mt-2">
-              {/* Direct category selection */}
-              <div className="mb-4">
-                <h4 className="text-sm font-medium mb-2 text-gray-700">
-                  Main Categories
-                </h4>
-                <RadioGroup
-                  value={selectedDirectCategory}
-                  onValueChange={handleDirectCategorySelection}
-                  className="space-y-2"
-                >
-                  <div className="flex items-center">
-                    <RadioGroupItem
-                      value=""
-                      id="category-all"
-                      className="mr-2"
-                    />
-                    <Label
-                      htmlFor="category-all"
-                      className="text-sm cursor-pointer"
-                    >
-                      All Categories
-                    </Label>
-                  </div>
-                  {categories?.map((category) => (
-                    <div key={category.name} className="flex items-center">
-                      <RadioGroupItem
-                        value={category.name}
-                        id={`direct-${category.name}`}
-                        className="mr-2"
-                      />
-                      <Label
-                        htmlFor={`direct-${category.name}`}
-                        className="text-sm cursor-pointer"
-                      >
-                        {category.name}
-                      </Label>
-                    </div>
-                  ))}
-                </RadioGroup>
-              </div>
-
-              {/* Detailed category/subcategory selection */}
-              <div className="border-t pt-4">
-                <h4 className="text-sm font-medium mb-2 text-gray-700">
-                  Detailed Categories
-                </h4>
-                {categories.map((category) => (
-                  <div key={category.name} className="mb-2">
-                    <div
-                      className="flex justify-between items-center py-1 cursor-pointer"
-                      onClick={() => {
-                        if (expandedSubcategories.includes(category.name)) {
-                          setExpandedSubcategories(
-                            expandedSubcategories.filter(
-                              (c) => c !== category.name
-                            )
-                          )
-                        } else {
-                          setExpandedSubcategories([
-                            ...expandedSubcategories,
-                            category.name,
-                          ])
-                        }
-                      }}
-                    >
-                      <span className="text-[14px] font-medium font-circular-std tracking-normal text-foreground">
-                        {category.name}
-                      </span>
-                      <ChevronRight
-                        className={`h-4 w-4 text-gray-400 transition-transform ${
-                          expandedSubcategories.includes(category.name)
-                            ? "transform rotate-90"
-                            : ""
-                        }`}
-                      />
-                    </div>
-                    {expandedSubcategories.includes(category.name) && (
-                      <div className="pl-4 space-y-2 mt-1">
-                        <RadioGroup
-                          value={
-                            selectedCategory === category.name
-                              ? selectedSubcategory
-                              : ""
-                          }
-                          onValueChange={(value) =>
-                            handleCategorySelection(category.name, value)
-                          }
-                          className="space-y-2"
-                        >
-                          {category.subcategories.map((subcategory) => (
-                            <div
-                              key={subcategory}
-                              className="flex items-center"
-                            >
-                              <RadioGroupItem
-                                value={subcategory}
-                                id={`${category.name}-${subcategory}`}
-                                className="mr-2"
-                              />
-                              <Label
-                                htmlFor={`${category.name}-${subcategory}`}
-                                className="text-sm cursor-pointer"
-                              >
-                                {subcategory}
-                              </Label>
-                            </div>
-                          ))}
-                        </RadioGroup>
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Condition */}
-        <div className="bg-white  px-4 py-2 border border-[#EBEEF7] flex flex-col">
-          <div
-            className="flex justify-between items-center cursor-pointer"
-            onClick={() => {
-              if (expandedSections.includes("condition")) {
-                setExpandedSections(
-                  expandedSections.filter((c) => c !== "condition")
-                )
-              } else {
-                setExpandedSections([...expandedSections, "condition"])
-              }
-            }}
-          >
-            <h3 className="text-[16px]/[24px] font-medium font-circular-std tracking-normal text-foreground">
-              Condition
-            </h3>
-            <ChevronRight
-              className={`h-6 w-6 text-[#636A80] transition-transform ${
-                expandedSections.includes("condition")
-                  ? "transform rotate-90"
-                  : ""
-              }`}
-            />
-          </div>
-          <div className="font-medium font-circular-std text-[16px]/[24px] tracking-normal text-secondary capitalize">
-            {selectedCondition === "all" ? "All" : selectedCondition}
-          </div>
-          {expandedSections.includes("condition") && (
-            <div className="mt-2 space-y-2">
-              <RadioGroup
-                value={selectedCondition}
-                onValueChange={setSelectedCondition}
-                className="space-y-2"
-              >
-                <div className="flex items-center">
-                  <RadioGroupItem
-                    value="all"
-                    id="condition-all"
-                    className="mr-2"
-                  />
-                  <Label htmlFor="condition-all" className="text-sm">
-                    All Conditions
-                  </Label>
-                </div>
-                <div className="flex items-center">
-                  <RadioGroupItem
-                    value="new"
-                    id="condition-new"
-                    className="mr-2"
-                  />
-                  <Label htmlFor="condition-new" className="text-sm">
-                    New
-                  </Label>
-                </div>
-                <div className="flex items-center">
-                  <RadioGroupItem
-                    value="used"
-                    id="condition-used"
-                    className="mr-2"
-                  />
-                  <Label htmlFor="condition-used" className="text-sm">
-                    Used
-                  </Label>
-                </div>
-              </RadioGroup>
-            </div>
-          )}
-        </div>
-
-        {/* Price */}
-        <div className="bg-white rounded-b-[12px] px-4 py-2 border border-[#EBEEF7] flex flex-col">
-          <div
-            className="flex justify-between items-center cursor-pointer"
-            onClick={() => {
-              if (expandedSections.includes("price")) {
-                setExpandedSections(
-                  expandedSections.filter((c) => c !== "price")
-                )
-              } else {
-                setExpandedSections([...expandedSections, "price"])
-              }
-            }}
-          >
-            <h3 className="text-[16px]/[24px] font-medium font-circular-std tracking-normal text-foreground">
-              Prices (NGN)
-            </h3>
-            <ChevronRight
-              className={`h-6 w-6 text-[#636A80] transition-transform ${
-                expandedSections.includes("price") ? "transform rotate-90" : ""
-              }`}
-            />
-          </div>
-          <div className="font-medium font-circular-std text-[16px]/[24px] tracking-normal text-secondary">
-            {getPriceDisplayText()}
-          </div>
-          {expandedSections.includes("price") && (
-            <>
-              <div className="flex gap-2 mb-4 mt-2">
-                <Input
-                  type="number"
-                  placeholder="Min price"
-                  className="h-9 text-sm"
-                  value={minPrice}
-                  onChange={handleMinPriceChange}
-                  onBlur={handlePriceBlur}
-                />
-                <Input
-                  type="number"
-                  placeholder="Max price"
-                  className="h-9 text-sm"
-                  value={maxPrice}
-                  onChange={handleMaxPriceChange}
-                  onBlur={handlePriceBlur}
-                />
-              </div>
-
-              <RadioGroup
-                value={priceRange}
-                onValueChange={(value) => {
-                  setPriceRange(value)
-                  // Clear custom inputs when predefined range is selected
-                  if (value !== "all") {
-                    setMinPrice("")
-                    setMaxPrice("")
-                  }
-                }}
-                className="space-y-2"
-              >
-                {priceRanges.map((range) => (
-                  <div key={range.value} className="flex items-center">
-                    <RadioGroupItem
-                      value={range.value}
-                      id={`price-${range.value}`}
-                      className="mr-2"
-                    />
-                    <Label htmlFor={`price-${range.value}`} className="text-sm">
-                      {range.label}
-                    </Label>
-                  </div>
-                ))}
-              </RadioGroup>
-            </>
-          )}
-        </div>
-      </div>
-
-      {/* Apply and Clear buttons for mobile */}
-      <div className="flex gap-2 mt-4 xl:hidden">
-        <Button
-          onClick={clearFilters}
-          variant="outline"
-          className="flex-1 bg-transparent"
-        >
-          Clear All
-        </Button>
-        <Button onClick={applyFilters} className="flex-1">
-          Apply Filters
-        </Button>
-      </div>
-    </div>
-  )
-
   // Handle sort option change
-  const handleSortChange = (value: string) => {
-    setSortOption(value)
+  const handleSortChange = useCallback(
+    (value: string) => {
+      setSortOption(value)
 
-    // Update URL with new sort option
-    const params = new URLSearchParams(searchParams.toString())
-    if (value !== "latest") {
-      params.set("sort", value)
-    } else {
-      params.delete("sort")
-    }
-    router.push(`/ads?${params.toString()}`)
-  }
+      // Update URL with new sort option
+      const params = new URLSearchParams(searchParams.toString())
+      if (value !== "latest") {
+        params.set("sort", value)
+      } else {
+        params.delete("sort")
+      }
+      router.push(`/ads?${params.toString()}`)
+    },
+    [searchParams, router]
+  )
 
   return (
     <div className="w-full min-h-screen flex flex-col gap-4 bg-white xl:bg-[#F4F6F8]">
@@ -1261,19 +933,33 @@ export default function AdsPage() {
         <div className="xl:flex xl:gap-2 2xl:gap-6">
           {/* Desktop Filters Sidebar */}
           <div className="hidden xl:block w-80 flex-shrink-0">
-            {/* Filters Header with Reset All Link */}
-            <div className="flex justify-between items-center mb-4 px-2">
-              <h2 className="font-medium font-circular-std text-[20px]/[32px] tracking-normal text-foreground">
-                Filters
-              </h2>
-              <button
-                onClick={clearFilters}
-                className="text-secondary text-[18px]/[32px] font-circular-std italic tracking-normal hover:underline cursor-pointer"
-              >
-                Reset all
-              </button>
-            </div>
-            <FilterContent />
+            <DesktopFilters
+              selectedSchool={selectedSchool}
+              onSchoolSelect={handleSchoolSelect}
+              selectedDirectCategory={selectedDirectCategory}
+              selectedCategory={selectedCategory}
+              selectedSubcategory={selectedSubcategory}
+              selectedCondition={selectedCondition}
+              priceRange={priceRange}
+              minPrice={minPrice}
+              maxPrice={maxPrice}
+              onDirectCategorySelect={handleDirectCategorySelection}
+              onCategorySelect={handleCategorySelection}
+              onConditionChange={setSelectedCondition}
+              onPriceRangeChange={(val) => {
+                setPriceRange(val)
+                if (val !== "all") {
+                  setMinPrice("")
+                  setMaxPrice("")
+                }
+              }}
+              onMinPriceChange={handleMinPriceChange}
+              onMaxPriceChange={handleMaxPriceChange}
+              onInputBlur={handleInputBlur}
+              onPriceBlur={handlePriceBlur}
+              onClearFilters={clearFilters}
+              onApplyFilters={applyFilters}
+            />
           </div>
 
           {/* Mobile Filters Sheet */}
@@ -1286,7 +972,33 @@ export default function AdsPage() {
                 <SheetTitle>Filters</SheetTitle>
               </SheetHeader>
               <div className="flex-1 overflow-y-auto p-4">
-                <FilterContent />
+                <DesktopFilters
+                  selectedSchool={selectedSchool}
+                  onSchoolSelect={handleSchoolSelect}
+                  selectedDirectCategory={selectedDirectCategory}
+                  selectedCategory={selectedCategory}
+                  selectedSubcategory={selectedSubcategory}
+                  selectedCondition={selectedCondition}
+                  priceRange={priceRange}
+                  minPrice={minPrice}
+                  maxPrice={maxPrice}
+                  onDirectCategorySelect={handleDirectCategorySelection}
+                  onCategorySelect={handleCategorySelection}
+                  onConditionChange={setSelectedCondition}
+                  onPriceRangeChange={(val) => {
+                    setPriceRange(val)
+                    if (val !== "all") {
+                      setMinPrice("")
+                      setMaxPrice("")
+                    }
+                  }}
+                  onMinPriceChange={handleMinPriceChange}
+                  onMaxPriceChange={handleMaxPriceChange}
+                  onInputBlur={handleInputBlur}
+                  onPriceBlur={handlePriceBlur}
+                  onClearFilters={clearFilters}
+                  onApplyFilters={applyFilters}
+                />
               </div>
             </SheetContent>
           </Sheet>
