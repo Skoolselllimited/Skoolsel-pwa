@@ -11,7 +11,7 @@ const HotOnCampuses = () => {
         <h2 className="text-[20px] sm:text-[28px]/[28.52px] lg:text-[36px]/[45.52px] tracking-normal font-bold font-circular-std text-center text-[#052332]">
           Hot on Campuses
         </h2>
-
+        {/* <Title text=" Hot on Campuses" /> */}
         <div className="grid grid-cols-2 lg-md:grid-cols-3 2xl:grid-cols-4 gap-3 lg:gap-6 xl:gap-[25px] px-2 lg:px-0">
           {trendingAds?.map((ad, idx) => <ProductCard key={idx} ad={ad} />)}
         </div>

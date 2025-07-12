@@ -4,6 +4,7 @@ import {
   LightStrikeIcon,
   MapPinIcon,
 } from "@/components/svgs"
+import Title from "@/components/Title"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -30,9 +31,7 @@ export default function RecentPost({ recentAds }: recentPostProps) {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex flex-row items-center justify-between">
-        <h3 className="text-[20px]/[32px] font-circular-std font-medium tracking-normal text-[#191F33]">
-          Recently Posted Ads
-        </h3>
+        <Title text=" Recently Posted Ads" />
         <Link
           href="/ads"
           className="h-9 focus:bg-[#E8F7FF] focus:text-secondary rounded py-2 px-3 flex items-center gap-2 cursor-pointer text-[#464D61] hover:underline text-[14px]/[20px] font-circular-std font-medium tracking-normal"
