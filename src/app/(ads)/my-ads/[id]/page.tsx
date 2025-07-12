@@ -123,8 +123,8 @@ export default function AdsDetails() {
     if (!isOpen) return null;
 
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-[rgba(0,0,0,0.7)] p-4">
-        <div className="bg-white rounded-lg shadow-xl w-full max-w-lg mx-auto p-6 relative">
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-[rgba(0,0,0,0.7)] p-2 md:p-4">
+        <div className="bg-white rounded-lg shadow-xl w-full max-w-lg mx-auto p-3 md:p-6 relative">
           {/* Close Button */}
           <button
             onClick={onClose}
@@ -153,18 +153,18 @@ export default function AdsDetails() {
             <div
               className="flex items-center gap-4 
             
-             p-3 rounded-md "
+           p-1  md:p-3 rounded-md mb-4"
             >
               <img
                 src={adDetails.image}
                 alt={adDetails.name}
-                className="w-20 h-20 object-cover rounded-md flex-shrink-0"
+                className="w-16 h-16 object-cover rounded-md flex-shrink-0"
               />
               <div className="flex flex-col">
-                <span className="text-[#0A243F] text-sm font-semibold">
+                <span className="text-[#0A243F] text-xs md:text-sm font-semibold">
                   {adDetails.name}
                 </span>
-                <span className="text-red-500 text-sm font-bold">
+                <span className="text-red-500 text-xs md:text-sm font-bold">
                   {adDetails.price}
                 </span>
               </div>
@@ -174,13 +174,13 @@ export default function AdsDetails() {
           {/* Action Buttons */}
           <div className="flex flex-col gap-3">
             <Button
-              className="h-[50px] rounded-md px-5 text-white bg-red-500 hover:bg-[#E74C3C]/80 font-bold text-[16px] w-full"
+              className="h-[45px] rounded-md px-5 text-white bg-red-500 hover:bg-[#E74C3C]/80 font-bold text-[14px] md:text-[15px] w-full"
               onClick={onConfirm}
             >
               Delete Ad
             </Button>
             <Button
-              className="h-[50px] rounded-md px-5 text-[#54abdb] border-[0.1px] border-blue-100 bg-white hover:bg-gray-50 font-bold text-[16px] w-full"
+              className="h-[45px] rounded-md px-5 text-[#54abdb] border-[0.1px] border-blue-100 bg-white hover:bg-gray-50 font-bold text-[14px] md:text-[15px] w-full"
               onClick={onClose}
             >
               Cancel
@@ -200,7 +200,7 @@ export default function AdsDetails() {
 
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-[rgba(0,0,0,0.7)] p-4">
-        <div className="bg-white rounded-lg shadow-xl w-full max-w-lg mx-auto p-6 relative">
+        <div className="bg-white rounded-lg shadow-xl w-full max-w-lg mx-auto p-3 md:p-6 relative">
           {/* Close Button */}
           <button
             onClick={onClose}
@@ -227,18 +227,18 @@ export default function AdsDetails() {
             <div
               className="flex items-center gap-4 
             
-             p-3 rounded-md "
+             md:p-3 rounded-md mb-4"
             >
               <img
                 src={adDetails.image}
                 alt={adDetails.name}
-                className="w-20 h-20 object-cover rounded-md flex-shrink-0"
+                className="w-16 h-16 object-cover rounded-md flex-shrink-0"
               />
               <div className="flex flex-col">
-                <span className="text-[#0A243F] text-sm font-semibold">
+                <span className="text-[#0A243F] text-xs md:text-sm font-semibold">
                   {adDetails.name}
                 </span>
-                <span className="text-red-500 text-sm font-bold">
+                <span className="text-red-500 text-xs md:text-sm font-bold">
                   {adDetails.price}
                 </span>
               </div>
@@ -248,13 +248,13 @@ export default function AdsDetails() {
           {/* Action Buttons */}
           <div className="flex flex-col gap-3">
             <Button
-              className="h-[50px] rounded-md px-5 text-white bg-green-500 hover:bg-green-700 font-bold text-[16px] w-full"
+              className="h-[45x] rounded-md px-5 text-white bg-green-500 hover:bg-green-700 font-bold text-[14px] md:text-[16px] w-full"
               onClick={onConfirm}
             >
               Mark As Sold
             </Button>
             <Button
-              className="h-[50px] rounded-md px-5 text-[#54abdb] border-[0.1px] border-blue-100 bg-white hover:bg-gray-50 font-bold text-[16px] w-full"
+              className="h-[45px] rounded-md px-5 text-[#54abdb] border-[0.1px] border-blue-100 bg-white hover:bg-gray-50 font-bold text-[14px] md:text-[16px] w-full"
               onClick={onClose}
             >
               Cancel
@@ -274,7 +274,7 @@ export default function AdsDetails() {
   };
 
   return (
-    <div className="w-full flex flex-col gap-4 bg-[#F4F6F8]">
+    <div className="w-full flex flex-col gap-4 pb-8 md:pb-20 bg-[#F4F6F8]">
       <div className="xl:hidden px-[15px]">
         <div className="h-[72px] py-4 flex items-center justify-between">
           <BackButton onClick={() => router.push("/ads")} />
@@ -513,12 +513,14 @@ export default function AdsDetails() {
                   <HeartIcon className="text-secondary" />
                 </div> */}
               </Card>
-              <Card className="hidden lg:flex flex-col gap-4  lg:py-5">
+              <Card className=" lg:flex flex-col gap-4  lg:py-5">
                 {/* Phone */}
                 <div className="w-full h-[72px] bg-[#F5F7FA] py-5 px-1 rounded-md items-center gap-2 text-[#0A243F]  font-[450] font-circular-std tracking-normal cursor-pointer flex justify-items-start">
                   <span className="flex items-center gap-3">
                     <PhoneIcon className="text-secondary" />
-                    <span className="text-lg">"(+234) 5735 8764"</span>
+                    <span className="text-md md:text-lg">
+                      "(+234) 5735 8764"
+                    </span>
                   </span>
                 </div>
 
@@ -528,15 +530,15 @@ export default function AdsDetails() {
                 >
                   Mark As Sold
                 </Button>
-                <div className="flex gap-3 w-full">
+                <div className="flex gap-2 md:gap-3 w-full">
                   <Button
-                    className="flex-1 h-[50px] gap-2 rounded-md px-6 text-[#54abdb] border-2 border-[#54abdb] bg-white hover:bg-gray-50 font-bold font-circular-std text-[16px] tracking-normal capitalize"
+                    className="flex-1 h-[50px] gap-2 rounded-md px-3 md:px-6 text-[#54abdb] border-2 border-[#54abdb] bg-white hover:bg-gray-50 font-bold font-circular-std text-[16px] tracking-normal capitalize"
                     // onClick handler for Edit Ad
                   >
                     Edit Ad
                   </Button>
                   <Button
-                    className="flex-1 h-[50px] gap-2 rounded-md px-5 text-[#E74C3C] border-2 border-[#E74C3C] bg-white hover:bg-gray-50 font-bold font-circular-std text-[16px] tracking-normal capitalize"
+                    className="flex-1 h-[50px] gap-2 rounded-md px-2 md:px-5 text-[#E74C3C] border-2 border-[#E74C3C] bg-white hover:bg-gray-50 font-bold font-circular-std text-[16px] tracking-normal capitalize"
                     onClick={() => setShowDeleteModal(true)}
                   >
                     Delete Ad
@@ -625,35 +627,35 @@ export default function AdsDetails() {
                   <Share2 className="h-6 w-6 shrink-0" />
                   <span>Share Ads</span>
                 </div>
-                <div className="flex space-x-2 text-[#767E94] text-lg">
+                <div className="flex space-x-1 md:space-x-2 text-[#767E94] text-lg">
                   <Link
                     href=""
-                    className="w-10 h-10 gap-[10px] flex justify-center items-center p-3 bg-[#25D366] rounded-full"
+                    className="w-9 h-9 md:w-10 md:h-10 gap-[10px] flex justify-center items-center p-3 bg-[#25D366] rounded-full"
                   >
                     <FaWhatsapp className="w-4 h-4 text-white" />
                   </Link>
                   <Link
                     href=""
-                    className="w-10 h-10 gap-[10px] flex justify-center items-center p-3 bg-[#3B5998] rounded-full"
+                    className="w-9 h-9 md:w-10 md:h-10 gap-[10px] flex justify-center items-center p-3 bg-[#3B5998] rounded-full"
                   >
                     <FaFacebookF className="w-4 h-4 text-white" />
                   </Link>
                   <Link
                     href=""
-                    className="w-10 h-10 gap-[10px] flex justify-center items-center p-3 bg-[#14171A] rounded-full"
+                    className="w-9 h-9 md:w-10 md:h-10 gap-[10px] flex justify-center items-center p-3 bg-[#14171A] rounded-full"
                   >
                     <RiTwitterXLine className="w-4 h-4 text-white" />
                   </Link>
 
                   <Link
                     href=""
-                    className="w-10 h-10 gap-[10px] flex justify-center items-center p-3 bg-[#0077B5] rounded-full"
+                    className="w-9 h-9 md:w-10 md:h-10 gap-[10px] flex justify-center items-center p-3 bg-[#0077B5] rounded-full"
                   >
                     <FaLinkedinIn className="w-4 h-4 text-white" />
                   </Link>
                   <Link
                     href=""
-                    className="w-10 h-10 gap-[10px] bg-[#636A80] text-white flex justify-center items-center rounded-full p-3 "
+                    className="w-9 h-9 md:w-10 md:h-10 gap-[10px] bg-[#636A80] text-white flex justify-center items-center rounded-full p-3 "
                   >
                     <AnchorLink className="w-4 h-4 text-white" />
                   </Link>
@@ -663,107 +665,7 @@ export default function AdsDetails() {
           </div>
         </div>
         {/* Related Ads Section */}
-        <div className="mt-12 flex flex-col gap-[30px] bg-white xl:bg-[#F4F6F8] shadow-[0px_1px_0px_0px_#EBEEF7_inset] pt-10 pb-[150px] px-2 lg:px-4">
-          <h2 className="font-circular-std font-medium text-[24px]/[32px] xl:text-[40px]/[48px] tracking-normal text-[#191F33]">
-            Related Ads
-          </h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg-md:grid-cols-3 2xl:grid-cols-4 gap-1 lg:gap-6 xl:gap-4">
-            {relatedAdsData.slice(0, visibleAds).map((product, idx) => (
-              <Link
-                key={idx}
-                href={`/ads/${product.id}`}
-                className="w-full max-w-[193px] lg:max-w-[311px] flex flex-col gap-[2.65px] bg-white p-1 lg:p-2.5 rounded-[10.6px] lg:rounded-[16px] hover:shadow-sm overflow-hidden border border-[#F1F2F4] cursor-pointer"
-              >
-                <div className="relative">
-                  <Image
-                    src={product.image || "/placeholder.svg"}
-                    alt={product.name}
-                    width={292}
-                    height={267}
-                    className="w-full h-32 sm:h-[176.86px] lg:h-[267px] object-cover rounded-[8px] bg-[#E3E6EA] hover:scale-[1.01] transition-transform duration-200"
-                  />
-
-                  {product.isSponsored && (
-                    <span className="w-fit h-8 flex items-center justify-center gap-[10px] rounded-[8px] p-2 absolute top-[130px] lg:top-[226.49px] left-[14.03px] bg-[#131313]/80 text-[#FFCC33] text-[12px]/[16px] font-bold font-circular-std tracking-normal">
-                      <LightStrikeIcon /> Sponsored
-                    </span>
-                  )}
-
-                  <span className="w-fit h-6 py-1 px-2 flex justify-center items-center gap-[10px] absolute top-2 left-2 bg-white text-[#384853] text-[12px]/[16px] font-medium font-circular-std rounded-[8px]">
-                    {product.condition}
-                  </span>
-                </div>
-
-                {/* Content */}
-                <div className="pt-1 lg:pt-2 pb-0 flex flex-col gap-[2.65px] lg:gap-1">
-                  <h3 className="text-[12px]/[11.92px] lg:text-[16px]/[18px] font-medium font-circular-std text-[#384853] truncate">
-                    {product.name}
-                  </h3>
-                  <p className="text-secondary font-bold text-[12px]/[15.9px] lg:text-[18px]/[24px] -tracking-[1%] align-middle">
-                    {product.price}
-                  </p>
-                  <div className="w-full grid grid-cols-2 gap-1">
-                    <div className="flex items-center gap-1.5 lg:gap-2">
-                      <MapPinIcon className="w-4 h-4 text-[#384853]" />
-                      <span className="text-[#384853] text-[12px] lg:text-[14px] leading-[1.2] font-medium font-circular-std truncate">
-                        {product.location}
-                      </span>
-                    </div>
-                    <div className="hidden sm:flex items-center justify-end gap-1.5 lg:gap-2">
-                      <ClockIcon className="w-4 h-4 text-[#384853]" />
-                      <span className="text-[#384853] text-[12px] lg:text-[14px] leading-[1.2] font-medium font-circular-std truncate">
-                        {product.timePosted}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="w-full py-[6.62px] lg:py-[10px] px-[10.6px] lg:px-4 bg-[#FAFAFA] rounded-[5.3px] lg:rounded-[8px] mt-1 lg:mt-4 flex flex-col gap-[2.65px] lg:gap-1.5">
-                    <p className="text-[#6B7B8A] text-[10px]/[10.6px] lg:text-[14px]/[16px] tracking-normal font-circular-std font-medium">
-                      Vendor
-                    </p>
-                    <div className="w-full h-[18px] flex items-center gap-[5px]">
-                      <Avatar className="w-[10.6px] h-[10.6px] lg:w-6 lg:h-6">
-                        <AvatarImage
-                          src="/images/vendor.jpg"
-                          alt="Vendor's photo"
-                        />
-                        <AvatarFallback>
-                          {getInitials(product.vendor)}
-                        </AvatarFallback>
-                      </Avatar>
-                      <p className="font-bold font-circular-std text-[#384853] text-[12px]/[11.92px] lg:text-[15px]/[18px] tracking-normal truncate">
-                        {product.vendor}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-
-          {/* Load More Button with functionality */}
-          {visibleAds < relatedAdsData.length && (
-            <div className="w-full flex justify-center items-center">
-              <Button
-                onClick={handleLoadMore}
-                disabled={isLoadingMore}
-                className="w-fit h-[50px] px-5 bg-[#E8F7FF] hover:bg-[#E8F7FF] text-secondary hover:scale-[0.98] font-circular-std font-bold text-[16px]/[50px] tracking-normal capitalize flex justify-center items-center gap-2 rounded cursor-pointer disabled:opacity-50"
-              >
-                {isLoadingMore ? (
-                  <>
-                    <Spinner />
-                    Loading...
-                  </>
-                ) : (
-                  <>
-                    <SpinnerIcon /> Load More
-                  </>
-                )}
-              </Button>
-            </div>
-          )}
-        </div>
         <ImageGallery
           images={images}
           initialIndex={currentImageIndex}
@@ -773,7 +675,7 @@ export default function AdsDetails() {
       </div>
 
       {/* Sticky Call Button for Mobile */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 lg:hidden">
+      {/* <div className="fixed bottom-0 left-0 right-0 z-40 lg:hidden">
         <div className="p-4">
           <Link
             href="tel:+23457358764"
@@ -782,7 +684,7 @@ export default function AdsDetails() {
             Call Seller
           </Link>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

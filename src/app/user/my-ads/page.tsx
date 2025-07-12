@@ -6,6 +6,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import AdCard from "./components/adCard";
 import { filterByCatergories } from "@/data/mockdata";
+import { GoArrowRight } from "react-icons/go";
+import { GoArrowLeft } from "react-icons/go";
 
 const recentAds = [
   {
@@ -375,7 +377,7 @@ export default function MyAds() {
               : "bg-[#E8F7FF] hover:bg-[#D4F0FF]"
           }`}
         >
-          ←
+          <GoArrowLeft />
         </button>
 
         {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
@@ -401,7 +403,7 @@ export default function MyAds() {
               : "bg-[#E8F7FF] hover:bg-[#D4F0FF]"
           }`}
         >
-          →
+          <GoArrowRight />
         </button>
       </div>
     </section>
