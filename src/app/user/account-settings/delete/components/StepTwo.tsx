@@ -41,7 +41,7 @@ export default function StepTwo({
         // Re-adjusting height for StepTwo's UI, and keeping resize-y
         className="w-full min-h-[120px] max-h-[200px] bg-[#f7f8f9]  text-gray-700 text-sm placeholder:text-gray-400 p-4 rounded-lg resize-y "
       />
-      <div className="flex justify-between mt-10 gap-4">
+      <div className="flex justify-between flex-col md:flex-row mt-10 gap-4">
         <Button
           className="w-full sm:flex-1 bg-white border-2 border-[#54abdb] text-[#54abdb] hover:bg-blue-50 px-4 py-5 text-sm sm:text-base"
           onClick={onBack}
