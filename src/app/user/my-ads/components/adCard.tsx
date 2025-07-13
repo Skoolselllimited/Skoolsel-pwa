@@ -36,27 +36,32 @@ export default function AdCard({ ad }: Props) {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button className="h-[19px] w-6 bg-white shadow-none rounded-[2px] py-2 px-1.5 flex justify-center items-center">
-              <MoreHorizontal className="w-5 h-5" />
+              <MoreHorizontal className="w-5 h-5 text-inherit" />
             </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent
             align="end"
-            className="bg-white rounded-[10px] border p-3"
+            className="bg-white rounded-[10px] border border-[#EBEEF7] shadow-[0px_5px_24px_0px_#0022330A] text-[#464D61] font-circular-std font-[450] text-[14px]/[20px] tracking-normal p-3"
           >
-            <DropdownMenuItem className="flex items-center gap-3 cursor-pointer">
-              <Zap className="w-5 h-5" /> Boost Ad
+            <DropdownMenuItem className="h-9 focus:bg-[#E8F7FF] focus:text-secondary rounded py-2 px-3 flex items-center gap-3 cursor-pointer">
+              <Zap className="w-5 h-5 text-inherit" />
+              Boost Ad
             </DropdownMenuItem>
-            <DropdownMenuItem className="flex items-center gap-3 cursor-pointer">
-              <Edit className="w-5 h-5" /> Edit Ads Details
+            <DropdownMenuItem className="h-9 focus:bg-[#E8F7FF] focus:text-secondary rounded py-2 px-3 flex items-center gap-3 cursor-pointer">
+              <Edit className="w-5 h-5 text-inherit" />
+              Edit Ads Details
             </DropdownMenuItem>
-            <DropdownMenuItem className="flex items-center gap-3 cursor-pointer">
-              <Eye className="w-5 h-5" /> View Ads
+            <DropdownMenuItem className="h-9 focus:bg-[#E8F7FF] focus:text-secondary rounded py-2 px-3 flex items-center gap-3 cursor-pointer">
+              <Eye className="w-5 h-5 text-inherit" />
+              View Ads
             </DropdownMenuItem>
-            <DropdownMenuItem className="flex items-center gap-3 cursor-pointer">
-              <CheckCircle className="w-5 h-5" /> Sold
+            <DropdownMenuItem className="h-9 focus:bg-[#E8F7FF] focus:text-secondary rounded py-2 px-3 flex items-center gap-3 cursor-pointer">
+              <CheckCircle className="w-5 h-5 text-inherit" />
+              Sold
             </DropdownMenuItem>
-            <DropdownMenuItem className="flex items-center gap-2 text-red-500 cursor-pointer">
-              <Trash2Icon className="w-5 h-5" /> Delete Ads
+            <DropdownMenuItem className="h-9 focus:bg-[#E8F7FF] focus:text-secondary rounded py-2 px-3 flex items-center gap-2 cursor-pointer text-[#FF4F4F]">
+              <Trash2Icon className="w-5 h-5 text-inherit" />
+              Delete Ads
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -75,22 +80,22 @@ export default function AdCard({ ad }: Props) {
 
       {/* Content */}
       <div className="pt-1 lg:pt-2 pb-0 flex flex-col gap-[2.65px] lg:gap-1">
-        <h3 className="text-[12px] lg:text-[16px] font-medium truncate text-[#384853]">
+        <h3 className="text-[12px]/[11.92px] lg:text-[16px]/[18px] font-medium font-circular-std text-[#384853] truncate">
           {ad.name}
         </h3>
-        <p className="text-[#54abdb] font-bold text-[12px] lg:text-[18px]">
+        <p className="text-secondary font-bold text-[12px]/[15.9px] lg:text-[18px]/[24px] -tracking-[1%] align-middle">
           {formatPrice(ad.price)}
         </p>
         <div className="w-full flex justify-between gap-1 pb-4">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 lg:gap-2">
             <MapPinIcon className="w-5 h-5 text-[#384853]" />
-            <span className="text-[#384853] text-[12px] lg:text-[16px] truncate">
+            <span className="text-[#384853] text-[12px] lg:text-[16px]/[18px] font-[450] font-circular-std tracking-normal truncate">
               {ad.abbreviation}
             </span>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center justify-end gap-1.5 lg:gap-2">
             <ClockIcon className="w-5 h-5 text-[#384853]" />
-            <span className="text-[#384853] text-[12px] lg:text-[16px] truncate">
+            <span className="text-[#384853] text-[12px] lg:text-[16px]/[18px] font-[450] font-circular-std tracking-normal truncate">
               {ad.timePosted}
             </span>
           </div>
