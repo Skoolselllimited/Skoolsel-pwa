@@ -20,16 +20,20 @@ export default function StepThree({
         <p>• Cannot be undone</p>
         <p>• Lose access to your listings & purchases</p>
       </div>
-      <label className="flex items-center gap-2 mb-6">
+
+      <label className="flex items-center text-sm gap-2 ">
         <input
           type="checkbox"
           checked={confirmDelete}
           onChange={() => setConfirmDelete(!confirmDelete)}
           className="accent-[#54abdb]"
         />
+      </label>
+      <label htmlFor="" className="text-sm">
+        {" "}
         I understand the consequences of deleting my account.
       </label>
-      <div className="flex justify-between mt-10 gap-4">
+      <div className="flex justify-between mt-10 flex-col md:flex-row gap-4 ">
         <Button
           className="w-full sm:flex-1 bg-white border-2 border-[#54abdb] text-[#54abdb] hover:bg-blue-50 px-4 py-5 text-sm sm:text-base"
           onClick={onBack}

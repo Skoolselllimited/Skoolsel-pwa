@@ -1,30 +1,32 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import StepOne from "./components/StepOne"
-import StepTwo from "./components/StepTwo"
-import StepThree from "./components/StepThree"
-import { useRouter } from "next/navigation"
+import { useState } from "react";
+import StepOne from "./components/StepOne";
+import StepTwo from "./components/StepTwo";
+import StepThree from "./components/StepThree";
+import { useRouter } from "next/navigation";
 
 export default function DeleteUserAccount() {
-  const router = useRouter()
-  const [step, setStep] = useState(1)
-  const [reason, setReason] = useState("")
-  const [details, setDetails] = useState("")
-  const [confirmDelete, setConfirmDelete] = useState(false)
+  const router = useRouter();
+  const [step, setStep] = useState(1);
+  const [reason, setReason] = useState("");
+  const [details, setDetails] = useState("");
+  const [confirmDelete, setConfirmDelete] = useState(false);
 
-  const handleNext = () => setStep((prev) => prev + 1)
-  const handleBack = () => setStep((prev) => prev - 1)
+  const handleNext = () => setStep((prev) => prev + 1);
+  const handleBack = () => setStep((prev) => prev - 1);
 
   const handleSubmit = () => {
     // API call here to delete account
-    console.log({ reason, details })
-    router.push("/account-deleted")
-  }
+    console.log({ reason, details });
+    router.push("/account-deleted");
+  };
 
   return (
     <div className="max-w-4xl mx-auto">
-      <h2 className="text-3xl font-bold mb-4">Delete/Deactivate Account</h2>
+      <h2 className="text-xl md:text-3xl font-bold mb-4">
+        Delete/Deactivate Account
+      </h2>
       <div className="  bg-white flex items-center rounded-md justify-center">
         <div className="p-6 max-w-xl mx-auto bg-white ">
           {step === 1 && (
@@ -54,5 +56,5 @@ export default function DeleteUserAccount() {
         </div>
       </div>
     </div>
-  )
+  );
 }

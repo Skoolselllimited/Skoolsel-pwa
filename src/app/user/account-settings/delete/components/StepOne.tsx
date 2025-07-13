@@ -64,7 +64,7 @@ export default function StepOne({
         })}
       </div>
 
-      <div className="flex justify-between mt-6 gap-8">
+      <div className="flex justify-between flex-col md:flex-row  mt-6 gap-4  md:gap-8">
         <Button
           className="w-full sm:flex-1 bg-white border-2 border-[#54abdb] text-[#54abdb] hover:bg-blue-50 px-4 py-5 text-sm sm:text-base"
           onClick={onCancel}
