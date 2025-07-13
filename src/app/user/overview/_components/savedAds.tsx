@@ -15,14 +15,16 @@ interface saveAdsProps {
 export default function SavedAds({ savedAds }: saveAdsProps) {
   return (
     <div className="flex flex-col gap-2">
-      <div className="flex flex-row items-center justify-between">
+      <div className="flex flex-col lg:flex-row items-center justify-between">
         <Title text="Saved Ads" />
-        <Link
-          href="/users/favourites"
-          className="h-9 focus:bg-[#E8F7FF] focus:text-secondary rounded py-2 px-3 flex items-center gap-2 cursor-pointer text-[#464D61] hover:underline text-[14px]/[20px] font-circular-std font-medium tracking-normal"
-        >
-          View All <ArrowRight className="w-6 h-6" />
-        </Link>
+        <div className="w-full lg:w-auto flex justify-end items-end">
+          <Link
+            href="/users/favourites"
+            className="h-9 focus:bg-[#E8F7FF] focus:text-secondary rounded py-2 px-3 flex items-center gap-2 cursor-pointer text-[#464D61] hover:underline text-[14px]/[20px] font-circular-std font-medium tracking-normal"
+          >
+            View All <ArrowRight className="w-6 h-6" />
+          </Link>
+        </div>
       </div>
 
       <div className="w-full grid grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-3 xl:gap-4">

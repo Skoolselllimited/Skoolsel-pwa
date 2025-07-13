@@ -235,7 +235,7 @@ export default function FeaturesImagesStep({
       </div>
 
       {/* Action Buttons */}
-      <div className="w-full bg-white z-10 absolute top-auto right-0 left-0 bottom-4 lg-md:static flex flex-col lg-md:flex-row justify-between gap-4">
+      <div className="w-full bg-white z-10 absolute top-auto right-0 left-0 bottom-4 lg-md:static flex flex-col lg-md:flex-row justify-between gap-[12px]">
         <Button
           variant="outline"
           onClick={onCancel}
