@@ -22,23 +22,11 @@ export default function StepTwo({
   };
 
   return (
-    <div className="w-[400px]">
-      {/* Keeping this h3 as per previous iterations of the UI,
-          though the "WriteReviewForm" example doesn't have a separate heading.
-          Your previous StepTwo UI screenshots (image_322606.png, image_3fd870.png)
-          show the text 'Please share your reason. Tell us more' as a placeholder,
-          not a heading. I will leave the placeholder.
-      */}
-      {/* If you want to remove the separate heading and just use the placeholder like WriteReviewForm, uncomment the next line and remove this h3 */}
-      {/* <h3 className="text-xl font-medium mb-4 text-gray-700">Please share your reason. Tell us more</h3> */}
-
+    <div className="md:w-[400px]">
       <textarea
-        placeholder="Please share your reason. Tell us more" // Matches your StepTwo UI screenshots
+        placeholder="Please share your reason. Tell us more"
         value={details}
         onChange={handleDetailsChange}
-        // Applying the textarea styling from WriteReviewForm
-        // className="w-full h-24 bg-[#f7f8f9] border border-gray-200 text-gray-700 text-sm placeholder:text-gray-400 p-4 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[#54abdb]"
-        // Re-adjusting height for StepTwo's UI, and keeping resize-y
         className="w-full min-h-[120px] max-h-[200px] bg-[#f7f8f9]  text-gray-700 text-sm placeholder:text-gray-400 p-4 rounded-lg resize-y "
       />
       <div className="flex justify-between flex-col md:flex-row mt-10 gap-4">

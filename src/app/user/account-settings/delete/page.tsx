@@ -28,7 +28,9 @@ export default function DeleteUserAccount() {
         Delete/Deactivate Account
       </h2>
       <div className="  bg-white flex items-center rounded-md justify-center">
-        <div className="p-6 max-w-xl mx-auto bg-white ">
+        <div
+          className={`p-6 ${step === 2 ? "w-full" : "max-w-xl"}  mx-auto bg-white`}
+        >
           {step === 1 && (
             <StepOne
               reason={reason}

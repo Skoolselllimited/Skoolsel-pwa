@@ -326,7 +326,7 @@ export default function MyAds() {
   };
 
   return (
-    <section className="w-full px-4 md:px-6 lg:px-8 py-6">
+    <section className="w-full px-1 md:px-6 lg:px-8 py-6">
       <h1 className="text-xl sm:text-2xl font-bold text-[#384853] mb-4">
         My Ads
       </h1>
@@ -343,16 +343,16 @@ export default function MyAds() {
           className="w-full sm:max-w-xs border bg-white border-[#DADDE1]"
         />
 
-        <div className="flex gap-2">
+        <div className="sm:flex sm:gap-2">
           <select
             className="border bg-white border-[#DADDE1] bg-w 
-          text-sm text-gray-700 px-3 py-2 rounded-md"
+          text-sm text-gray-700 px-3 py-3 sm:py-2 rounded-sm sm:rounded-md w-full sm:max-w-xs"
           >
             <option>All Category</option>
             <option>Electronics</option>
             <option>Books</option>
           </select>
-          <select className="border border-[#DADDE1] bg-white text-sm text-gray-700 px-3 py-2 rounded-md">
+          <select className=" hidden sm:block border-[#DADDE1] bg-white text-sm text-gray-700 px-3 py-2 rounded-md">
             <option>All</option>
             <option>Sold</option>
             <option>Active</option>
@@ -360,7 +360,7 @@ export default function MyAds() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-3 sm:gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-2 sm:gap-4">
         {paginatedAds.map((ad) => (
           <AdCard key={ad.id} ad={ad} />
         ))}
