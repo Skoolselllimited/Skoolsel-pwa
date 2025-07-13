@@ -477,7 +477,7 @@ export default function AdsDetails() {
             Related Ads
           </h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg-md:grid-cols-3 2xl:grid-cols-4 gap-1 lg:gap-6 xl:gap-4">
+          <div className="w-full grid grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 3xl:grid-cols-4 gap-3 xl:gap-4">
             {relatedAdsData.slice(0, visibleAds).map((product, idx) => (
               <Link
                 key={idx}
