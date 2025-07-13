@@ -156,14 +156,12 @@ export default function PostAdStepper() {
         </div>
       )}
 
-      <div className="grid grid-cols-1 xl:grid-cols-3 3xl:grid-cols-4 gap-12 3xl:gap-0">
+      <div className="w-full xl:w-[960px] flex  items-start gap-8">
         {/* Main Content */}
-        <div className="xl:col-span-2 3xl:col-span-3">
-          {renderCurrentStep()}
-        </div>
+        <div className="w-full xl:w-[648px]">{renderCurrentStep()}</div>
         {/* Tips Sidebar */}
         {currentStep <= 3 && (
-          <div className="hidden xl:flex 3xl:col-span-1 3xl:w-[306px] h-fit shrink-0">
+          <div className="hidden xl:flex xl:w-[306px] h-fit shrink-0">
             <StepTips currentStep={currentStep} />
           </div>
         )}

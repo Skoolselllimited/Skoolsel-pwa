@@ -147,8 +147,8 @@ export default function ProductDetailsStep({
   }
 
   return (
-    <div className="w-full xl:w-[648px] bg-white xl:p-9 flex flex-col justify-between gap-8 rounded-xl">
-      <div className="flex flex-col gap-[18px]">
+    <div className="w-full h-screen lg-md:h-full xl:w-[648px] bg-white pt-9 xl:p-9 flex flex-col justify-between gap-8 rounded-xl">
+      <div className="flex flex-col gap-[18px] overflow-y-scroll scrollbar scrollbar-thumb-gray-500 scrollbar-track-gray-200">
         {/* Category and Subcategory */}
         <div className="grid grid-cols-2 gap-4">
           <CustomSearchableDropdown
@@ -238,11 +238,11 @@ export default function ProductDetailsStep({
         </div>
       </div>
       {/* Action Buttons */}
-      <div className="flex flex-col lg-md:flex-row justify-between gap-[18px]">
+      <div className="w-full bg-white z-10 absolute top-auto right-0 left-0 bottom-4 lg-md:static flex flex-col lg-md:flex-row justify-between gap-4">
         <Button
           variant="outline"
           onClick={onCancel}
-          className="h-[48px] w-full lg-md:w-[123px] text-lg bg-transparent border border-[#CCEEFF] text-secondary hover:bg-[#CCEEFF]/50 rounded-[6px]"
+          className="hidden lg-md:flex h-[48px] w-full lg-md:w-[123px] text-lg bg-transparent border border-[#CCEEFF] text-secondary hover:bg-[#CCEEFF]/50 rounded-[6px]"
         >
           Cancel
         </Button>
@@ -254,6 +254,13 @@ export default function ProductDetailsStep({
         >
           Next
           <ArrowRight className="h-6 w-6 shrink-0" />
+        </Button>
+        <Button
+          variant="outline"
+          onClick={onCancel}
+          className="lg-md:hidden h-[48px] w-full lg-md:w-[123px] text-lg bg-transparent border border-[#CCEEFF] text-secondary hover:bg-[#CCEEFF]/50 rounded-[6px]"
+        >
+          Cancel
         </Button>
       </div>
     </div>

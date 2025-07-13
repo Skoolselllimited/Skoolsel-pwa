@@ -110,18 +110,17 @@ export default function BoostPostStep({
   }
 
   return (
-    <div className="w-full xl:w-[648px] bg-white pt-9 xl:p-9 flex flex-col gap-8 rounded-xl">
-      <div className="flex flex-col gap-1 font-circular-std">
-        <h1 className="text-[18px]/[100%] font-medium text-[#0A243F] tracking-normal align-middle">
-          Boost Your Ad for More Visibility
-        </h1>
-        <p className="text-[15px]/[24px] text-[#767E94] tracking-normal font-circular-std">
-          Choose a plan to reach more buyers
-        </p>
-      </div>
-
+    <div className="w-full h-screen lg-md:h-full xl:w-[648px] bg-white pt-9 xl:p-9 flex flex-col justify-between gap-8 rounded-xl">
       {/* Boost Options */}
-      <div className="h-full flex flex-col gap-[18px]">
+      <div className="h-full flex flex-col gap-[18px] overflow-y-scroll scrollbar scrollbar-thumb-gray-500 scrollbar-track-gray-200 pb-38 lg-md:pb-0">
+        <div className="flex flex-col gap-1 font-circular-std">
+          <h1 className="text-[18px]/[100%] font-medium text-[#0A243F] tracking-normal align-middle">
+            Boost Your Ad for More Visibility
+          </h1>
+          <p className="text-[15px]/[24px] text-[#767E94] tracking-normal font-circular-std">
+            Choose a plan to reach more buyers
+          </p>
+        </div>
         {boostOptions.map((option) => {
           const isSelected = data.boostOption === option.id
           const Icon = option.icon
@@ -202,68 +201,68 @@ export default function BoostPostStep({
             </div>
           )
         })}
-      </div>
-      <Separator />
-      {/* Free Option Section */}
-      <div className="flex flex-col gap-2">
-        <h2 className="text-[16px]/[100%] font-medium font-circular-std tracking-normal text-[#0A243F]">
-          Or post without boosting
-        </h2>
-        <div
-          className={cn(
-            "p-6 rounded-xl border-2 cursor-pointer transition-all duration-200 bg-white",
-            data.boostOption === "free"
-              ? "border-gray-400"
-              : "border-gray-200 hover:border-gray-300"
-          )}
-          onClick={() => handleOptionSelect("free")}
-        >
-          <div className="flex items-center justify-between">
-            {/* Left side - Icon and content */}
-            <div className="flex items-start gap-4">
-              <div className="mt-1 h-6 w-6 flex justify-center items-center rounded bg-[#0A243F0D]">
-                <PiBatteryWarningVertical className="h-5 w-5 text-gray-600" />
+        <Separator />
+        {/* Free Option Section */}
+        <div className="flex flex-col gap-2">
+          <h2 className="text-[16px]/[100%] font-medium font-circular-std tracking-normal text-[#0A243F]">
+            Or post without boosting
+          </h2>
+          <div
+            className={cn(
+              "p-6 rounded-xl border-2 cursor-pointer transition-all duration-200 bg-white",
+              data.boostOption === "free"
+                ? "border-gray-400"
+                : "border-gray-200 hover:border-gray-300"
+            )}
+            onClick={() => handleOptionSelect("free")}
+          >
+            <div className="flex items-center justify-between">
+              {/* Left side - Icon and content */}
+              <div className="flex items-start gap-4">
+                <div className="mt-1 h-6 w-6 flex justify-center items-center rounded bg-[#0A243F0D]">
+                  <PiBatteryWarningVertical className="h-5 w-5 text-gray-600" />
+                </div>
+                <div>
+                  <h3 className="font-medium text-[16px]/[24px] tracking-normal font-circular-std text-[#0A243F]">
+                    Post for Free
+                  </h3>
+                  <p className="text-[14px]/[24px] font-[450] font-circular-std tracking-normal text-[#637381]">
+                    Basic visibility — appears after boosted ads
+                  </p>
+                </div>
               </div>
-              <div>
-                <h3 className="font-medium text-[16px]/[24px] tracking-normal font-circular-std text-[#0A243F]">
-                  Post for Free
-                </h3>
-                <p className="text-[14px]/[24px] font-[450] font-circular-std tracking-normal text-[#637381]">
-                  Basic visibility — appears after boosted ads
-                </p>
-              </div>
-            </div>
 
-            {/* Right side - Radio button */}
-            <div
-              className={cn(
-                "w-[22px] h-[22px] rounded-full border-[1.5px] flex items-center justify-center transition-all",
-                data.boostOption === "free"
-                  ? "border-[#15803D] bg-white"
-                  : "border-[#C5C9D6] bg-white"
-              )}
-            >
-              {data.boostOption === "free" && (
-                <div className="w-3 h-3 bg-[#15803D] rounded-full"></div>
-              )}
+              {/* Right side - Radio button */}
+              <div
+                className={cn(
+                  "w-[22px] h-[22px] rounded-full border-[1.5px] flex items-center justify-center transition-all",
+                  data.boostOption === "free"
+                    ? "border-[#15803D] bg-white"
+                    : "border-[#C5C9D6] bg-white"
+                )}
+              >
+                {data.boostOption === "free" && (
+                  <div className="w-3 h-3 bg-[#15803D] rounded-full"></div>
+                )}
+              </div>
             </div>
           </div>
         </div>
+
+        {/* Error Message */}
+        {touched.boostOption && errors.boostOption && (
+          <div className="text-center">
+            <p className="text-red-500 text-lg">{errors.boostOption}</p>
+          </div>
+        )}
       </div>
 
-      {/* Error Message */}
-      {touched.boostOption && errors.boostOption && (
-        <div className="text-center">
-          <p className="text-red-500 text-lg">{errors.boostOption}</p>
-        </div>
-      )}
-
       {/* Action Buttons */}
-      <div className="flex flex-col lg-md:flex-row justify-between gap-[18px]">
+      <div className="w-full bg-white z-10 absolute top-auto right-0 left-0 bottom-0 lg-md:static flex flex-col lg-md:flex-row lg-md:justify-between gap-4">
         <Button
           variant="outline"
           onClick={onCancel}
-          className="h-[48px] w-full lg-md:w-[123px] text-lg bg-transparent border border-[#CCEEFF] text-secondary hover:bg-[#CCEEFF]/50 rounded-[6px]"
+          className="hidden lg-md:flex h-[48px] w-full lg-md:w-[123px] text-lg bg-transparent border border-[#CCEEFF] text-secondary hover:bg-[#CCEEFF]/50 rounded-[6px]"
         >
           Cancel
         </Button>
@@ -273,8 +272,15 @@ export default function BoostPostStep({
           disabled={!isFormValid()}
           className="h-[48px]  w-full lg-md:w-[140px] bg-secondary text-[18px]/[100%] rounded-[6px] flex gap-3 cursor-pointer"
         >
-          Post Ads
+          Next
           <ArrowRight className="h-6 w-6 shrink-0" />
+        </Button>
+        <Button
+          variant="outline"
+          onClick={onCancel}
+          className="lg-md:hidden h-[48px] w-full lg-md:w-[123px] text-lg bg-transparent border border-[#CCEEFF] text-secondary hover:bg-[#CCEEFF]/50 rounded-[6px]"
+        >
+          Cancel
         </Button>
       </div>
     </div>

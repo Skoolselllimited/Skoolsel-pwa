@@ -87,7 +87,7 @@ export default function UserWrapper({
               </div>
             </DialogTrigger>
 
-            <DialogContent className="bg-white w-full h-full max-w-none px-0 m-0 rounded-none border-0 shadow-none [&_[aria-label='Close']]:hidden overflow-y-scroll">
+            <DialogContent className="bg-white w-full h-full max-w-none px-0 m-0 rounded-none border-0 shadow-none [&_[aria-label='Close']]:hidden overflow-y-scroll scrollbar scrollbar-thumb-gray-500 scrollbar-track-gray-200">
               <div className="flex flex-col gap-10 h-full bg-white">
                 <div className="flex flex-col gap-4 px-4">
                   <BackButton onClick={() => setOpen(false)} />
@@ -205,7 +205,7 @@ export default function UserWrapper({
         </aside>
 
         {/* Page Content */}
-        <main className="flex-1 3xl:w-[984px]">{children}</main>
+        <main className="flex-1 3xl:w-[984px] relative">{children}</main>
       </div>
     </div>
   )

@@ -48,7 +48,7 @@ export default function SuccessStep({
       </div>
 
       {/* Action Buttons */}
-      <div className="w-full flex flex-col lg-md:flex-row justify-between gap-[18px]">
+      <div className="w-full flex flex-col lg-md:flex-row justify-between gap-[18px] absolute top-auto right-0 left-0 bottom-4">
         <Button
           variant="outline"
           onClick={onPostAnother}

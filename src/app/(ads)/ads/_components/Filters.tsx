@@ -391,7 +391,7 @@ export default function FiltersDialog({
                 </div>
               </div>
             </div>
-            <DialogFooter className="p-4">
+            <DialogFooter className="w-full p-4 absolute bottom-4">
               <Button
                 onClick={applyFilters}
                 className="w-full h-[50px] rounded-[3.3px] px-[17.58px] bg-[#54ABDB] hover:bg-[#54ABDB]/60"

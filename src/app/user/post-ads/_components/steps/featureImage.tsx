@@ -157,87 +157,89 @@ export default function FeaturesImagesStep({
   }
 
   return (
-    <div className="w-full xl:w-[648px] bg-white xl:p-9 flex flex-col gap-8 rounded-xl">
-      <TextareaInput
-        label="Description"
-        value={data.description || ""}
-        onChange={(value) => handleDescriptionChange(value)}
-        onBlur={handleDescriptionBlur}
-        error={touched.description ? errors.description : ""}
-        placeholder="Ad details/ description"
-      />
-
-      {/* Upload Photos Section */}
-      <div className="h-full flex flex-col gap-[18px]">
-        <h2 className="font-circular-std font-medium text-[20px]/[32px] text-[#191F33] tracking-normal">
-          Upload Photos
-        </h2>
-
-        {/* Image Grid */}
-        <div className="p-5 grid grid-cols-3 lg-md:grid-cols-4 gap-8 border border-dashed border-[#EBEEF7] [border-image:repeating-linear-gradient(45deg,#EBEEF7_0_16px,transparent_0_24px)_1] rounded-md bg-white z-[1] relative">
-          {/* Existing Images */}
-          {(data.images || []).map((image, index) => (
-            <div className="relative">
-              <div
-                key={index}
-                className=" h-full flex items-center aspect-square rounded-[6px] bg-[#EBEEF7] overflow-hidden z-[1]"
-              >
-                <Image
-                  src={URL.createObjectURL(image)}
-                  alt={`Upload ${index + 1}`}
-                  width={120}
-                  height={120}
-                  className="w-full h-full object-contain"
-                />
-                <button
-                  type="button"
-                  onClick={() => removeImage(index)}
-                  className="absolute -top-2 lg-md:-top-3 -right-2 lg-md:-right-5 flex items-center justify-center"
-                >
-                  <CicledCloseIcon />
-                </button>
-              </div>
-            </div>
-          ))}
-
-          {/* Add More Button */}
-          {(!data.images || data.images.length < 10) && (
-            <div
-              className={`bg-[#F5F7FA] w-30 h-30 aspect-square rounded-[6px] flex items-center justify-center cursor-pointer hover:border-gray-400 transition-colors ${
-                dragActive ? "border-secondary bg-blue-50" : ""
-              }`}
-              onDragEnter={handleDrag}
-              onDragLeave={handleDrag}
-              onDragOver={handleDrag}
-              onDrop={handleDrop}
-              onClick={() => fileInputRef.current?.click()}
-            >
-              <CircledPlusIcon className="text-[#636A80] w-[37.5px] h-[37.5px]" />
-            </div>
-          )}
-        </div>
-
-        {/* Hidden File Input */}
-        <input
-          ref={fileInputRef}
-          type="file"
-          multiple
-          accept="image/*"
-          onChange={(e) => handleImageUpload(e.target.files)}
-          className="hidden"
+    <div className="w-full h-screen lg-md:h-full xl:w-[648px] bg-white pt-9 xl:p-9 flex flex-col gap-8 rounded-xl">
+      <div className="flex flex-col gap-[18px] overflow-y-scroll scrollbar scrollbar-thumb-gray-500 scrollbar-track-gray-200">
+        <TextareaInput
+          label="Description"
+          value={data.description || ""}
+          onChange={(value) => handleDescriptionChange(value)}
+          onBlur={handleDescriptionBlur}
+          error={touched.description ? errors.description : ""}
+          placeholder="Ad details/ description"
         />
 
-        {touched.images && errors.images && (
-          <p className="text-red-500 text-sm text-center">{errors.images}</p>
-        )}
+        {/* Upload Photos Section */}
+        <div className="flex flex-col">
+          <h2 className="font-circular-std font-medium text-[20px]/[32px] text-[#191F33] tracking-normal">
+            Upload Photos
+          </h2>
+
+          {/* Image Grid */}
+          <div className="px-[6px] pt-5 pb-[6px] lg-md:p-5 grid grid-cols-2 sm:grid-cols-3 lg-md:grid-cols-4 gap-4 border border-dashed border-[#EBEEF7] [border-image:repeating-linear-gradient(45deg,#EBEEF7_0_16px,transparent_0_24px)_1] rounded-md bg-white z-[1] relative">
+            {/* Existing Images */}
+            {(data.images || []).map((image, index) => (
+              <div className="relative">
+                <div
+                  key={index}
+                  className="aspect-square flex items-center rounded-[6px] bg-[#EBEEF7] overflow-hidden z-[1]"
+                >
+                  <Image
+                    src={URL.createObjectURL(image)}
+                    alt={`Upload ${index + 1}`}
+                    width={120}
+                    height={120}
+                    className="w-full h-full object-contain"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => removeImage(index)}
+                    className="absolute -top-3 -right-2 flex items-center justify-center"
+                  >
+                    <CicledCloseIcon />
+                  </button>
+                </div>
+              </div>
+            ))}
+
+            {/* Add More Button */}
+            {(!data.images || data.images.length < 10) && (
+              <div
+                className={`bg-[#F5F7FA] aspect-square rounded-[6px] flex items-center justify-center cursor-pointer hover:border-gray-400 transition-colors ${
+                  dragActive ? "border-secondary bg-blue-50" : ""
+                }`}
+                onDragEnter={handleDrag}
+                onDragLeave={handleDrag}
+                onDragOver={handleDrag}
+                onDrop={handleDrop}
+                onClick={() => fileInputRef.current?.click()}
+              >
+                <CircledPlusIcon className="text-[#636A80] w-[37.5px] h-[37.5px]" />
+              </div>
+            )}
+          </div>
+
+          {/* Hidden File Input */}
+          <input
+            ref={fileInputRef}
+            type="file"
+            multiple
+            accept="image/*"
+            onChange={(e) => handleImageUpload(e.target.files)}
+            className="hidden"
+          />
+
+          {touched.images && errors.images && (
+            <p className="text-red-500 text-sm text-center">{errors.images}</p>
+          )}
+        </div>
       </div>
 
       {/* Action Buttons */}
-      <div className="flex flex-col lg-md:flex-row justify-between gap-[18px]">
+      <div className="w-full bg-white z-10 absolute top-auto right-0 left-0 bottom-4 lg-md:static flex flex-col lg-md:flex-row justify-between gap-4">
         <Button
           variant="outline"
           onClick={onCancel}
-          className="h-[48px] w-full lg-md:w-[123px] text-lg bg-transparent border border-[#CCEEFF] text-secondary hover:bg-[#CCEEFF]/50 rounded-[6px]"
+          className="hidden lg-md:flex h-[48px] w-full lg-md:w-[123px] text-lg bg-transparent border border-[#CCEEFF] text-secondary hover:bg-[#CCEEFF]/50 rounded-[6px]"
         >
           Cancel
         </Button>
@@ -249,6 +251,13 @@ export default function FeaturesImagesStep({
         >
           Next
           <ArrowRight className="h-6 w-6 shrink-0" />
+        </Button>
+        <Button
+          variant="outline"
+          onClick={onCancel}
+          className="lg-md:hidden h-[48px] w-full lg-md:w-[123px] text-lg bg-transparent border border-[#CCEEFF] text-secondary hover:bg-[#CCEEFF]/50 rounded-[6px]"
+        >
+          Cancel
         </Button>
       </div>
     </div>

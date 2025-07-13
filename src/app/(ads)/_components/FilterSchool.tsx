@@ -219,7 +219,7 @@ export default function FilterSchoolDialog({
         {step === "school" && (
           <>
             <DialogHead
-              back={() => router.push("/")}
+              back={() => onOpenChange(false)}
               title="Select school"
               clearText={
                 getTotalSelectedFilters() > 0
@@ -372,7 +372,7 @@ export default function FilterSchoolDialog({
                 </div>
               </div>
             </div>
-            <DialogFooter className="p-4">
+            <DialogFooter className="w-full p-4 absolute bottom-4">
               <Button
                 onClick={applyFilters}
                 className="h-[50px] flex-1 py-[17.58px] w-full bg-[#54ABDB] hover:bg-[#54ABDB]/60"
@@ -415,7 +415,7 @@ export default function FilterSchoolDialog({
                 </div>
               ))}
             </div>
-            <DialogFooter className="p-4">
+            <DialogFooter className="w-full p-4 absolute bottom-4">
               <Button
                 onClick={() => setStep("filter")}
                 className="w-full h-[50px] rounded-[3.3px] px-[17.58px] bg-[#54ABDB] hover:bg-[#54ABDB]/60"
