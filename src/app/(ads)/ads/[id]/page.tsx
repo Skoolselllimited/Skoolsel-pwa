@@ -16,6 +16,7 @@ import {
   SpinnerIcon,
   VerifiedIcon,
 } from "@/components/svgs"
+import Title from "@/components/Title"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -99,7 +100,7 @@ export default function AdsDetails() {
   }
 
   return (
-    <div className="w-full flex flex-col gap-4 bg-[#F4F6F8]">
+    <div className="w-full flex flex-col gap-4 bg-white xl:bg-[#F4F6F8]">
       <div className="xl:hidden px-[15px]">
         <div className="h-[72px] py-4 flex items-center justify-between">
           <BackButton onClick={() => router.push("/ads")} />
@@ -473,10 +474,7 @@ export default function AdsDetails() {
         </div>
         {/* Related Ads Section */}
         <div className="mt-12 flex flex-col gap-[30px] bg-white xl:bg-[#F4F6F8] shadow-[0px_1px_0px_0px_#EBEEF7_inset] pt-10 pb-[150px] px-2 lg:px-4">
-          <h2 className="font-circular-std font-medium text-[24px]/[32px] xl:text-[40px]/[48px] tracking-normal text-[#191F33]">
-            Related Ads
-          </h2>
-
+          <Title text="Related Ads" />
           <div className="w-full grid grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 3xl:grid-cols-4 gap-3 xl:gap-4">
             {relatedAdsData.slice(0, visibleAds).map((product, idx) => (
               <Link
