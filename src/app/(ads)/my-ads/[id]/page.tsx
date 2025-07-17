@@ -277,7 +277,8 @@ export default function AdsDetails() {
     <div className="w-full flex flex-col gap-4 pb-8 md:pb-20 bg-[#F4F6F8]">
       <div className="xl:hidden px-[15px]">
         <div className="h-[72px] py-4 flex items-center justify-between">
-          <BackButton onClick={() => router.push("/ads")} />
+          <BackButton onClick={() => router.back()} />
+
           <div className="font-circular-std font-extrabold text-[#4E4E5A] text-[20px]/[32px] tracking-normal">
             Ad Details
           </div>

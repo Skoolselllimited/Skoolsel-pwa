@@ -1,38 +1,38 @@
-"use client"
-import AdGrid from "@/components/ads/AdGrid"
-import { CardPanel } from "@/components/cardPanel/cardPanel"
-import { Stars } from "@/components/Stars/Stars"
-import { SpinnerIcon } from "@/components/svgs"
-import { Button } from "@/components/ui/button"
-import { CustomButton } from "@/components/ui/button/customButton"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { User, UserReview } from "@/types/user"
-import { Clipboard } from "lucide-react"
-import Image from "next/image"
-import { useRouter } from "next/navigation"
-import { useState } from "react"
-import { FaLinkedinIn, FaWhatsapp } from "react-icons/fa"
-import { FaChevronLeft } from "react-icons/fa6"
-import { IoIosLink } from "react-icons/io"
-import { RiShoppingBasketFill } from "react-icons/ri"
-import { TiSocialFacebook, TiSocialTwitter } from "react-icons/ti"
-import { WarningIcon } from "../../../../public/svgs/WarningIcon"
-import ReviewsList from "./ReviewList"
-import UserStatsCard from "./UserStatsCard"
-import ReviewSuccess from "./WriteReviews/components/ReviewSuccess"
-import WriteReviewForm from "./WriteReviews/components/WriteReviewForm"
-import WriteReviewFormMobile from "./WriteReviews/components/WriteReviewFormMobile"
+"use client";
+import AdGrid from "@/components/ads/AdGrid";
+import { CardPanel } from "@/components/cardPanel/cardPanel";
+import { Stars } from "@/components/Stars/Stars";
+import { SpinnerIcon } from "@/components/svgs";
+import { Button } from "@/components/ui/button";
+import { CustomButton } from "@/components/ui/button/customButton";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { User, UserReview } from "@/types/user";
+import { Clipboard } from "lucide-react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { FaLinkedinIn, FaWhatsapp } from "react-icons/fa";
+import { FaChevronLeft } from "react-icons/fa6";
+import { IoIosLink } from "react-icons/io";
+import { RiShoppingBasketFill } from "react-icons/ri";
+import { TiSocialFacebook, TiSocialTwitter } from "react-icons/ti";
+import { WarningIcon } from "../../../../public/svgs/WarningIcon";
+import ReviewsList from "./ReviewList";
+import UserStatsCard from "./UserStatsCard";
+import ReviewSuccess from "./WriteReviews/components/ReviewSuccess";
+import WriteReviewForm from "./WriteReviews/components/WriteReviewForm";
+import WriteReviewFormMobile from "./WriteReviews/components/WriteReviewFormMobile";
 
-import { AdsType } from "@/types"
-import { MapPin, PhoneCallIcon, Star } from "lucide-react"
+import { AdsType } from "@/types";
+import { MapPin, PhoneCallIcon, Star } from "lucide-react";
 
 interface PublicProfileProps {
-  userDetails: User
-  averageRating: number | null
-  totalReviews: number | null
-  ads: AdsType[]
-  reviews: UserReview[]
-  refreshProfileData: () => Promise<void>
+  userDetails: User;
+  averageRating: number | null;
+  totalReviews: number | null;
+  ads: AdsType[];
+  reviews: UserReview[];
+  refreshProfileData: () => Promise<void>;
 }
 
 export const PublicProfile = ({
@@ -43,14 +43,14 @@ export const PublicProfile = ({
   reviews,
   refreshProfileData,
 }: PublicProfileProps) => {
-  const router = useRouter()
+  const router = useRouter();
 
-  const [activeTab, setActiveTab] = useState("write-review")
-  const [isReviewSubmitted, setIsReviewSubmitted] = useState(false)
-  const [writeReview, setWriteReview] = useState(false)
-  const [showFullBio, setShowFullBio] = useState(false)
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const toggleShowBio = () => setShowFullBio((prev) => !prev)
+  const [activeTab, setActiveTab] = useState("profile");
+  const [isReviewSubmitted, setIsReviewSubmitted] = useState(false);
+  const [writeReview, setWriteReview] = useState(false);
+  const [showFullBio, setShowFullBio] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const toggleShowBio = () => setShowFullBio((prev) => !prev);
 
   // Define max preview length (you can change this)
 
@@ -65,15 +65,15 @@ export const PublicProfile = ({
     bio: "Hi there! I'm a FUTMinna student selling quality second-hand textbooks, electronics, and dorm essentials. All items are in great condition and priced fairly for fellow students.",
     phoneNumber: "+234 8128448575",
     location: "Federal University of Technology, Minna",
-  }
+  };
 
-  const MAX_PREVIEW_LENGTH = 150
+  const MAX_PREVIEW_LENGTH = 150;
 
   // Trimmed version
-  const isLongBio = userData.bio.length > MAX_PREVIEW_LENGTH
+  const isLongBio = userData.bio.length > MAX_PREVIEW_LENGTH;
   const displayedBio = showFullBio
     ? userData.bio
-    : userData.bio.slice(0, MAX_PREVIEW_LENGTH)
+    : userData.bio.slice(0, MAX_PREVIEW_LENGTH);
 
   // Dummy data for advert listings (to match the advert tab UI)
   const advertData = [
@@ -116,11 +116,11 @@ export const PublicProfile = ({
       vendor: "Aliyu Gadget Store",
       vendorIcon: "https://placehold.co/16x16/F5F5F5/000000?text=V",
     },
-  ]
+  ];
 
   const handleReviewSubmit = async () => {
-    setIsReviewSubmitted(true)
-  }
+    setIsReviewSubmitted(true);
+  };
 
   const cards = [
     {
@@ -130,7 +130,7 @@ export const PublicProfile = ({
       bgColor: "bg-card-blue",
       icon: <Clipboard className="w-6 h-6 text-blue-500" />,
     },
-  ]
+  ];
 
   return (
     <section aria-labelledby="related-heading font-primary">
@@ -156,14 +156,13 @@ export const PublicProfile = ({
               <Tabs
                 value={activeTab}
                 onValueChange={(value) => {
-                  setActiveTab(value)
+                  setActiveTab(value);
                 }}
-                defaultValue="write-review"
                 className="w-full h-full"
               >
                 <TabsList className="bg-white border-b  border-gray-200 mb-5 text-left flex justify-start">
                   <TabsTrigger
-                    value="sellers-ads"
+                    value="profile"
                     className="pb-2  text-sm font-medium text-gray-500 data-[state=active]:text-[#54abdb] data-[state=active]:border-b-2 data-[state=active]:border-[#54abdb] transition-colors"
                   >
                     Seller&apos;s Ads
@@ -182,7 +181,7 @@ export const PublicProfile = ({
                   </TabsTrigger>
                 </TabsList>
 
-                <TabsContent value="sellers-ads" className="px-2">
+                <TabsContent value="profile" className="px-2">
                   <AdGrid products={ads} />
                   <div className="w-full flex justify-center mt-4">
                     <Button
@@ -270,9 +269,9 @@ export const PublicProfile = ({
             <Tabs
               value={activeTab}
               onValueChange={(value) => {
-                setActiveTab(value)
+                setActiveTab(value);
               }}
-              defaultValue="write-review"
+              defaultValue="profile"
               className="w-full h-full px-1.5"
             >
               <TabsList className="bg-white border-b  border-gray-200 mb-5 text-left flex justify-between ">
@@ -510,5 +509,5 @@ export const PublicProfile = ({
         )}
       </div>
     </section>
-  )
-}
+  );
+};
