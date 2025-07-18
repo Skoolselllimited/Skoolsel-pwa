@@ -3,28 +3,28 @@ import {
   EditIcon,
   LightStrikeIcon,
   MapPinIcon,
-} from "@/components/svgs"
-import Title from "@/components/Title"
+} from "@/components/svgs";
+import Title from "@/components/Title";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { formatPrice } from "@/lib/utils"
-import { AdsType } from "@/types"
+} from "@/components/ui/dropdown-menu";
+import { formatPrice } from "@/lib/utils";
+import { AdsType } from "@/types";
 import {
   ArrowRight,
   CheckCircle,
   Eye,
   MoreHorizontal,
   Trash2Icon,
-} from "lucide-react"
-import Image from "next/image"
-import Link from "next/link"
+} from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 
 interface recentPostProps {
-  recentAds: AdsType[]
+  recentAds: AdsType[];
 }
 
 export default function RecentPost({ recentAds }: recentPostProps) {
@@ -120,5 +120,5 @@ export default function RecentPost({ recentAds }: recentPostProps) {
         ))}
       </div>
     </div>
-  )
+  );
 }

@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import AdCard from "./components/adCard";
+import ProductCard from "./components/adCard";
 import { filterByCatergories } from "@/data/mockdata";
 import { GoArrowRight } from "react-icons/go";
 import { GoArrowLeft } from "react-icons/go";
@@ -17,7 +18,7 @@ const recentAds = [
     subcategory: "Apple",
     price: 750000,
     abbreviation: "ABU Zaria",
-    timePosted: "1 week ago",
+    timePosted: "1 week",
     image: "/images/related_ad.webp",
     vendor: "Aliya Gadget Store",
     vendorImage: "/images/vendor.jpg",
@@ -33,7 +34,7 @@ const recentAds = [
     subcategory: "Apple",
     price: 1200000,
     abbreviation: "FUT Minna",
-    timePosted: "3 days ago",
+    timePosted: "3 days",
     image: "/images/image1.png",
     vendor: "Tech Hub",
     vendorImage: "/images/vendor.jpg",
@@ -49,7 +50,7 @@ const recentAds = [
     subcategory: "Samsung",
     price: 650000,
     abbreviation: "UniLag",
-    timePosted: "2 weeks ago",
+    timePosted: "2 weeks",
     image: "/images/image2.png",
     vendor: "Mobile World",
     vendorImage: "/images/vendor.jpg",
@@ -65,7 +66,7 @@ const recentAds = [
     subcategory: "Apple",
     price: 750000,
     abbreviation: "ABU Zaria",
-    timePosted: "1 week ago",
+    timePosted: "1 week",
     image: "/images/related_ad.webp",
     vendor: "Aliya Gadget Store",
     vendorImage: "/images/vendor.jpg",
@@ -81,7 +82,7 @@ const recentAds = [
     subcategory: "Apple",
     price: 1200000,
     abbreviation: "FUT Minna",
-    timePosted: "3 days ago",
+    timePosted: "3 days",
     image: "/images/image1.png",
     vendor: "Tech Hub",
     vendorImage: "/images/vendor.jpg",
@@ -97,7 +98,7 @@ const recentAds = [
     subcategory: "Samsung",
     price: 650000,
     abbreviation: "UniLag",
-    timePosted: "2 weeks ago",
+    timePosted: "2 weeks",
     image: "/images/image2.png",
     vendor: "Mobile World",
     vendorImage: "/images/vendor.jpg",
@@ -113,7 +114,7 @@ const recentAds = [
     subcategory: "Apple",
     price: 750000,
     abbreviation: "ABU Zaria",
-    timePosted: "1 week ago",
+    timePosted: "1 week",
     image: "/images/related_ad.webp",
     vendor: "Aliya Gadget Store",
     vendorImage: "/images/vendor.jpg",
@@ -129,7 +130,7 @@ const recentAds = [
     subcategory: "Apple",
     price: 1200000,
     abbreviation: "FUT Minna",
-    timePosted: "3 days ago",
+    timePosted: "3 days",
     image: "/images/image1.png",
     vendor: "Tech Hub",
     vendorImage: "/images/vendor.jpg",
@@ -145,7 +146,7 @@ const recentAds = [
     subcategory: "Samsung",
     price: 650000,
     abbreviation: "UniLag",
-    timePosted: "2 weeks ago",
+    timePosted: "2 weeks",
     image: "/images/image2.png",
     vendor: "Mobile World",
     vendorImage: "/images/vendor.jpg",
@@ -161,7 +162,7 @@ const recentAds = [
     subcategory: "Apple",
     price: 750000,
     abbreviation: "ABU Zaria",
-    timePosted: "1 week ago",
+    timePosted: "1 week",
     image: "/images/related_ad.webp",
     vendor: "Aliya Gadget Store",
     vendorImage: "/images/vendor.jpg",
@@ -177,7 +178,7 @@ const recentAds = [
     subcategory: "Apple",
     price: 1200000,
     abbreviation: "FUT Minna",
-    timePosted: "3 days ago",
+    timePosted: "3 days",
     image: "/images/image1.png",
     vendor: "Tech Hub",
     vendorImage: "/images/vendor.jpg",
@@ -193,7 +194,7 @@ const recentAds = [
     subcategory: "Samsung",
     price: 650000,
     abbreviation: "UniLag",
-    timePosted: "2 weeks ago",
+    timePosted: "2 weeks",
     image: "/images/image2.png",
     vendor: "Mobile World",
     vendorImage: "/images/vendor.jpg",
@@ -209,7 +210,7 @@ const recentAds = [
     subcategory: "Apple",
     price: 750000,
     abbreviation: "ABU Zaria",
-    timePosted: "1 week ago",
+    timePosted: "1 week",
     image: "/images/related_ad.webp",
     vendor: "Aliya Gadget Store",
     vendorImage: "/images/vendor.jpg",
@@ -225,7 +226,7 @@ const recentAds = [
     subcategory: "Apple",
     price: 1200000,
     abbreviation: "FUT Minna",
-    timePosted: "3 days ago",
+    timePosted: "3 days",
     image: "/images/image1.png",
     vendor: "Tech Hub",
     vendorImage: "/images/vendor.jpg",
@@ -241,7 +242,7 @@ const recentAds = [
     subcategory: "Samsung",
     price: 650000,
     abbreviation: "UniLag",
-    timePosted: "2 weeks ago",
+    timePosted: "2 weeks",
     image: "/images/image2.png",
     vendor: "Mobile World",
     vendorImage: "/images/vendor.jpg",
@@ -257,7 +258,7 @@ const recentAds = [
     subcategory: "Apple",
     price: 750000,
     abbreviation: "ABU Zaria",
-    timePosted: "1 week ago",
+    timePosted: "1 week",
     image: "/images/related_ad.webp",
     vendor: "Aliya Gadget Store",
     vendorImage: "/images/vendor.jpg",
@@ -273,7 +274,7 @@ const recentAds = [
     subcategory: "Apple",
     price: 1200000,
     abbreviation: "FUT Minna",
-    timePosted: "3 days ago",
+    timePosted: "3 days",
     image: "/images/image1.png",
     vendor: "Tech Hub",
     vendorImage: "/images/vendor.jpg",
@@ -289,7 +290,7 @@ const recentAds = [
     subcategory: "Samsung",
     price: 650000,
     abbreviation: "UniLag",
-    timePosted: "2 weeks ago",
+    timePosted: "2 weeks",
     image: "/images/image2.png",
     vendor: "Mobile World",
     vendorImage: "/images/vendor.jpg",
@@ -360,9 +361,17 @@ export default function MyAds() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-2 sm:gap-4">
+      <div className="w-full grid grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-3 xl:gap-4">
         {paginatedAds.map((ad) => (
-          <AdCard key={ad.id} ad={ad} />
+          <ProductCard
+            key={ad.id} // ✅ Add this line
+            imageSrc={ad.image}
+            category={ad.category}
+            title={ad.name}
+            price={ad.price}
+            name={ad.name}
+            id={ad.id}
+          />
         ))}
       </div>
 
