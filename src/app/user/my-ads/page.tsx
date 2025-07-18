@@ -9,6 +9,7 @@ import ProductCard from "./components/adCard";
 import { filterByCatergories } from "@/data/mockdata";
 import { GoArrowRight } from "react-icons/go";
 import { GoArrowLeft } from "react-icons/go";
+import { Search } from "lucide-react";
 
 const recentAds = [
   {
@@ -332,19 +333,26 @@ export default function MyAds() {
         My Ads
       </h1>
 
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
+        {" "}
+        {/* Increased gap for better spacing */}
         {/* Search Input */}
-        <Input
-          type="text"
-          placeholder="Ads title, keyword..."
-          value={searchTerm}
-          onChange={(e) => {
-            setSearchTerm(e.target.value);
-            setCurrentPage(1);
-          }}
-          className="w-full sm:max-w-md border bg-white border-[#DADDE1]"
-        />
-
+        <div className="relative w-full sm:max-w-md">
+          {" "}
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#54abdb]" />{" "}
+          {/* Search Icon */}
+          <Input
+            type="text"
+            placeholder="Ads title, keyword..."
+            value={searchTerm}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              setCurrentPage(1);
+            }}
+            // Adjusted padding-left for the icon, and added shadow-sm for subtle depth
+            className="w-full pl-10 pr-4 py-3 border border-[#DADDE1] bg-white rounded-md  focus:border-[#54abdb] focus:ring-[#54abdb]"
+          />
+        </div>
         {/* Select Dropdowns */}
         <div className="flex gap-2 w-full sm:w-auto">
           <select className="w-full sm:w-[150px] border bg-white border-[#DADDE1] text-sm text-gray-700 px-3 py-3 rounded-md">
@@ -353,14 +361,13 @@ export default function MyAds() {
             <option>Books</option>
           </select>
 
-          <select className="w-full sm:w-[150px] border bg-white border-[#DADDE1] text-sm text-gray-700 px-3 py-3 rounded-md">
+          <select className="w-full hidden md:flex sm:w-[150px] border bg-white border-[#DADDE1] text-sm text-gray-700 px-3 py-3 rounded-md">
             <option>All</option>
             <option>Sold</option>
             <option>Active</option>
           </select>
         </div>
       </div>
-
       <div className="w-full grid grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-3 xl:gap-4">
         {paginatedAds.map((ad) => (
           <ProductCard ad={ad} key={ad.id} />
