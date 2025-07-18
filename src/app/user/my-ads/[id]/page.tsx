@@ -275,7 +275,7 @@ export default function AdsDetails() {
 
   return (
     <div className="w-full flex flex-col gap-4 pb-8 md:pb-20 bg-[#F4F6F8]">
-      <div className="xl:hidden px-[15px]">
+      {/* <div className="xl:hidden px-[15px]">
         <div className="h-[72px] py-4 flex items-center justify-between">
           <BackButton onClick={() => router.back()} />
 
@@ -284,9 +284,9 @@ export default function AdsDetails() {
           </div>
           <HeartIcon className="text-[#464D61]" />
         </div>
-      </div>
+      </div> */}
       {/* Desktop Breadcrumb Bar */}
-      <BreadcrumbNav pathname={pathname} className=" h-6" />
+      {/* <BreadcrumbNav pathname={pathname} className=" h-6" /> */}
       <div className="max-w-[1320px] mx-auto xl:p-4 min-h-screen">
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
           {/* Left Column - Product Images and Details */}
