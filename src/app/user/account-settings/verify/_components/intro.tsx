@@ -15,7 +15,7 @@ export default function VerifyIntroStep({
   onBack,
 }: VerifyIntroStepProps) {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="h-full flex flex-col gap-4 relative">
       <PageTitle text="Verify Identity" />
       <div className="w-full xl:w-[984px] mx-auto bg-white flex flex-col gap-8 justify-center items-center xl:p-9 rounded-xl">
         <div className="w-full lg:w-[536px] mx-auto flex flex-col justify-center items-center gap-[18px]">

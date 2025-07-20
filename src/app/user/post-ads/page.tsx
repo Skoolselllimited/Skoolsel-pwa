@@ -14,6 +14,7 @@ import type {
 } from "./_components/validation"
 import { useRouter } from "next/navigation"
 import PageTitle from "@/components/Title/pageTitle"
+import BackButton from "@/components/BackButton"
 
 const steps = [
   {
@@ -141,6 +142,7 @@ export default function PostAdStepper() {
 
   return (
     <div className="min-h-screen flex flex-col gap-[26px]">
+      <BackButton onClick={() => router.push("/user/overview")} />
       {currentStep <= 3 && (
         <div className="w-full px-2 lg-md:px-0 lg-md:w-[648px] flex flex-col gap-3">
           <>

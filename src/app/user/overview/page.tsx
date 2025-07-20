@@ -22,6 +22,7 @@ import RecentPost from "./_components/recentPost"
 import SavedAds from "./_components/savedAds"
 import ProfileCompletionDialog from "./_components/welcomeDialog"
 import Link from "next/link"
+import MobileHeader from "@/app/(landing-page)/_components/mobileHeader"
 
 // Sample data for the chart
 const chartData = [
@@ -197,6 +198,8 @@ export default function OverviewPage() {
   // }, [])
   return (
     <div className="w-full min-h-screen">
+      <MobileHeader />
+
       {showCompletionDialog ? (
         <ProfileCompletionDialog
           open={showCompletionDialog}
