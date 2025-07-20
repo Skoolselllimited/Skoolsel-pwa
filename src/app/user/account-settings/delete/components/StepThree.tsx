@@ -37,19 +37,18 @@ export default function StepThree({
 
       <div className="flex justify-between mt-10 flex-col md:flex-row gap-4 ">
         <Button
-          variant="outline"
-          onClick={onBack}
-          className=" h-[48px] w-full lg-md:w-[123px] text-lg bg-transparent border border-[#CCEEFF] text-secondary hover:bg-[#CCEEFF]/50 rounded-[6px]"
-        >
-          Cancel
-        </Button>
-
-        <Button
           className="h-[48px]  w-full lg-md:w-[140px] bg-secondary text-[18px]/[100%] rounded-[6px] flex gap-3 cursor-pointer"
           disabled={!confirmDelete}
           onClick={onDelete}
         >
           Deactivate Account
+        </Button>
+        <Button
+          variant="outline"
+          onClick={onBack}
+          className=" h-[48px] w-full lg-md:w-[123px] text-lg bg-transparent border border-[#CCEEFF] text-secondary hover:bg-[#CCEEFF]/50 rounded-[6px]"
+        >
+          Cancel
         </Button>
       </div>
     </div>
