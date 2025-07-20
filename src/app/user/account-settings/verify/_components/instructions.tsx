@@ -12,8 +12,8 @@ import {
 } from "../validation"
 import DocumentCapture from "./capture"
 import DocumentUploadProgress from "./documentUploadProgress"
-import DocumentReview from "./review"
 import DocumentSuccessInstructions from "./nextInstruction"
+import DocumentReview from "./review"
 import SelfieCapture from "./selfie"
 import SelfieUploadProgress from "./selfieProgress"
 import SelfieReview from "./selfieReview"
@@ -88,7 +88,6 @@ export default function DocumentInstructionsStep({
       documentUploaded &&
       selfieUploaded
     ) {
-      console.log("i am here")
       onNext({
         country: country as Country,
         documentType: documentType as DocumentType,
@@ -189,9 +188,15 @@ export default function DocumentInstructionsStep({
 
   const handleSelfieUploadComplete = () => {
     console.log("i have finished")
-    validateAndProceed()
-    // setSelfieUploaded(true)
-    // setShowSelfieUploadProgress(false)
+    onNext({
+      country: country as Country,
+      documentType: documentType as DocumentType,
+      documentPhoto,
+      selfiePhoto,
+    })
+    // validateAndProceed()
+    setSelfieUploaded(true)
+    setShowSelfieUploadProgress(false)
 
     // Validate and proceed to next step
   }
