@@ -256,7 +256,7 @@ export default function BoostPostStep({
       </div>
 
       {/* Action Buttons */}
-      <div className="w-full bg-white z-10 absolute top-auto right-0 left-0 bottom-0 lg-md:static flex flex-col lg-md:flex-row lg-md:justify-between gap-4">
+      <div className="w-full bg-white z-10 absolute top-auto right-0 left-0 bottom-0 lg-md:static flex flex-col lg-md:flex-row lg-md:justify-between gap-3">
         <Button
           variant="outline"
           onClick={onPrevious}

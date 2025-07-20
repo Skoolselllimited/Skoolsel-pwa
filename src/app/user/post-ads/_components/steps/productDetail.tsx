@@ -238,7 +238,7 @@ export default function ProductDetailsStep({
         </div>
       </div>
       {/* Action Buttons */}
-      <div className="w-full bg-white z-10 absolute top-auto right-0 left-0 bottom-4 lg-md:static flex flex-col lg-md:flex-row justify-between gap-[12px]">
+      <div className="w-full bg-white z-10 absolute top-auto right-0 left-0 bottom-4 lg-md:static flex flex-col lg-md:flex-row lg-md:justify-between gap-3">
         <Button
           variant="outline"
           onClick={onCancel}
