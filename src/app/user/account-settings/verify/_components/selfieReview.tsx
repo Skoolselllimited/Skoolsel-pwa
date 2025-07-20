@@ -179,10 +179,6 @@ export default function SelfieReview({
               src={selfiePhoto || "/placeholder.svg"}
               alt="Your selfie"
               className={`absolute left-1/2 top-1/3 lg-md:top-1/3 -translate-x-1/2 -translate-y-1/2 w-[85%] h-[340px] lg-md:w-[262px] lg-md:h-[320px] rounded-full z-30 border-[2px] border-white shadow-[0_0_0_9999px_rgba(0,0,0,0.7)] select-none touch-none object-cover mt-12`}
-              //   className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2
-              //  w-[320px] h-[420px]  // desktop oval
-              //  sm:w-[260px] sm:h-[340px]  // smaller screens
-              //  rounded-full object-cover z-30 border-2 border-white`}
               onError={(e) => {
                 console.error("Image failed to load:", e)
                 e.currentTarget.src =

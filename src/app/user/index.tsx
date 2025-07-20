@@ -1,7 +1,7 @@
-"use client";
+"use client"
 
-import BackButton from "@/components/BackButton";
-import BreadcrumbNav from "@/components/breadCrumbs";
+import BackButton from "@/components/BackButton"
+import BreadcrumbNav from "@/components/breadCrumbs"
 import {
   ClipboardText,
   CreditCardIcon,
@@ -12,17 +12,17 @@ import {
   PlusCircle,
   SignOutIcon,
   UserCircle,
-} from "@/components/svgs";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { cn, getInitials } from "@/lib/utils";
-import type { BreadcrumbItem, NavItem } from "@/types";
-import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
-import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import type React from "react";
-import { useState } from "react";
-import Header from "../(landing-page)/_components/header";
+} from "@/components/svgs"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
+import { cn, getInitials } from "@/lib/utils"
+import type { BreadcrumbItem, NavItem } from "@/types"
+import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react"
+import Link from "next/link"
+import { usePathname, useRouter } from "next/navigation"
+import type React from "react"
+import { useState } from "react"
+import Header from "../(landing-page)/_components/header"
 
 export const navItems: NavItem[] = [
   { title: "Overview", href: "/user/overview", icon: DashboardIcon },
@@ -37,35 +37,35 @@ export const navItems: NavItem[] = [
   { title: "Draft", href: "/user/draft", icon: Folder },
   { title: "Billing", href: "/user/billing", icon: CreditCardIcon },
   { title: "Account Settings", href: "/user/account-settings", icon: GearIcon },
-];
+]
 
 export default function UserWrapper({
   children,
   breadcrumbItems,
 }: {
-  breadcrumbItems?: BreadcrumbItem[];
-  children: React.ReactNode;
+  breadcrumbItems?: BreadcrumbItem[]
+  children: React.ReactNode
 }) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const [open, setOpen] = useState(false);
+  const router = useRouter()
+  const pathname = usePathname()
+  const [open, setOpen] = useState(false)
 
   const hideSidebarRoutes = [
     // "/user/my-ads",
     "/user/view-public-profile",
     "/user/onboarding",
-  ];
+  ]
 
   const shouldHideSidebar =
     /^\/user\/my-ads\/\d+/.test(pathname) ||
     /^\/user\/favourite-ads\/\d+/.test(pathname) ||
-    hideSidebarRoutes.some((route) => pathname.startsWith(route));
+    hideSidebarRoutes.some((route) => pathname.startsWith(route))
 
   const user = {
     name: "Jenny Wilson",
     photo: "/images/profile.jpg",
     joinedAt: "2024-11-19",
-  };
+  }
 
   return (
     <div className="min-h-screen bg-white xl:bg-[#F4F6F8]">
@@ -123,7 +123,7 @@ export default function UserWrapper({
                     {navItems.map((item, idx) => {
                       const isActive =
                         pathname === item.href ||
-                        pathname?.startsWith(item.href + "/");
+                        pathname?.startsWith(item.href + "/")
 
                       return (
                         <Link
@@ -143,12 +143,12 @@ export default function UserWrapper({
                           </div>
                           <ChevronRight className="w-5 h-5" />
                         </Link>
-                      );
+                      )
                     })}
 
                     <button
                       onClick={() => {
-                        setOpen(false);
+                        setOpen(false)
                       }}
                       className="flex items-center justify-between gap-4 px-6 py-2 text-destructive hover:bg-destructive/10 cursor-pointer"
                     >
@@ -170,7 +170,7 @@ export default function UserWrapper({
       <BreadcrumbNav pathname={pathname} />
 
       {/* Main Layout */}
-      <div className="absolute inset-0 w-full bg-white top-2 lg-md:static lg-md:bg-transparent 3xl:w-[1320px] mx-auto py-4 px-3 3xl:p-6 flex gap-6">
+      <div className="3xl:w-[1320px] mx-auto py-4 px-3 3xl:p-6 flex gap-6">
         {/* Sidebar (Desktop Only) */}
         {!shouldHideSidebar && (
           <aside className="hidden 2xl:flex flex-col w-[296px]">
@@ -190,7 +190,7 @@ export default function UserWrapper({
                 {navItems?.map((item, idx) => {
                   const isActive =
                     pathname === item.href ||
-                    pathname?.startsWith(item.href + "/");
+                    pathname?.startsWith(item.href + "/")
 
                   return (
                     <Link
@@ -206,7 +206,7 @@ export default function UserWrapper({
                       <item.icon className="w-5 h-5" />
                       {item.title}
                     </Link>
-                  );
+                  )
                 })}
                 <button className="w-full flex items-center gap-4 px-8 py-2 text-destructive hover:bg-destructive/10 cursor-pointer">
                   <SignOutIcon className="w-5 h-5" />
@@ -220,5 +220,5 @@ export default function UserWrapper({
         <main className="flex-1 3xl:w-[984px] relative">{children}</main>
       </div>
     </div>
-  );
+  )
 }

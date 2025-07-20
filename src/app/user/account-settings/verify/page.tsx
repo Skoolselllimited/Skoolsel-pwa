@@ -106,7 +106,7 @@ export default function VerifyIdentityPage() {
   }
 
   return (
-    <div className="min-h-screen  xl:w-[960px] flex flex-col gap-[26px]">
+    <div className="absolute inset-0 w-full bg-white top-2 lg-md:static lg-md:bg-transparent min-h-screen  xl:w-[960px] flex flex-col gap-[26px]">
       {/* Current Step Component */}
       <div className="w-full xl:w-[648px]">{renderCurrentStep()}</div>
     </div>
