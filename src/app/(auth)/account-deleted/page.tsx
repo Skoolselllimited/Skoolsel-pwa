@@ -1,24 +1,18 @@
-"use client";
-import Link from "next/link";
-import { cn, generateBreadcrumbs, getInitials } from "@/lib/utils";
-import type { BreadcrumbItem, NavItem } from "@/types";
-import BreadcrumbNav from "@/components/breadCrumbs";
+"use client"
+import BreadcrumbNav from "@/components/breadCrumbs"
+import Link from "next/link"
 
-import { usePathname, useRouter } from "next/navigation";
-import { GoArrowRight } from "react-icons/go";
-import { FaCheckCircle } from "react-icons/fa";
-import { SuccessfulPublish } from "../../../../public/svgs";
+import { GoArrowRight } from "react-icons/go"
+import { SuccessfulPublish } from "../../../../public/svgs"
 
 export default function DeletedAccount() {
-  const pathname = usePathname();
-  const mockPath = "/Home/User/Deleted-account";
-  const breadcrumbs: BreadcrumbItem[] = generateBreadcrumbs(mockPath);
+  const mockPath = "/Home/User/Deleted-account"
   return (
     <div>
       <div className="hidden xl:block">
         <BreadcrumbNav pathname={mockPath} />
       </div>
-      <div className="md:min-h-[calc(100vh-150px)] min-h-screen flex items-center justify-center bg-[#F7F8F9] font-inter px-4">
+      <div className="md:min-h-[calc(100vh-150px)] min-h-screen flex items-center justify-center bg-white md:bg-[#F7F8F9] font-inter px-4">
         <div className="w-full max-w-lg bg-white rounded-xl  p-8 md:p-9 border border-gray-100 text-center">
           {/* Success Icon */}
           <div className="mb-6 flex justify-center">
@@ -45,5 +39,5 @@ export default function DeletedAccount() {
         </div>
       </div>
     </div>
-  );
+  )
 }

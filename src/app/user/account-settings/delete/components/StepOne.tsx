@@ -66,14 +66,15 @@ export default function StepOne({
 
       <div className="flex justify-between flex-col md:flex-row  mt-6 gap-4  md:gap-8">
         <Button
-          className="w-full sm:flex-1 bg-white border-2 border-[#54abdb] text-[#54abdb] hover:bg-blue-50 px-4 py-5 text-sm sm:text-base"
+          variant="outline"
           onClick={onCancel}
+          className=" h-[48px] w-full lg-md:w-[123px] text-lg bg-transparent border border-[#CCEEFF] text-secondary hover:bg-[#CCEEFF]/50 rounded-[6px]"
         >
           Cancel
         </Button>
 
         <Button
-          className="w-full sm:flex-1 bg-[#54abdb] border-2 border-[#54abdb] text-white hover:bg-[#4a90d2] px-4 py-5 text-sm sm:text-base"
+          className="h-[48px]  w-full lg-md:w-[140px] bg-secondary text-[18px]/[100%] rounded-[6px] flex gap-3 cursor-pointer"
           onClick={onNext}
           disabled={!reason}
         >
