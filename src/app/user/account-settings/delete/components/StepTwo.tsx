@@ -32,19 +32,18 @@ export default function StepTwo({
       <div className="md:hidden w-full h-[25vh]"></div>
       <div className="flex justify-between flex-col md:flex-row md:mt-10 gap-4">
         <Button
-          variant="outline"
-          onClick={onBack}
-          className=" h-[48px] w-full lg-md:w-[123px] text-lg bg-transparent border border-[#CCEEFF] text-secondary hover:bg-[#CCEEFF]/50 rounded-[6px]"
-        >
-          Cancel
-        </Button>
-
-        <Button
           className="h-[48px]  w-full lg-md:w-[140px] bg-secondary text-[18px]/[100%] rounded-[6px] flex gap-3 cursor-pointer"
           onClick={onNext}
           disabled={!details}
         >
           Continue
+        </Button>
+        <Button
+          variant="outline"
+          onClick={onBack}
+          className=" h-[48px] w-full lg-md:w-[123px] text-lg bg-transparent border border-[#CCEEFF] text-secondary hover:bg-[#CCEEFF]/50 rounded-[6px]"
+        >
+          Cancel
         </Button>
       </div>
     </div>
