@@ -2,9 +2,9 @@
 
 import type React from "react"
 
-import { useState, useRef, useEffect, forwardRef } from "react"
-import { ChevronDown, X, Search } from "lucide-react"
 import { CautionIcon } from "@/components/svgs"
+import { ChevronDown, X } from "lucide-react"
+import { forwardRef, useEffect, useRef, useState } from "react"
 
 export interface DropdownOption {
   value: string

@@ -19,7 +19,7 @@ export default function SavedAds({ savedAds }: saveAdsProps) {
         <Title text="Saved Ads" />
         <div className="w-full lg:w-auto flex justify-end items-end">
           <Link
-            href="/users/favourites"
+            href="/users/saved-ads"
             className="h-9 focus:bg-[#E8F7FF] focus:text-secondary rounded py-2 px-3 flex items-center gap-2 cursor-pointer text-[#464D61] hover:underline text-[14px]/[20px] font-circular-std font-medium tracking-normal"
           >
             View All <ArrowRight className="w-6 h-6" />

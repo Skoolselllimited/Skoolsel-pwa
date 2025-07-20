@@ -142,11 +142,14 @@ export default function PostAdStepper() {
 
   return (
     <div className="min-h-screen flex flex-col gap-[26px]">
-      <BackButton onClick={() => router.push("/user/overview")} />
+      <div className="xl:hidden">
+        {" "}
+        <BackButton onClick={() => router.push("/user/overview")} />
+      </div>
       {currentStep <= 3 && (
         <div className="w-full px-2 lg-md:px-0 lg-md:w-[648px] flex flex-col gap-3">
           <>
-            <PageTitle text=" Post an Ad" />
+            <PageTitle text="Post Ads" />
             <p className="font-circular-std font-normal text-14px]/[22px] tracking-normal text-[#637381] hidden lg-md:flex">
               Fill in your ad details to reach buyers fast.
             </p>
@@ -155,7 +158,7 @@ export default function PostAdStepper() {
         </div>
       )}
 
-      <div className="w-full xl:w-[960px] flex  items-start gap-8">
+      <div className="w-full xl:w-[960px] flex  items-start gap-2 3xl:gap-8">
         {/* Main Content */}
         <div className="w-full xl:w-[648px]">{renderCurrentStep()}</div>
         {/* Tips Sidebar */}

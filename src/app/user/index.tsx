@@ -1,6 +1,5 @@
 "use client"
 
-import BackButton from "@/components/BackButton"
 import BreadcrumbNav from "@/components/breadCrumbs"
 import {
   ClipboardText,
@@ -14,16 +13,12 @@ import {
   UserCircle,
 } from "@/components/svgs"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 import { cn, getInitials } from "@/lib/utils"
 import type { BreadcrumbItem, NavItem } from "@/types"
-import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react"
 import Link from "next/link"
-import { usePathname, useRouter } from "next/navigation"
+import { usePathname } from "next/navigation"
 import type React from "react"
-import { useState } from "react"
 import Header from "../(landing-page)/_components/header"
-import MobileHeader from "../(landing-page)/_components/mobileHeader"
 
 export const navItems: NavItem[] = [
   { title: "Overview", href: "/user/overview", icon: DashboardIcon },
@@ -32,9 +27,9 @@ export const navItems: NavItem[] = [
     href: "/user/view-public-profile",
     icon: UserCircle,
   },
-  { title: "Post a Ads", href: "/user/post-ads", icon: PlusCircle },
+  { title: "Post Ads", href: "/user/post-ads", icon: PlusCircle },
   { title: "My Ads", href: "/user/my-ads", icon: ClipboardText },
-  { title: "Favourite Ads", href: "/user/favourite-ads", icon: HeartIcon },
+  { title: "Saved Ads", href: "/user/saved-ads", icon: HeartIcon },
   { title: "Draft", href: "/user/draft", icon: Folder },
   { title: "Billing", href: "/user/billing", icon: CreditCardIcon },
   { title: "Account Settings", href: "/user/account-settings", icon: GearIcon },
@@ -42,7 +37,6 @@ export const navItems: NavItem[] = [
 
 export default function UserWrapper({
   children,
-  breadcrumbItems,
 }: {
   breadcrumbItems?: BreadcrumbItem[]
   children: React.ReactNode
@@ -57,7 +51,7 @@ export default function UserWrapper({
 
   const shouldHideSidebar =
     /^\/user\/my-ads\/\d+/.test(pathname) ||
-    /^\/user\/favourite-ads\/\d+/.test(pathname) ||
+    /^\/user\/saved-ads\/\d+/.test(pathname) ||
     hideSidebarRoutes.some((route) => pathname.startsWith(route))
 
   const user = {
@@ -70,11 +64,8 @@ export default function UserWrapper({
     <div className="min-h-screen bg-white xl:bg-[#F4F6F8]">
       {/* Global Header */}
       <Header />
-
       {/* Desktop Breadcrumb Bar */}
-
       <BreadcrumbNav pathname={pathname} />
-
       {/* Main Layout */}
       <div className=" 3xl:w-[1320px] mx-auto py-4 px-3 3xl:p-6 flex gap-6">
         {/* Sidebar (Desktop Only) */}
@@ -91,13 +82,11 @@ export default function UserWrapper({
                   <p className="text-sm text-[#767E94]">Joined - 19/11/2024</p>
                 </div>
               </div>
-
               <nav>
                 {navItems?.map((item, idx) => {
                   const isActive =
                     pathname === item.href ||
                     pathname?.startsWith(item.href + "/")
-
                   return (
                     <Link
                       key={idx}

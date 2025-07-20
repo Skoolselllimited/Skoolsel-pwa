@@ -16,6 +16,8 @@ interface FormInputProps {
   placeholder?: string
   required?: boolean
   icon?: ReactNode
+  inputMode?: string
+  pattern?: string
 }
 
 export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
@@ -26,11 +28,13 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
       onChange,
       onBlur,
       type = "text",
+      inputMode,
       error,
       hasError = false,
       className = "",
       placeholder = "",
       required = false,
+      pattern,
       icon,
       ...props
     },
@@ -110,6 +114,10 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
                   ref={handleRef}
                   type={type}
                   value={value}
+                  inputMode={
+                    inputMode as React.HTMLAttributes<HTMLInputElement>["inputMode"]
+                  }
+                  pattern={pattern}
                   onChange={(e) => onChange(e.target.value)}
                   onFocus={() => setIsFocused(true)}
                   onBlur={handleBlur}

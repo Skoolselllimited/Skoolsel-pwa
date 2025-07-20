@@ -168,7 +168,7 @@ export default function FooterSection() {
                     href="/user/post-ads"
                     className="font-circular-std font-[450] text-[16px]/[24px] tracking-normal text-[#767E94] hover:underline underline-offset-4 decoration-secondary"
                   >
-                    Post a Ads
+                    Post Ads
                   </Link>
                   <Link
                     href="/blog"

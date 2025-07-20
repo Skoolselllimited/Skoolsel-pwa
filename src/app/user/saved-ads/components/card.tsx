@@ -1,21 +1,21 @@
-"use client";
+"use client"
 
-import Link from "next/link";
-import Image from "next/image";
-import { MapPinIcon, ClockIcon } from "lucide-react";
+import Link from "next/link"
+import Image from "next/image"
+import { MapPinIcon, ClockIcon } from "lucide-react"
 
-import { formatPrice } from "@/lib/utils";
-import { AdsType } from "@/types";
-import { IoMdHeart } from "react-icons/io";
+import { formatPrice } from "@/lib/utils"
+import { AdsType } from "@/types"
+import { IoMdHeart } from "react-icons/io"
 
 type Props = {
-  ad: AdsType;
-};
+  ad: AdsType
+}
 
 export default function AdCard({ ad }: Props) {
   return (
     <Link
-      href={`/user/favourite-ads/${ad.id}?name=${ad.name}`}
+      href={`/user/saved-ads/${ad.id}?name=${ad.name}`}
       className="flex flex-col gap-[2.65px] bg-white p-1 lg:p-2 rounded-[10.6px] lg:rounded-[16px] hover:shadow-sm overflow-hidden border border-[#F1F2F4] cursor-pointer relative"
     >
       {/* Dropdown */}
@@ -60,7 +60,7 @@ export default function AdCard({ ad }: Props) {
         </div>
       </div>
     </Link>
-  );
+  )
 }
 
 // "use client";

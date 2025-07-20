@@ -59,7 +59,7 @@ const recentActivities = [
     id: 3,
     type: "warning",
     icon: PiWarningCircle,
-    message: "Please complete your profile editing to post a ads.",
+    message: "Please complete your profile editing to post ads.",
     time: "6 hours ago",
   },
   {

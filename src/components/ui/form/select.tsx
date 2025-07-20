@@ -9,6 +9,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { CautionIcon } from "@/components/svgs"
+import { ChevronDown } from "lucide-react"
 
 interface SelectOption {
   value: string
@@ -98,6 +99,7 @@ export const FormSelect = forwardRef<HTMLButtonElement, FormSelectProps>(
                       placeholder={isLabelActive ? placeholder : ""}
                       className={`${!isLabelActive ? "opacity-0" : "opacity-100"}`}
                     />
+                    <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-[#637381]" />
                   </SelectTrigger>
                   <SelectContent>
                     {options.map((option) => (
