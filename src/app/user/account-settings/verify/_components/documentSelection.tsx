@@ -58,7 +58,7 @@ export default function DocumentSelectionStep({
   onBack,
   initialData,
 }: DocumentSelectionStepProps) {
-  const [country, setCountry] = useState<string>(initialData?.country || "")
+  const [country, setCountry] = useState<string>(initialData?.country || "NG")
   const [documentType, setDocumentType] = useState<string>(
     initialData?.documentType || ""
   )

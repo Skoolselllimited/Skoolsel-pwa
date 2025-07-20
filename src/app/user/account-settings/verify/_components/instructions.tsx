@@ -187,7 +187,6 @@ export default function DocumentInstructionsStep({
   }
 
   const handleSelfieUploadComplete = () => {
-    console.log("i have finished")
     onNext({
       country: country as Country,
       documentType: documentType as DocumentType,
@@ -195,7 +194,7 @@ export default function DocumentInstructionsStep({
       selfiePhoto,
     })
     // validateAndProceed()
-    // setSelfieUploaded(true)
+    setSelfieUploaded(true)
     setShowSelfieUploadProgress(false)
 
     // Validate and proceed to next step
