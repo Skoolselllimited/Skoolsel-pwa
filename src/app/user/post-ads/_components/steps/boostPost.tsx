@@ -25,7 +25,6 @@ interface BoostPostStepProps {
   onDataChange: (data: Partial<BoostPostData>) => void
   onNext: () => void
   onPrevious: () => void
-  onCancel: () => void
 }
 
 const boostOptions = [
@@ -83,7 +82,7 @@ export default function BoostPostStep({
   data,
   onDataChange,
   onNext,
-  onCancel,
+  onPrevious,
 }: BoostPostStepProps) {
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [touched, setTouched] = useState<Record<string, boolean>>({})
@@ -184,7 +183,6 @@ export default function BoostPostStep({
                 </div>
 
                 {/* Right side - Radio button */}
-
                 <div
                   className={cn(
                     "w-[22px] h-[22px] rounded-full border-[1.5px] flex items-center justify-center transition-all",
@@ -261,10 +259,10 @@ export default function BoostPostStep({
       <div className="w-full bg-white z-10 absolute top-auto right-0 left-0 bottom-0 lg-md:static flex flex-col lg-md:flex-row lg-md:justify-between gap-4">
         <Button
           variant="outline"
-          onClick={onCancel}
+          onClick={onPrevious}
           className="hidden lg-md:flex h-[48px] w-full lg-md:w-[123px] text-lg bg-transparent border border-[#CCEEFF] text-secondary hover:bg-[#CCEEFF]/50 rounded-[6px]"
         >
-          Cancel
+          Previous
         </Button>
 
         <Button
@@ -277,10 +275,10 @@ export default function BoostPostStep({
         </Button>
         <Button
           variant="outline"
-          onClick={onCancel}
+          onClick={onPrevious}
           className="lg-md:hidden h-[48px] w-full lg-md:w-[123px] text-lg bg-transparent border border-[#CCEEFF] text-secondary hover:bg-[#CCEEFF]/50 rounded-[6px]"
         >
-          Cancel
+          Previous
         </Button>
       </div>
     </div>

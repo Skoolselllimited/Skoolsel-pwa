@@ -21,6 +21,7 @@ import RecentActivities from "./_components/recentActivities"
 import RecentPost from "./_components/recentPost"
 import SavedAds from "./_components/savedAds"
 import ProfileCompletionDialog from "./_components/welcomeDialog"
+import Link from "next/link"
 
 // Sample data for the chart
 const chartData = [
@@ -230,9 +231,12 @@ export default function OverviewPage() {
                   </p>
                 </div>
                 <div className="hidden xl:flex flex-col items-end">
-                  <Button className="bg-[#0088CC14] hover:bg-[#0088CC14] text-secondary font-bold font-circular-std text-[15px]/[26px] tracking-normal">
+                  <Link
+                    href="/user/account-settings/verify"
+                    className="h-[42px] bg-[#0088CC14] hover:bg-[#0088CC14] text-secondary font-bold font-circular-std text-[15px]/[26px] tracking-normal flex justify-center items-center px-4 rounded-md cursor-pointer"
+                  >
                     Complete Profile
-                  </Button>
+                  </Link>
                 </div>
               </div>
 

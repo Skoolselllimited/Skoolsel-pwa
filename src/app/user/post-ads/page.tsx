@@ -13,6 +13,7 @@ import type {
   BoostPostData,
 } from "./_components/validation"
 import { useRouter } from "next/navigation"
+import PageTitle from "@/components/Title/pageTitle"
 
 const steps = [
   {
@@ -115,7 +116,6 @@ export default function PostAdStepper() {
             onDataChange={handleFeaturesImagesChange}
             onNext={handleNext}
             onPrevious={handlePrevious}
-            onCancel={handleCancel}
           />
         )
       case 3:
@@ -125,7 +125,6 @@ export default function PostAdStepper() {
             onDataChange={handleBoostPostChange}
             onNext={handleNext}
             onPrevious={handlePrevious}
-            onCancel={handleCancel}
           />
         )
       case 4:
@@ -145,9 +144,7 @@ export default function PostAdStepper() {
       {currentStep <= 3 && (
         <div className="w-full px-2 lg-md:px-0 lg-md:w-[648px] flex flex-col gap-3">
           <>
-            <h1 className="font-circular-std font-bold text-[32px]/[100%] tracking-normal text-[#212B36]">
-              Post an Ad
-            </h1>
+            <PageTitle text=" Post an Ad" />
             <p className="font-circular-std font-normal text-14px]/[22px] tracking-normal text-[#637381] hidden lg-md:flex">
               Fill in your ad details to reach buyers fast.
             </p>

@@ -20,7 +20,6 @@ interface FeaturesImagesStepProps {
   onDataChange: (data: Partial<FeaturesImagesData>) => void
   onNext: () => void
   onPrevious: () => void
-  onCancel: () => void
 }
 
 export default function FeaturesImagesStep({
@@ -28,7 +27,6 @@ export default function FeaturesImagesStep({
   onDataChange,
   onNext,
   onPrevious,
-  onCancel,
 }: FeaturesImagesStepProps) {
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [dragActive, setDragActive] = useState(false)
@@ -238,10 +236,10 @@ export default function FeaturesImagesStep({
       <div className="w-full bg-white z-10 absolute top-auto right-0 left-0 bottom-4 lg-md:static flex flex-col lg-md:flex-row justify-between gap-[12px]">
         <Button
           variant="outline"
-          onClick={onCancel}
+          onClick={onPrevious}
           className="hidden lg-md:flex h-[48px] w-full lg-md:w-[123px] text-lg bg-transparent border border-[#CCEEFF] text-secondary hover:bg-[#CCEEFF]/50 rounded-[6px]"
         >
-          Cancel
+          Previous
         </Button>
 
         <Button
@@ -254,10 +252,10 @@ export default function FeaturesImagesStep({
         </Button>
         <Button
           variant="outline"
-          onClick={onCancel}
+          onClick={onPrevious}
           className="lg-md:hidden h-[48px] w-full lg-md:w-[123px] text-lg bg-transparent border border-[#CCEEFF] text-secondary hover:bg-[#CCEEFF]/50 rounded-[6px]"
         >
-          Cancel
+          Previous
         </Button>
       </div>
     </div>

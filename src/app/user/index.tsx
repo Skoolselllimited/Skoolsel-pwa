@@ -159,7 +159,7 @@ export default function UserWrapper({
       <BreadcrumbNav pathname={pathname} />
 
       {/* Main Layout */}
-      <div className="3xl:w-[1320px] mx-auto py-4 px-3 3xl:p-6 flex gap-6">
+      <div className="absolute inset-0 w-full bg-white top-2 lg-md:static lg-md:bg-transparent 3xl:w-[1320px] mx-auto py-4 px-3 3xl:p-6 flex gap-6">
         {/* Sidebar (Desktop Only) */}
         <aside className="hidden 2xl:flex flex-col w-[296px]">
           <div className="w-full bg-white border border-[#EBEEF7] rounded-[12px] py-8 flex flex-col gap-6">

@@ -6,8 +6,8 @@ import ClearAllButton from "../ClearAllButton"
 
 interface Props {
   back?: () => void
-  title: string
-  clearText: string
+  title?: string
+  clearText?: string
   clear?: () => void
 }
 

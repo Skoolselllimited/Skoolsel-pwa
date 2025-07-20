@@ -220,7 +220,7 @@ export default function UserProfileManagement() {
   }
 
   return (
-    <div className="min-h-screen bg-white rounded">
+    <div className="w-full xl:w-[984px] bg-white flex flex-col gap-8 justify-center items-center xl:p-9 rounded-xl">
       <div className="max-w-[1054px] mx-auto px-4 relative">
         <div
           className="absolute top-0 left-0 right-0 w-full h-[163px]"
@@ -320,22 +320,21 @@ export default function UserProfileManagement() {
           {!userData.isVerified && (
             <div className="w-full flex justify-between rounded-[12px] p-4 bg-[#54ABDB14]">
               <div className="flex flex-col gap-3">
-                <div className="flex flex-col gap-1">
-                  <h3 className="font-bold font-circular-std text-[20px]/[100%] tracking-normal text-[#272727]">
+                <div className="flex flex-col gap-[6px]">
+                  <h3 className="font-bold font-circular-std text-[20px]/[100%] tracking-[0%] text-[#272727]">
                     Verify ID
                   </h3>
-                  <p className="font-circular-std font-[450] text-sm lg:text-[16px]/[100%] text-[#636A80] tracking-normal">
+                  <p className="font-circular-std font-normal text-sm lg:text-[16px]/[100%] text-[#636A80] tracking-[0%]">
                     Verify your ID to help keep Skoolsel secure and ensure a
                     safe marketplace for all users
                   </p>
                 </div>
-                <Button
-                  onClick={handleVerifyID}
-                  disabled={isVerificationStarted}
-                  className="w-fit bg-secondary hover:bg-secondary px-[10px] rounded h-[40px]"
+                <Link
+                  href="/user/account-settings/verify"
+                  className="w-fit bg-[#54ABDB] hover:bg-secondary rounded h-[40px] flex justify-center items-center px-[10px] cursor-pointer text-white font-circular-std font-bold text-[16px]/[50px] tracking-normal capitalize align-middle "
                 >
-                  {isVerificationStarted ? "Verifying..." : "Get Started"}
-                </Button>
+                  Get Started
+                </Link>
               </div>
             </div>
           )}

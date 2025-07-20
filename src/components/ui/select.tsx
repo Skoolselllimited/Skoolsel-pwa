@@ -1,11 +1,10 @@
 "use client"
 
-import * as React from "react"
 import * as SelectPrimitive from "@radix-ui/react-select"
 import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from "lucide-react"
+import * as React from "react"
 
 import { cn } from "@/lib/utils"
-import { AngleDown } from "../svgs"
 
 function Select({
   ...props
@@ -44,9 +43,6 @@ function SelectTrigger({
       {...props}
     >
       {children}
-      <SelectPrimitive.Icon asChild>
-        <AngleDown className="w-[32px] h-[32px]" />
-      </SelectPrimitive.Icon>
     </SelectPrimitive.Trigger>
   )
 }
