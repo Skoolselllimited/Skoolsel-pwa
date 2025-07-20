@@ -24,10 +24,13 @@ export default function DeleteUserAccount() {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <h2 className="text-xl md:text-3xl font-bold mb-4">
-        Delete/Deactivate Account
-      </h2>
-      <div className="  bg-white flex items-center rounded-md justify-center">
+      <div className={`p-3 md:p-3 w-full md:max-w-xl`}>
+        <h2 className="text-lg md:text-3xl font-bold mb-4 text-gray-600">
+          Delete/Deactivate Account
+        </h2>
+      </div>
+
+      <div className="bg-white flex items-center rounded-md justify-center">
         <div className={`p-6 w-full md:max-w-xl  mx-auto bg-white`}>
           {step === 1 && (
             <StepOne

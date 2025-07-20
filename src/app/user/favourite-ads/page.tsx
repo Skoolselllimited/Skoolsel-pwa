@@ -19,12 +19,7 @@ export default function FavouriteAds() {
         {ads.map((ad, idx) => (
           <ProductCard
             key={ad.id} // ✅ Add this line
-            imageSrc={ad.image}
-            category={ad.category}
-            title={ad.name}
-            price={ad.price}
-            name={ad.name}
-            id={ad.id}
+            ad={ad}
           />
         ))}
       </div>

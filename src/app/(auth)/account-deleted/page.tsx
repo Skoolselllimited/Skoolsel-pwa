@@ -18,7 +18,7 @@ export default function DeletedAccount() {
       <div className="hidden xl:block">
         <BreadcrumbNav pathname={mockPath} />
       </div>
-      <div className="md:min-h-[calc(100vh-150px)] min-h-screen flex items-center justify-center bg-[#F7F8F9] font-inter px-4">
+      <div className="md:min-h-[calc(100vh-150px)] min-h-screen flex items-center justify-center bg-white md:bg-[#F7F8F9] font-inter px-4">
         <div className="w-full max-w-lg bg-white rounded-xl  p-8 md:p-9 border border-gray-100 text-center">
           {/* Success Icon */}
           <div className="mb-6 flex justify-center">
