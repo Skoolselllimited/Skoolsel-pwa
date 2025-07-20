@@ -195,7 +195,7 @@ export default function DocumentInstructionsStep({
       selfiePhoto,
     })
     // validateAndProceed()
-    setSelfieUploaded(true)
+    // setSelfieUploaded(true)
     setShowSelfieUploadProgress(false)
 
     // Validate and proceed to next step
